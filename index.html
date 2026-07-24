@@ -14,7 +14,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>TRIFEXTA — Beats · Merch · Sound</title>
+<title>TRIFEXTA — Beats · Merch · zxmiiblikk</title>
+<meta name="description" content="zxmiiblikk — official store for beats, merch, and music snippets. Powered by Trifexta.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -147,6 +148,19 @@
   .socials a{font-family:var(--mono);font-size:13px;color:var(--muted);border:1px solid var(--line);
              padding:8px 12px;border-radius:8px}
   .socials a:hover{color:var(--violet);border-color:var(--violet)}
+  .contact-form{display:flex;flex-direction:column;gap:10px;min-width:260px}
+  .contact-form input,.contact-form select,.contact-form textarea{
+    background:var(--ink);border:1px solid var(--line);border-radius:10px;
+    color:var(--text);font-family:var(--body);font-size:14px;padding:11px 14px;resize:vertical}
+  .contact-form input:focus,.contact-form select:focus,.contact-form textarea:focus{
+    outline:none;border-color:var(--violet)}
+  .contact-form .btn{margin-top:2px}
+  .form-note{font-family:var(--mono);font-size:12px;color:var(--muted);min-height:16px}
+  .form-note.ok{color:var(--violet)}
+  .explicit{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;
+            color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 6px;
+            vertical-align:middle;margin-left:6px}
+  .album-year{color:var(--muted);font-family:var(--mono);font-size:13px;margin-top:8px;letter-spacing:.03em}
 
   footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px;margin-top:20px}
   .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
@@ -191,7 +205,7 @@
     <div class="nav-links">
       <a href="#beats">Beats</a>
       <a href="#merch">Merch</a>
-      <a href="#music">Music</a>
+      <a href="#zxmiiblikk">zxmiiblikk</a>
       <a href="#contact">Contact</a>
     </div>
     <div style="display:flex;align-items:center;gap:14px">
@@ -203,17 +217,16 @@
 
 <header class="wrap hero">
   <div>
-    <span class="eyebrow">Beats · Merch · Sound</span>
+    <span class="eyebrow">Trifexta · Beats · Merch · zxmiiblikk</span>
     <h1>Sound you can <span class="grad">wear &amp; own.</span></h1>
-    <p class="lead">Original beats, limited merch, and snippets straight from the studio.
-       Listen free, cop what hits.</p>
+    <p class="lead">Beats, limited merch, and music from zxmiiblikk. Listen free, cop what hits.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#beats">Shop beats</a>
       <a class="btn btn-ghost" href="#merch">Shop merch</a>
     </div>
   </div>
   <div class="hero-art">
-    <div class="tag">LATEST DROP — STATIC EP</div>
+    <div class="tag">NEW ALBUM — slimseach</div>
     <div class="play-big">
       <button data-track="afterglow" data-title="Afterglow (snippet)" data-src="assets/audio/afterglow.mp3" aria-label="Play featured">▶</button>
     </div>
@@ -238,33 +251,50 @@
   <div class="grid merch" id="merchGrid"></div>
 </section>
 
-<!-- MUSIC -->
-<section id="music" class="wrap">
+<!-- ZXMIIBLIKK (MUSIC) -->
+<section id="zxmiiblikk" class="wrap">
   <div class="sec-head">
-    <div><span class="eyebrow">From the studio</span><h2>Snippets &amp; previews.</h2></div>
-    <p>Free to stream. One player, follows you down the page.</p>
+    <div>
+      <span class="eyebrow">zxmiiblikk</span>
+      <h2>The Biggest Slime: Never Ending Beginnings <span class="explicit" title="Explicit">E</span></h2>
+      <p class="album-year">slimseach · 2025 · 18 tracks</p>
+    </div>
+    <p>Full album, free to stream here. One player, follows you down the page.</p>
   </div>
   <div class="tracks" id="trackList"></div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact" class="wrap">
+  <div class="sec-head">
+    <div><span class="eyebrow">Get at zxmiiblikk</span><h2>Bookings, collabs &amp; drops.</h2></div>
+    <p>Custom beats, features, merch wholesale, or just say what's good. I read everything.</p>
+  </div>
   <div class="contact">
     <div>
-      <span class="eyebrow">Get at me</span>
-      <h2>Collabs, custom beats, wholesale.</h2>
-      <p>Hit the email or slide on socials. I read everything.</p>
-      <div class="socials">
+      <div class="socials" style="margin-bottom:18px">
         <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
         <a href="https://soundcloud.com/" target="_blank" rel="noopener">SoundCloud</a>
         <a href="https://youtube.com/" target="_blank" rel="noopener">YouTube</a>
         <a href="https://open.spotify.com/" target="_blank" rel="noopener">Spotify</a>
+        <a href="https://calendly.com/bxbyslahtasin/30min" target="_blank" rel="noopener">Book a call</a>
       </div>
-    </div>
-    <div style="text-align:center">
       <a class="btn btn-pink" style="font-size:18px;padding:16px 28px" href="mailto:slime@trifexta.net">slime@trifexta.net</a>
       <p style="margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--muted)">response within 24h</p>
     </div>
+    <form class="contact-form" id="contactForm" onsubmit="return handleContact(event)">
+      <input type="text" name="name" placeholder="Your name" required aria-label="Your name">
+      <input type="email" name="email" placeholder="Your email" required aria-label="Your email">
+      <select name="type" aria-label="Inquiry type">
+        <option>Custom beat</option>
+        <option>Feature / collab</option>
+        <option>Merch wholesale</option>
+        <option>General</option>
+      </select>
+      <textarea name="msg" rows="3" placeholder="What you need…" required aria-label="Message"></textarea>
+      <button class="btn btn-primary" type="submit">Send it</button>
+      <p class="form-note" id="formNote"></p>
+    </form>
   </div>
 </section>
 
@@ -340,10 +370,24 @@ const MERCH = [
   {id:"merch-vinyl",  name:"Limited Vinyl",        meta:"hand-numbered",      price:40, cls:"c1", src:"assets/audio/static.mp3"}
 ];
 const TRACKS = [
-  {id:"t-afterglow", title:"Afterglow",  meta:"snippet · 0:30", src:"assets/audio/afterglow.mp3"},
-  {id:"t-violet",    title:"Violet Hour",meta:"snippet · 0:30", src:"assets/audio/violet.mp3"},
-  {id:"t-concrete",  title:"Concrete Rose",meta:"snippet · 0:30",src:"assets/audio/concrete.mp3"},
-  {id:"t-midnight",  title:"Midnight Static",meta:"snippet · 0:30",src:"assets/audio/midnight.mp3"}
+  {id:"t-mo-intro",       title:"Mo (Intro)",                     meta:"1:01", src:"assets/audio/mo-intro.mp3"},
+  {id:"t-chips-dip",      title:"Chips & Dip (feat. Deady Gz)",  meta:"2:14", src:"assets/audio/chips-and-dip.mp3"},
+  {id:"t-hole-in-one",    title:"Hole in one",                   meta:"1:39", src:"assets/audio/hole-in-one.mp3"},
+  {id:"t-se-walking",     title:"SE Walking",                    meta:"1:38", src:"assets/audio/se-walking.mp3"},
+  {id:"t-mo-other-half",  title:"Mo (Other Half)",               meta:"1:22", src:"assets/audio/mo-other-half.mp3"},
+  {id:"t-bother-me",      title:"Bother Me",                     meta:"2:34", src:"assets/audio/bother-me.mp3"},
+  {id:"t-she-know",       title:"She Know",                      meta:"2:03", src:"assets/audio/she-know.mp3"},
+  {id:"t-it-is",          title:"It Is What It Is",              meta:"1:13", src:"assets/audio/it-is-what-it-is.mp3"},
+  {id:"t-not-feeling",    title:"Not Feeling The Love",          meta:"2:24", src:"assets/audio/not-feeling-the-love.mp3"},
+  {id:"t-no-reason",      title:"No Reason",                     meta:"2:47", src:"assets/audio/no-reason.mp3"},
+  {id:"t-mental-convos",  title:"Mental Convos (feat. Slimseacht)", meta:"2:19", src:"assets/audio/mental-convos.mp3"},
+  {id:"t-alone-pt2",      title:"Alone, Pt. 2",                  meta:"2:01", src:"assets/audio/alone-pt-2.mp3"},
+  {id:"t-ups-downs",      title:"Ups & Downs",                   meta:"2:20", src:"assets/audio/ups-and-downs.mp3"},
+  {id:"t-get-em",         title:"Get Em",                        meta:"2:42", src:"assets/audio/get-em.mp3"},
+  {id:"t-self-destruct",  title:"Self Destruct",                 meta:"1:48", src:"assets/audio/self-destruct.mp3"},
+  {id:"t-walk-interlude", title:"Walk (Interlude)",              meta:"1:58", src:"assets/audio/walk-interlude.mp3"},
+  {id:"t-run",            title:"RUN! (feat. Gio)",              meta:"2:14", src:"assets/audio/run.mp3"},
+  {id:"t-drive-me",       title:"Drive Me (As Long As You Moving)", meta:"—", src:"assets/audio/drive-me.mp3"}
 ];
 
 /* ======================= HELPERS ======================= */
@@ -455,6 +499,21 @@ document.addEventListener("click",e=>{
   const buyBtn=e.target.closest("[data-buy]");
   if(buyBtn){buy(buyBtn.dataset.buy,buyBtn.dataset.method);return;}
 });
+
+/* ======================= CONTACT FORM ======================= */
+function handleContact(e){
+  e.preventDefault();
+  const f=e.target;
+  const name=f.name.value.trim(), email=f.email.value.trim(), type=f.type.value, msg=f.msg.value.trim();
+  const note=document.getElementById("formNote");
+  const subject="zxmiiblikk site — "+type;
+  const body=name+" ("+email+")\n\n"+msg;
+  note.textContent="Opening your email app…";
+  note.classList.add("ok");
+  window.location.href="mailto:slime@trifexta.net?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+  setTimeout(()=>{note.textContent="If your mail app didn't open, email slime@trifexta.net directly.";},1200);
+  return false;
+}
 </script>
 </body>
 </html>
