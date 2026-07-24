@@ -1,162 +1,185 @@
 <!doctype html>
 <!--
-  AI AUTOMATION AGENCY — LANDING PAGE (single file, no backend needed)
-  EDIT BEFORE YOU PUBLISH:
-    - Brand is set to "Trifexta" — change if you want another name
-    - Email is set to slime@trifexta.net (contact form mailto + side link)
-    - your-calendly-link  → your Calendly / booking link
-    - stripe/paypal link  → in proposal template, not here
-  Host free: GitHub Pages, Netlify drop, or your own domain.
+  TRIFEXTA.NET — music + merch storefront (single file, static, no backend)
+  ----------------------------------------------------------------------------
+  FILL THESE BEFORE YOU GO LIVE:
+    1. CONFIG below — your Stripe Payment Links + PayPal links per product.
+       Until then, buy buttons show "demo mode" and don't charge.
+    2. Drop audio files at  assets/audio/<name>.mp3  (paths referenced below).
+    3. Drop product/cover art at  assets/img/<name>.jpg  (or keep the gradients).
+    4. Swap social links + email (slime@trifexta.net is set).
+  Hosting: already on GitHub Pages (trifexta.net). Just commit this file to main.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Trifexta — AI agents that run your business</title>
+<title>TRIFEXTA — Beats · Merch · Sound</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0f1419; --surface:#161c24; --surface-2:#1c232d; --line:#26303c;
-    --text:#e6e8ec; --muted:#8a93a3; --signal:#4d7cff; --ember:#ff8a4c;
-    --ok:#3fb8af; --radius:14px;
-    --display:'Space Grotesk',system-ui,sans-serif;
+    --ink:#0a0a0c; --surface:#141417; --surface-2:#1c1c22; --line:#2a2a31;
+    --text:#f2f0f5; --muted:#9a96a6; --violet:#7c5cff; --pink:#ff5c8a;
+    --violet-dim:#5a3fd6; --radius:14px;
+    --display:'Bricolage Grotesque',system-ui,sans-serif;
     --body:'Inter',system-ui,sans-serif;
-    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --mono:'Space Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{background:var(--ink);color:var(--text);font-family:var(--body);
-       line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+       line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:84px}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;
-           text-transform:uppercase;color:var(--signal)}
-  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.1}
-  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;
-       padding:13px 22px;border-radius:10px;cursor:pointer;border:1px solid transparent;
-       transition:transform .15s ease,background .15s ease,opacity .15s}
-  .btn-primary{background:var(--signal);color:#fff}
-  .btn-primary:hover{transform:translateY(-2px);background:#5d89ff}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;
+           text-transform:uppercase;color:var(--violet)}
+  h1,h2,h3{font-family:var(--display);font-weight:800;line-height:1.05;letter-spacing:-.02em}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+       font-weight:600;padding:12px 20px;border-radius:10px;cursor:pointer;border:1px solid transparent;
+       transition:transform .15s ease,background .15s,opacity .15s;font-family:var(--body)}
+  .btn-primary{background:var(--violet);color:#fff}
+  .btn-primary:hover{transform:translateY(-2px);background:#8d70ff}
+  .btn-pink{background:var(--pink);color:#1a0a10}
+  .btn-pink:hover{transform:translateY(-2px);filter:brightness(1.08)}
   .btn-ghost{border-color:var(--line);color:var(--text)}
-  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
-  :focus-visible{outline:2px solid var(--ember);outline-offset:3px;border-radius:6px}
+  .btn-ghost:hover{border-color:var(--violet);color:var(--violet)}
+  .btn-sm{padding:9px 14px;font-size:14px}
+  :focus-visible{outline:2px solid var(--pink);outline-offset:3px;border-radius:6px}
 
   /* NAV */
-  nav{position:sticky;top:0;z-index:50;background:rgba(15,20,25,.82);
-      backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .logo{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em}
-  .logo span{color:var(--signal)}
-  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+  nav{position:sticky;top:0;z-index:60;background:rgba(10,10,12,.84);
+      backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em}
+  .logo b{color:var(--violet)}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
   .nav-links a:hover{color:var(--text)}
-  @media(max-width:720px){.nav-links{display:none}}
+  .demo-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+              background:var(--pink);color:#1a0a10;padding:3px 8px;border-radius:999px;font-weight:700}
+  @media(max-width:760px){.nav-links{display:none}}
 
   /* HERO */
-  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;
-        padding:84px 0 72px}
-  @media(max-width:900px){.hero{grid-template-columns:1fr;gap:36px;padding:56px 0}}
-  .hero h1{font-size:clamp(34px,5vw,56px);letter-spacing:-.03em;margin:18px 0 18px}
-  .hero h1 em{font-style:normal;color:var(--ember)}
-  .hero p.lead{color:var(--muted);font-size:18px;max-width:520px;margin-bottom:28px}
+  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:78px 0 64px}
+  @media(max-width:900px){.hero{grid-template-columns:1fr;gap:36px;padding:52px 0}}
+  .hero h1{font-size:clamp(40px,7vw,82px);margin:16px 0 18px}
+  .hero h1 .grad{background:linear-gradient(100deg,var(--violet),var(--pink));
+                -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{color:var(--muted);font-size:18px;max-width:480px;margin-bottom:26px}
   .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
-  .trust{margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
-
-  /* AGENT FEED (signature) */
-  .feed{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-        padding:18px;box-shadow:0 24px 60px -28px rgba(77,124,255,.35)}
-  .feed-head{display:flex;align-items:center;justify-content:space-between;
-             border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}
-  .feed-title{font-family:var(--mono);font-size:12px;letter-spacing:.14em;
-              text-transform:uppercase;color:var(--muted)}
-  .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);
-       box-shadow:0 0 0 4px rgba(63,184,175,.18);animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  .feed-list{display:flex;flex-direction:column;gap:9px;min-height:230px}
-  .ev{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);
-      font-size:13px;opacity:0;transform:translateY(6px);
-      animation:rise .5s ease forwards}
-  @keyframes rise{to{opacity:1;transform:none}}
-  .ev .t{color:var(--muted);flex:none}
-  .ev .m{color:var(--text)}
-  .ev .ok{color:var(--ok);margin-left:auto;flex:none}
-  .ev .em{color:var(--ember)}
-
-  /* STRIP */
-  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-         padding:18px 0;text-align:center;color:var(--muted);font-size:13px;
-         font-family:var(--mono);letter-spacing:.1em}
+  .hero-art{aspect-ratio:1/1;border-radius:20px;position:relative;overflow:hidden;
+            background:
+              radial-gradient(120% 120% at 20% 10%,rgba(124,92,255,.55),transparent 55%),
+              radial-gradient(120% 120% at 90% 90%,rgba(255,92,138,.5),transparent 55%),
+              #15151b;
+            border:1px solid var(--line);box-shadow:0 30px 80px -30px rgba(124,92,255,.5)}
+  .hero-art .play-big{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .play-big button{width:74px;height:74px;border-radius:50%;border:0;cursor:pointer;
+                   background:rgba(255,255,255,.92);color:#0a0a0c;font-size:26px;
+                   display:flex;align-items:center;justify-content:center;transition:transform .15s}
+  .play-big button:hover{transform:scale(1.08)}
+  .hero-art .tag{position:absolute;left:16px;bottom:16px;font-family:var(--mono);
+                 font-size:12px;color:var(--text);background:rgba(10,10,12,.55);
+                 padding:6px 10px;border-radius:8px;backdrop-filter:blur(6px)}
 
   /* SECTION */
-  section{padding:72px 0}
-  .sec-head{max-width:640px;margin-bottom:40px}
-  .sec-head h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;margin:14px 0 12px}
-  .sec-head p{color:var(--muted);font-size:17px}
+  section{padding:64px 0}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+            margin-bottom:34px;flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(28px,4vw,44px);margin-top:10px}
+  .sec-head p{color:var(--muted);font-size:16px;max-width:420px}
 
-  /* STEPS */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  @media(max-width:800px){.steps{grid-template-columns:1fr}}
-  .step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-        padding:24px}
-  .step .n{font-family:var(--mono);color:var(--signal);font-size:13px;letter-spacing:.1em}
-  .step h3{font-size:19px;margin:12px 0 8px}
-  .step p{color:var(--muted);font-size:15px}
+  /* GRID */
+  .grid{display:grid;gap:20px}
+  .beats{grid-template-columns:repeat(3,1fr)}
+  .merch{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:900px){.beats{grid-template-columns:repeat(2,1fr)}.merch{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.beats,.merch{grid-template-columns:1fr}}
 
-  /* USE CASES */
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-  @media(max-width:800px){.grid{grid-template-columns:1fr}}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-        padding:22px;transition:border-color .15s}
-  .card:hover{border-color:var(--signal)}
-  .card h3{font-size:18px;margin-bottom:6px}
-  .card p{color:var(--muted);font-size:15px}
+        padding:18px;display:flex;flex-direction:column;gap:14px;transition:border-color .15s,transform .15s}
+  .card:hover{border-color:var(--violet)}
+  .cover{aspect-ratio:1/1;border-radius:10px;position:relative;overflow:hidden;
+         background:linear-gradient(135deg,#1d1d25,#26203a)}
+  .cover.c1{background:linear-gradient(135deg,#2a1d3a,#3a1d2e)}
+  .cover.c2{background:linear-gradient(135deg,#1d2e3a,#2e1d3a)}
+  .cover.c3{background:linear-gradient(135deg,#3a2e1d,#2e1d3a)}
+  .cover .mini-play{position:absolute;right:10px;bottom:10px;width:42px;height:42px;border-radius:50%;
+                    border:0;background:rgba(255,255,255,.92);color:#0a0a0c;cursor:pointer;font-size:15px;
+                    display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(6px);
+                    transition:opacity .15s,transform .15s}
+  .card:hover .mini-play{opacity:1;transform:none}
+  .cover.playing .mini-play{opacity:1;transform:none}
+  .wave{position:absolute;left:0;right:0;bottom:0;height:34px;display:flex;align-items:flex-end;
+        gap:2px;padding:0 8px 6px}
+  .wave span{flex:1;background:var(--violet);opacity:.35;border-radius:2px;height:20%}
+  .wave.on span{opacity:.9;animation:bars .9s ease-in-out infinite alternate}
+  @keyframes bars{from{height:18%}to{height:90%}}
+  .card h3{font-size:18px}
+  .meta{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em}
+  .price{font-family:var(--display);font-weight:800;font-size:20px}
+  .buy-row{display:flex;gap:8px}
+  .buy-row .btn{flex:1}
 
-  /* PRICING */
-  .toggle{display:inline-flex;background:var(--surface);border:1px solid var(--line);
-          border-radius:999px;padding:4px;margin-bottom:30px}
-  .toggle button{border:0;background:transparent;color:var(--muted);font-family:var(--body);
-                 font-weight:600;font-size:14px;padding:9px 18px;border-radius:999px;cursor:pointer}
-  .toggle button.active{background:var(--signal);color:#fff}
-  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  @media(max-width:900px){.tiers{grid-template-columns:1fr}}
-  .tier{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-        padding:26px;display:flex;flex-direction:column}
-  .tier.feature{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal)}
-  .tier .name{font-family:var(--mono);font-size:12px;letter-spacing:.14em;
-              text-transform:uppercase;color:var(--signal)}
-  .tier .price{font-family:var(--display);font-weight:700;font-size:34px;margin:12px 0 2px}
-  .tier .price small{font-size:14px;color:var(--muted);font-weight:500}
-  .tier .ret{color:var(--ember);font-size:14px;font-weight:600;margin-bottom:18px}
-  .tier ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:0 0 22px;
-           font-size:15px;color:var(--muted);flex:1}
-  .tier li::before{content:"▸ ";color:var(--ok)}
-  .tier .btn{width:100%;justify-content:center}
-
-  /* TESTIMONIAL */
-  .quote{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--ember);
-         border-radius:var(--radius);padding:28px;max-width:760px}
-  .quote p{font-size:19px;font-family:var(--display);font-weight:500;letter-spacing:-.01em}
-  .quote .who{color:var(--muted);font-size:14px;margin-top:14px;font-family:var(--mono)}
+  /* MUSIC LIST */
+  .tracks{display:flex;flex-direction:column;gap:10px}
+  .track{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--line);
+         border-radius:12px;padding:12px 16px;transition:border-color .15s}
+  .track:hover{border-color:var(--violet)}
+  .track .tnum{font-family:var(--mono);color:var(--muted);width:26px;font-size:14px}
+  .track .tplay{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;
+                color:var(--text);cursor:pointer;font-size:14px;flex:none}
+  .track .tplay:hover{border-color:var(--violet);color:var(--violet)}
+  .track .tinfo{flex:1}
+  .track .tinfo b{font-family:var(--display);font-weight:600;font-size:16px}
+  .track .tinfo small{display:block;color:var(--muted);font-family:var(--mono);font-size:12px}
+  .track.playing{border-color:var(--pink)}
+  .track.playing .tplay{background:var(--pink);color:#1a0a10;border-color:var(--pink)}
 
   /* CONTACT */
-  .contact{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-  @media(max-width:800px){.contact{grid-template-columns:1fr}}
-  form{display:flex;flex-direction:column;gap:14px;background:var(--surface);
-       border:1px solid var(--line);border-radius:var(--radius);padding:26px}
-  label{font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em}
-  input,textarea,select{background:var(--surface-2);border:1px solid var(--line);
-       color:var(--text);border-radius:10px;padding:12px 14px;font-family:var(--body);font-size:15px}
-  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--signal)}
-  form .btn{margin-top:4px;justify-content:center}
-  .contact-side p{color:var(--muted);font-size:16px;margin-bottom:18px}
-  .contact-side a{color:var(--signal);font-weight:600}
+  .contact{background:var(--surface);border:1px solid var(--line);border-radius:18px;
+           padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+  @media(max-width:760px){.contact{grid-template-columns:1fr;padding:28px}}
+  .contact h2{font-size:clamp(26px,3.5vw,40px)}
+  .contact p{color:var(--muted);margin:12px 0 18px}
+  .socials{display:flex;gap:12px;flex-wrap:wrap}
+  .socials a{font-family:var(--mono);font-size:13px;color:var(--muted);border:1px solid var(--line);
+             padding:8px 12px;border-radius:8px}
+  .socials a:hover{color:var(--violet);border-color:var(--violet)}
 
-  footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:13px}
+  footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px;margin-top:20px}
   .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  /* NOW PLAYING DOCK */
+  .dock{position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(14,14,18,.92);
+        backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:12px 24px;
+        display:flex;align-items:center;gap:16px;transform:translateY(110%);transition:transform .3s ease}
+  .dock.show{transform:none}
+  .dock .dart{width:46px;height:46px;border-radius:8px;flex:none;
+             background:linear-gradient(135deg,var(--violet),var(--pink))}
+  .dock .dinfo{flex:1;min-width:0}
+  .dock .dinfo b{font-family:var(--display);font-weight:600;font-size:15px;display:block;
+                 white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dock .dinfo small{color:var(--muted);font-family:var(--mono);font-size:12px}
+  .dock .dctrl{display:flex;align-items:center;gap:12px}
+  .dock .dplay{width:46px;height:46px;border-radius:50%;border:0;background:var(--violet);color:#fff;
+               cursor:pointer;font-size:18px;flex:none}
+  .dock .dseek{flex:1;max-width:280px;accent-color:var(--pink);cursor:pointer}
+  @media(max-width:620px){.dock .dseek{display:none}}
+  .dock .dclose{background:transparent;border:0;color:var(--muted);cursor:pointer;font-size:18px}
+  .dock .dclose:hover{color:var(--text)}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(20px);
+         background:var(--surface-2);border:1px solid var(--line);color:var(--text);
+         padding:12px 18px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;
+         transition:opacity .2s,transform .2s;z-index:80;max-width:90vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
-    .ev{opacity:1!important;transform:none!important}
+    .wave.on span{height:60%!important}
   }
 </style>
 </head>
@@ -164,208 +187,274 @@
 
 <nav>
   <div class="wrap nav-in">
-    <div class="logo">Trifexta<span>.</span></div>
+    <div class="logo">TRI<b>FEXTA</b></div>
     <div class="nav-links">
-      <a href="#how">How it works</a>
-      <a href="#usecases">Use cases</a>
-      <a href="#pricing">Pricing</a>
+      <a href="#beats">Beats</a>
+      <a href="#merch">Merch</a>
+      <a href="#music">Music</a>
       <a href="#contact">Contact</a>
     </div>
-    <a class="btn btn-primary" href="https://calendly.com/bxbyslahtasin/30min">Book free audit</a>
+    <div style="display:flex;align-items:center;gap:14px">
+      <span class="demo-badge" id="demoBadge">DEMO MODE</span>
+      <a class="btn btn-primary btn-sm" href="#beats">Shop</a>
+    </div>
   </div>
 </nav>
 
 <header class="wrap hero">
   <div>
-    <span class="eyebrow">AI automation studio</span>
-    <h1>An AI agent that does the work you keep <em>putting off</em>.</h1>
-    <p class="lead">We build custom automations that capture leads, answer customers,
-       and run your operations — 24/7, with no hiring required.</p>
+    <span class="eyebrow">Beats · Merch · Sound</span>
+    <h1>Sound you can <span class="grad">wear &amp; own.</span></h1>
+    <p class="lead">Original beats, limited merch, and snippets straight from the studio.
+       Listen free, cop what hits.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="https://calendly.com/bxbyslahtasin/30min">Book a free 15-min audit</a>
-      <a class="btn btn-ghost" href="#how">See how it works ↓</a>
+      <a class="btn btn-primary" href="#beats">Shop beats</a>
+      <a class="btn btn-ghost" href="#merch">Shop merch</a>
     </div>
-    <p class="trust">// no fluff · no hype · just systems that ship</p>
   </div>
-
-  <div class="feed" aria-label="Live agent activity feed">
-    <div class="feed-head">
-      <span class="feed-title">Agent feed · live</span>
-      <span class="dot" id="liveDot"></span>
+  <div class="hero-art">
+    <div class="tag">LATEST DROP — STATIC EP</div>
+    <div class="play-big">
+      <button data-track="afterglow" data-title="Afterglow (snippet)" data-src="assets/audio/afterglow.mp3" aria-label="Play featured">▶</button>
     </div>
-    <div class="feed-list" id="feed"></div>
   </div>
 </header>
 
-<div class="strip wrap">TRUSTED BY 40+ TEAMS · AVERAGE 11× ROI IN FIRST 90 DAYS · 24/7 COVERAGE</div>
-
-<section id="how" class="wrap">
+<!-- BEATS -->
+<section id="beats" class="wrap">
   <div class="sec-head">
-    <span class="eyebrow">The build</span>
-    <h2>Three steps. One autonomous system.</h2>
-    <p>Every agent we ship follows the same proven loop — so it's reliable, not a science project.</p>
+    <div><span class="eyebrow">Beat store</span><h2>Lease a beat.</h2></div>
+    <p>Tagged previews. Buy the full license via Stripe or PayPal — instant delivery.</p>
   </div>
-  <div class="steps">
-    <div class="step"><div class="n">01 / TRIGGER</div>
-      <h3>It catches the moment</h3>
-      <p>A form fill, inbound call, support ticket, or calendar slot — the agent picks it up the second it happens.</p></div>
-    <div class="step"><div class="n">02 / ACT</div>
-      <h3>It understands & does</h3>
-      <p>Reads the context, qualifies the lead, drafts the reply, books the slot — then routes to a human only when it should.</p></div>
-    <div class="step"><div class="n">03 / LOG</div>
-      <h3>It records everything</h3>
-      <p>Every action lands in your CRM with a weekly summary, so you see the value and stay in control.</p></div>
-  </div>
+  <div class="grid beats" id="beatGrid"></div>
 </section>
 
-<section id="usecases" class="wrap">
+<!-- MERCH -->
+<section id="merch" class="wrap">
   <div class="sec-head">
-    <span class="eyebrow">Where it pays off</span>
-    <h2>Repetitive work is where the money leaks.</h2>
-    <p>Pick any of these and we'll show you the leak — free — on a 15-minute call.</p>
+    <div><span class="eyebrow">Merch drop</span><h2>Wear the sound.</h2></div>
+    <p>Limited run. When it's gone, it's gone.</p>
   </div>
-  <div class="grid">
-    <div class="card"><h3>Lead capture &amp; qualification</h3><p>Reply in under a minute, score the lead, route hot ones to your closers.</p></div>
-    <div class="card"><h3>AI receptionist</h3><p>Never miss an inbound call or form again — booked, logged, followed up.</p></div>
-    <div class="card"><h3>Support triage</h3><p>Classify, draft, and approve responses across your inbox, 24/7.</p></div>
-    <div class="card"><h3>Ops assistant</h3><p>Answer team questions from your own docs via a private knowledge agent.</p></div>
-  </div>
+  <div class="grid merch" id="merchGrid"></div>
 </section>
 
-<section id="pricing" class="wrap">
+<!-- MUSIC -->
+<section id="music" class="wrap">
   <div class="sec-head">
-    <span class="eyebrow">Investment</span>
-    <h2>Project fee up front. Retainer to keep it sharp.</h2>
-    <p>Start with one workflow or go straight to a full agent. Scale as you see results.</p>
+    <div><span class="eyebrow">From the studio</span><h2>Snippets &amp; previews.</h2></div>
+    <p>Free to stream. One player, follows you down the page.</p>
   </div>
-  <div class="toggle" role="tablist" aria-label="Billing toggle">
-    <button id="mBtn" class="active" aria-selected="true">Monthly retainer</button>
-    <button id="aBtn" aria-selected="false">Prepay 6mo (1 free)</button>
-  </div>
-  <div class="tiers">
-    <div class="tier">
-      <div class="name">Starter</div>
-      <div class="price">$1.5k–3k</div>
-      <div class="ret" data-m="from $300/mo" data-a="from $275/mo · 6mo prepaid">from $300/mo</div>
-      <ul><li>One end-to-end workflow</li><li>Your existing tool stack</li><li>1 revision round</li><li>Loom hand-off walkthrough</li><li>14-day launch support</li></ul>
-      <a class="btn btn-ghost" href="#contact">Start here</a>
-    </div>
-    <div class="tier feature">
-      <div class="name">Core AI agent ⭐</div>
-      <div class="price">$4k–8k</div>
-      <div class="ret" data-m="from $500/mo" data-a="from $458/mo · 6mo prepaid">from $500/mo</div>
-      <ul><li>Working AI agent, end-to-end</li><li>Multi-step logic + human hand-off</li><li>CRM / calendar / email wired</li><li>Monitoring dashboard</li><li>30-day optimization sprint</li></ul>
-      <a class="btn btn-primary" href="#contact">Most popular</a>
-    </div>
-    <div class="tier">
-      <div class="name">Custom system</div>
-      <div class="price">$10k+</div>
-      <div class="ret" data-m="from $1.5k/mo" data-a="from $1.375k/mo · 6mo prepaid">from $1.5k/mo</div>
-      <ul><li>Multi-agent operations</li><li>RAG over your knowledge base</li><li>API &amp; custom infra</li><li>SLA + on-call</li><li>Quarterly roadmap</li></ul>
-      <a class="btn btn-ghost" href="#contact">Talk scope</a>
-    </div>
-  </div>
+  <div class="tracks" id="trackList"></div>
 </section>
 
-<section class="wrap">
-  <div class="quote">
-    <p>"We were losing booked jobs to slow replies. Trifexta's agent now qualifies and schedules
-       every inbound lead before we're even at our desks. First month paid for itself four times over."</p>
-    <div class="who">— placeholder client · replace with your first result</div>
-  </div>
-</section>
-
+<!-- CONTACT -->
 <section id="contact" class="wrap">
-  <div class="sec-head">
-    <span class="eyebrow">Start</span>
-    <h2>Book a free audit. We'll show you the leak.</h2>
-  </div>
   <div class="contact">
-    <form id="contactForm" onsubmit="return sendMail(event)">
-      <label for="name">Your name</label>
-      <input id="name" name="name" required placeholder="Jane Doe" />
-      <label for="email">Work email</label>
-      <input id="email" name="email" type="email" required placeholder="jane@company.com" />
-      <label for="biz">What does your business do?</label>
-      <input id="biz" name="biz" required placeholder="Roofing &amp; exteriors" />
-      <label for="task">The one task you wish ran itself</label>
-      <textarea id="task" name="task" rows="3" required placeholder="Following up with every lead within 5 minutes"></textarea>
-      <button class="btn btn-primary" type="submit">Send my audit request</button>
-    </form>
-    <div class="contact-side">
-      <p>Prefer to talk first? Grab a slot — no pitch deck, just a live look at where automation
-         can take hours and dollars back from your week.</p>
-      <p><a href="https://calendly.com/bxbyslahtasin/30min">→ Book a 15-min call</a></p>
-      <p style="margin-top:18px">Or email us directly:<br>
-         <a href="mailto:slime@trifexta.net">slime@trifexta.net</a></p>
+    <div>
+      <span class="eyebrow">Get at me</span>
+      <h2>Collabs, custom beats, wholesale.</h2>
+      <p>Hit the email or slide on socials. I read everything.</p>
+      <div class="socials">
+        <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://soundcloud.com/" target="_blank" rel="noopener">SoundCloud</a>
+        <a href="https://youtube.com/" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://open.spotify.com/" target="_blank" rel="noopener">Spotify</a>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <a class="btn btn-pink" style="font-size:18px;padding:16px 28px" href="mailto:slime@trifexta.net">slime@trifexta.net</a>
+      <p style="margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--muted)">response within 24h</p>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot-in">
-    <div>© <span id="yr"></span> Trifexta Automation Studio — replace with your legal name.</div>
-    <div>Built once. Pointed at any niche. Ship it.</div>
+    <div>© <span id="yr"></span> TRIFEXTA. All rights reserved.</div>
+    <div>Beats · Merch · Sound</div>
   </div>
 </footer>
 
+<!-- NOW PLAYING DOCK -->
+<div class="dock" id="dock">
+  <div class="dart"></div>
+  <div class="dinfo"><b id="dTitle">—</b><small id="dSub">now playing</small></div>
+  <div class="dctrl">
+    <input class="dseek" id="dSeek" type="range" min="0" max="100" value="0" aria-label="Seek">
+    <button class="dplay" id="dPlay" aria-label="Play/pause">▶</button>
+    <button class="dclose" id="dClose" aria-label="Close player">✕</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-  // year
-  document.getElementById('yr').textContent = new Date().getFullYear();
-
-  // ---- LIVE AGENT FEED (signature) ----
-  const POOL = [
-    ["new lead","qualified → CRM","ok"],
-    ["support ticket","triaged → draft sent","ok"],
-    ["inbound call","booked demo · 2pm","ok"],
-    ["form fill","scored A · routed to sales","ok"],
-    ["follow-up","sent to 14 cold leads","ok"],
-    ["invoice query","answered from KB","ok"],
-    ["meeting req","scheduled · conflict avoided","ok"],
-    ["lead","flagged low-confidence → human","em"],
-  ];
-  const feed = document.getElementById('feed');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function stamp(){const d=new Date();return d.toTimeString().slice(0,5);}
-  function pushEv(){
-    const [a,b,flag] = POOL[Math.floor(Math.random()*POOL.length)];
-    const el=document.createElement('div');
-    el.className='ev';
-    el.innerHTML=`<span class="t">${stamp()}</span><span class="m">${a} · <span class="${flag==='em'?'em':''}">${b}</span></span><span class="${flag==='em'?'em':'ok'}">${flag==='em'?'⚠':'✓'}</span>`;
-    feed.prepend(el);
-    while(feed.children.length>6) feed.removeChild(feed.lastChild);
+/* =========================================================================
+   CONFIG — REPLACE PLACEHOLDERS WITH YOUR REAL LINKS
+   Stripe: use a hosted Payment Link (pay.stripe.com/...) per product.
+   PayPal: a paypal.me link or button URL with the amount baked in.
+   While values still say YOUR_*, buy buttons run in DEMO MODE (no charge).
+   ========================================================================= */
+const CONFIG = {
+  stripe: {
+    "beat-midnight":  "YOUR_STRIPE_PAYMENT_LINK_FOR_MIDNIGHT",
+    "beat-violet":    "YOUR_STRIPE_PAYMENT_LINK_FOR_VIOLET",
+    "beat-concrete":  "YOUR_STRIPE_PAYMENT_LINK_FOR_CONCRETE",
+    "beat-neon":      "YOUR_STRIPE_PAYMENT_LINK_FOR_NEON",
+    "beat-lowtide":   "YOUR_STRIPE_PAYMENT_LINK_FOR_LOWTIDE",
+    "beat-afterglow": "YOUR_STRIPE_PAYMENT_LINK_FOR_AFTERGLOW",
+    "merch-hoodie":   "YOUR_STRIPE_PAYMENT_LINK_FOR_HOODIE",
+    "merch-tee":      "YOUR_STRIPE_PAYMENT_LINK_FOR_TEE",
+    "merch-cap":      "YOUR_STRIPE_PAYMENT_LINK_FOR_CAP",
+    "merch-vinyl":    "YOUR_STRIPE_PAYMENT_LINK_FOR_VINYL"
+  },
+  paypal: {
+    "beat-midnight":  "YOUR_PAYPAL_LINK_FOR_MIDNIGHT",
+    "beat-violet":    "YOUR_PAYPAL_LINK_FOR_VIOLET",
+    "beat-concrete":  "YOUR_PAYPAL_LINK_FOR_CONCRETE",
+    "beat-neon":      "YOUR_PAYPAL_LINK_FOR_NEON",
+    "beat-lowtide":   "YOUR_PAYPAL_LINK_FOR_LOWTIDE",
+    "beat-afterglow": "YOUR_STRIPE_PAYMENT_LINK_FOR_AFTERGLOW",
+    "merch-hoodie":   "YOUR_PAYPAL_LINK_FOR_HOODIE",
+    "merch-tee":      "YOUR_PAYPAL_LINK_FOR_TEE",
+    "merch-cap":      "YOUR_PAYPAL_LINK_FOR_CAP",
+    "merch-vinyl":    "YOUR_PAYPAL_LINK_FOR_VINYL"
   }
-  // seed
-  for(let i=0;i<4;i++) pushEv();
-  if(!reduce){ setInterval(pushEv, 2200); }
-  else { document.getElementById('liveDot').style.animation='none'; }
+};
+const DEMO = Object.values(CONFIG.stripe).some(v=>v.includes("YOUR_")) ||
+            Object.values(CONFIG.paypal).some(v=>v.includes("YOUR_"));
 
-  // ---- PRICING TOGGLE ----
-  const mBtn=document.getElementById('mBtn'), aBtn=document.getElementById('aBtn');
-  const rets=document.querySelectorAll('.ret');
-  function setMode(annual){
-    rets.forEach(r=> r.textContent = annual ? r.dataset.a : r.dataset.m);
-    mBtn.classList.toggle('active',!annual); aBtn.classList.toggle('active',annual);
-    mBtn.setAttribute('aria-selected',!annual); aBtn.setAttribute('aria-selected',annual);
-  }
-  mBtn.onclick=()=>setMode(false); aBtn.onclick=()=>setMode(true);
+/* ======================= DATA ======================= */
+const BEATS = [
+  {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     price:29.99, cls:"c1", src:"assets/audio/midnight.mp3"},
+  {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   price:24.99, cls:"c2", src:"assets/audio/violet.mp3"},
+  {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   price:27.99, cls:"c3", src:"assets/audio/concrete.mp3"},
+  {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   price:31.99, cls:"c1", src:"assets/audio/neon.mp3"},
+  {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    price:22.99, cls:"c2", src:"assets/audio/lowtide.mp3"},
+  {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   price:26.99, cls:"c3", src:"assets/audio/afterglow.mp3"}
+];
+const MERCH = [
+  {id:"merch-hoodie", name:"Trifexta Logo Hoodie", meta:"heavyweight · black", price:55, cls:"c1", src:"assets/audio/static.mp3"},
+  {id:"merch-tee",    name:"“SOUND” Heavy Tee",    meta:"boxy fit · white",   price:30, cls:"c2", src:"assets/audio/static.mp3"},
+  {id:"merch-cap",    name:"Tour Cap",             meta:"embroidered",        price:25, cls:"c3", src:"assets/audio/static.mp3"},
+  {id:"merch-vinyl",  name:"Limited Vinyl",        meta:"hand-numbered",      price:40, cls:"c1", src:"assets/audio/static.mp3"}
+];
+const TRACKS = [
+  {id:"t-afterglow", title:"Afterglow",  meta:"snippet · 0:30", src:"assets/audio/afterglow.mp3"},
+  {id:"t-violet",    title:"Violet Hour",meta:"snippet · 0:30", src:"assets/audio/violet.mp3"},
+  {id:"t-concrete",  title:"Concrete Rose",meta:"snippet · 0:30",src:"assets/audio/concrete.mp3"},
+  {id:"t-midnight",  title:"Midnight Static",meta:"snippet · 0:30",src:"assets/audio/midnight.mp3"}
+];
 
-  // ---- CONTACT FORM -> mailto (no backend) ----
-  function sendMail(e){
-    e.preventDefault();
-    const n=document.getElementById('name').value;
-    const em=document.getElementById('email').value;
-    const b=document.getElementById('biz').value;
-    const t=document.getElementById('task').value;
-    const subj=encodeURIComponent("Free audit request — "+n);
-    const body=encodeURIComponent(
-      "Name: "+n+"\nEmail: "+em+"\nBusiness: "+b+
-      "\n\nThe task I wish ran itself:\n"+t+
-      "\n\n(Source: website contact form)"
-    );
-    window.location.href="mailto:slime@trifexta.net?subject="+subj+"&body="+body;
-    return false;
+/* ======================= HELPERS ======================= */
+const $ = s=>document.querySelector(s);
+const toastEl = $("#toast");
+let toastTimer;
+function toast(msg){toastEl.textContent=msg;toastEl.classList.add("show");
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>toastEl.classList.remove("show"),3200);}
+function money(n){return "$"+n.toFixed(2);}
+
+/* ======================= BUY ======================= */
+function buy(id, method){
+  const link = method==="stripe" ? CONFIG.stripe[id] : CONFIG.paypal[id];
+  if(!link || link.includes("YOUR_")){
+    toast(DEMO ? "Demo mode — add your "+(method==="stripe"?"Stripe":"PayPal")+" link in site CONFIG" : "Link missing for this item");
+    return;
   }
+  window.location.href = link;
+}
+
+/* ======================= RENDER ======================= */
+function beatCard(b){
+  const el=document.createElement("div");
+  el.className="card";
+  el.innerHTML=`
+    <div class="cover ${b.cls}" data-wave>
+      <button class="mini-play" data-track="${b.id}" data-title="${b.name}" data-src="${b.src}" aria-label="Preview ${b.name}">▶</button>
+      <div class="wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+    <h3>${b.name}</h3>
+    <div class="meta">${b.meta}</div>
+    <div class="price">${money(b.price)}</div>
+    <div class="buy-row">
+      <button class="btn btn-primary btn-sm" data-buy="${b.id}" data-method="stripe">Stripe</button>
+      <button class="btn btn-ghost btn-sm" data-buy="${b.id}" data-method="paypal">PayPal</button>
+    </div>`;
+  return el;
+}
+function merchCard(m){
+  const el=document.createElement("div");
+  el.className="card";
+  el.innerHTML=`
+    <div class="cover ${m.cls}"></div>
+    <h3>${m.name}</h3>
+    <div class="meta">${m.meta}</div>
+    <div class="price">${money(m.price)}</div>
+    <div class="buy-row">
+      <button class="btn btn-pink btn-sm" data-buy="${m.id}" data-method="stripe">Stripe</button>
+      <button class="btn btn-ghost btn-sm" data-buy="${m.id}" data-method="paypal">PayPal</button>
+    </div>`;
+  return el;
+}
+function trackRow(t,i){
+  const el=document.createElement("div");
+  el.className="track";el.dataset.id=t.id;
+  el.innerHTML=`
+    <div class="tnum">${String(i+1).padStart(2,"0")}</div>
+    <button class="tplay" data-track="${t.id}" data-title="${t.title}" data-src="${t.src}" aria-label="Play ${t.title}">▶</button>
+    <div class="tinfo"><b>${t.title}</b><small>${t.meta}</small></div>`;
+  return el;
+}
+BEATS.forEach(b=>$("#beatGrid").appendChild(beatCard(b)));
+MERCH.forEach(m=>$("#merchGrid").appendChild(merchCard(m)));
+TRACKS.forEach((t,i)=>$("#trackList").appendChild(trackRow(t,i)));
+if(!DEMO) $("#demoBadge").style.display="none";
+$("#yr").textContent=new Date().getFullYear();
+
+/* ======================= AUDIO ENGINE ======================= */
+const audio = new Audio();
+audio.preload="none";
+const dock=$("#dock"), dTitle=$("#dTitle"), dSub=$("#dSub"), dPlay=$("#dPlay"), dSeek=$("#dSeek");
+let currentBtn=null, currentWave=null;
+
+function clearActive(){
+  if(currentBtn){currentBtn.textContent="▶";currentBtn.closest(".cover,.track")?.classList.remove("playing");}
+  if(currentWave)currentWave.classList.remove("on");
+  currentBtn=null;currentWave=null;
+}
+function loadAndPlay(btn){
+  const src=btn.dataset.src, title=btn.dataset.title;
+  if(currentBtn===btn && !audio.paused){audio.pause();return;}
+  clearActive();
+  audio.src=src;
+  audio.play().then(()=>{
+    dock.classList.add("show");
+    dTitle.textContent=title; dSub.textContent="now playing";
+    dPlay.textContent="⏸";
+    btn.textContent="⏸";
+    const wrap=btn.closest(".cover,.track");
+    if(wrap)wrap.classList.add("playing");
+    currentBtn=btn;
+    currentWave=wrap?.querySelector(".wave");
+    if(currentWave)currentWave.classList.add("on");
+  }).catch(()=>{
+    toast("Audio file not found — drop your mp3 at "+src);
+  });
+  audio.onended=()=>{clearActive();dock.classList.remove("show");dPlay.textContent="▶";};
+  audio.ontimeupdate=()=>{if(audio.duration)dSeek.value=(audio.currentTime/audio.duration)*100;};
+}
+dSeek.addEventListener("input",()=>{if(audio.duration)audio.currentTime=(dSeek.value/100)*audio.duration;});
+dPlay.addEventListener("click",()=>{if(audio.paused)audio.play();else audio.pause();});
+dPlay.addEventListener("click",()=>{dPlay.textContent=audio.paused?"▶":"⏸";});
+$("#dClose").addEventListener("click",()=>{audio.pause();clearActive();dock.classList.remove("show");});
+
+/* ======================= EVENT DELEGATION ======================= */
+document.addEventListener("click",e=>{
+  const play=e.target.closest("[data-track]");
+  if(play){loadAndPlay(play);return;}
+  const buyBtn=e.target.closest("[data-buy]");
+  if(buyBtn){buy(buyBtn.dataset.buy,buyBtn.dataset.method);return;}
+});
 </script>
 </body>
 </html>
