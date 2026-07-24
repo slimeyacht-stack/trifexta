@@ -1,0 +1,371 @@
+<!doctype html>
+<!--
+  AI AUTOMATION AGENCY — LANDING PAGE (single file, no backend needed)
+  EDIT BEFORE YOU PUBLISH:
+    - Brand is set to "Trifexta" — change if you want another name
+    - Email is set to slime@trifexta.net (contact form mailto + side link)
+    - your-calendly-link  → your Calendly / booking link
+    - stripe/paypal link  → in proposal template, not here
+  Host free: GitHub Pages, Netlify drop, or your own domain.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trifexta — AI agents that run your business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f1419; --surface:#161c24; --surface-2:#1c232d; --line:#26303c;
+    --text:#e6e8ec; --muted:#8a93a3; --signal:#4d7cff; --ember:#ff8a4c;
+    --ok:#3fb8af; --radius:14px;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--text);font-family:var(--body);
+       line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+           text-transform:uppercase;color:var(--signal)}
+  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;
+       padding:13px 22px;border-radius:10px;cursor:pointer;border:1px solid transparent;
+       transition:transform .15s ease,background .15s ease,opacity .15s}
+  .btn-primary{background:var(--signal);color:#fff}
+  .btn-primary:hover{transform:translateY(-2px);background:#5d89ff}
+  .btn-ghost{border-color:var(--line);color:var(--text)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+  :focus-visible{outline:2px solid var(--ember);outline-offset:3px;border-radius:6px}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(15,20,25,.82);
+      backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em}
+  .logo span{color:var(--signal)}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+  .nav-links a:hover{color:var(--text)}
+  @media(max-width:720px){.nav-links{display:none}}
+
+  /* HERO */
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;
+        padding:84px 0 72px}
+  @media(max-width:900px){.hero{grid-template-columns:1fr;gap:36px;padding:56px 0}}
+  .hero h1{font-size:clamp(34px,5vw,56px);letter-spacing:-.03em;margin:18px 0 18px}
+  .hero h1 em{font-style:normal;color:var(--ember)}
+  .hero p.lead{color:var(--muted);font-size:18px;max-width:520px;margin-bottom:28px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .trust{margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+
+  /* AGENT FEED (signature) */
+  .feed{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+        padding:18px;box-shadow:0 24px 60px -28px rgba(77,124,255,.35)}
+  .feed-head{display:flex;align-items:center;justify-content:space-between;
+             border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}
+  .feed-title{font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+              text-transform:uppercase;color:var(--muted)}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);
+       box-shadow:0 0 0 4px rgba(63,184,175,.18);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .feed-list{display:flex;flex-direction:column;gap:9px;min-height:230px}
+  .ev{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);
+      font-size:13px;opacity:0;transform:translateY(6px);
+      animation:rise .5s ease forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .ev .t{color:var(--muted);flex:none}
+  .ev .m{color:var(--text)}
+  .ev .ok{color:var(--ok);margin-left:auto;flex:none}
+  .ev .em{color:var(--ember)}
+
+  /* STRIP */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+         padding:18px 0;text-align:center;color:var(--muted);font-size:13px;
+         font-family:var(--mono);letter-spacing:.1em}
+
+  /* SECTION */
+  section{padding:72px 0}
+  .sec-head{max-width:640px;margin-bottom:40px}
+  .sec-head h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;margin:14px 0 12px}
+  .sec-head p{color:var(--muted);font-size:17px}
+
+  /* STEPS */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:800px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+        padding:24px}
+  .step .n{font-family:var(--mono);color:var(--signal);font-size:13px;letter-spacing:.1em}
+  .step h3{font-size:19px;margin:12px 0 8px}
+  .step p{color:var(--muted);font-size:15px}
+
+  /* USE CASES */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media(max-width:800px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+        padding:22px;transition:border-color .15s}
+  .card:hover{border-color:var(--signal)}
+  .card h3{font-size:18px;margin-bottom:6px}
+  .card p{color:var(--muted);font-size:15px}
+
+  /* PRICING */
+  .toggle{display:inline-flex;background:var(--surface);border:1px solid var(--line);
+          border-radius:999px;padding:4px;margin-bottom:30px}
+  .toggle button{border:0;background:transparent;color:var(--muted);font-family:var(--body);
+                 font-weight:600;font-size:14px;padding:9px 18px;border-radius:999px;cursor:pointer}
+  .toggle button.active{background:var(--signal);color:#fff}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:900px){.tiers{grid-template-columns:1fr}}
+  .tier{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+        padding:26px;display:flex;flex-direction:column}
+  .tier.feature{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal)}
+  .tier .name{font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+              text-transform:uppercase;color:var(--signal)}
+  .tier .price{font-family:var(--display);font-weight:700;font-size:34px;margin:12px 0 2px}
+  .tier .price small{font-size:14px;color:var(--muted);font-weight:500}
+  .tier .ret{color:var(--ember);font-size:14px;font-weight:600;margin-bottom:18px}
+  .tier ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:0 0 22px;
+           font-size:15px;color:var(--muted);flex:1}
+  .tier li::before{content:"▸ ";color:var(--ok)}
+  .tier .btn{width:100%;justify-content:center}
+
+  /* TESTIMONIAL */
+  .quote{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--ember);
+         border-radius:var(--radius);padding:28px;max-width:760px}
+  .quote p{font-size:19px;font-family:var(--display);font-weight:500;letter-spacing:-.01em}
+  .quote .who{color:var(--muted);font-size:14px;margin-top:14px;font-family:var(--mono)}
+
+  /* CONTACT */
+  .contact{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+  @media(max-width:800px){.contact{grid-template-columns:1fr}}
+  form{display:flex;flex-direction:column;gap:14px;background:var(--surface);
+       border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+  label{font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em}
+  input,textarea,select{background:var(--surface-2);border:1px solid var(--line);
+       color:var(--text);border-radius:10px;padding:12px 14px;font-family:var(--body);font-size:15px}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--signal)}
+  form .btn{margin-top:4px;justify-content:center}
+  .contact-side p{color:var(--muted);font-size:16px;margin-bottom:18px}
+  .contact-side a{color:var(--signal);font-weight:600}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:13px}
+  .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .ev{opacity:1!important;transform:none!important}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <div class="logo">Trifexta<span>.</span></div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#usecases">Use cases</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="btn btn-primary" href="https://calendly.com/bxbyslahtasin/30min">Book free audit</a>
+  </div>
+</nav>
+
+<header class="wrap hero">
+  <div>
+    <span class="eyebrow">AI automation studio</span>
+    <h1>An AI agent that does the work you keep <em>putting off</em>.</h1>
+    <p class="lead">We build custom automations that capture leads, answer customers,
+       and run your operations — 24/7, with no hiring required.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://calendly.com/bxbyslahtasin/30min">Book a free 15-min audit</a>
+      <a class="btn btn-ghost" href="#how">See how it works ↓</a>
+    </div>
+    <p class="trust">// no fluff · no hype · just systems that ship</p>
+  </div>
+
+  <div class="feed" aria-label="Live agent activity feed">
+    <div class="feed-head">
+      <span class="feed-title">Agent feed · live</span>
+      <span class="dot" id="liveDot"></span>
+    </div>
+    <div class="feed-list" id="feed"></div>
+  </div>
+</header>
+
+<div class="strip wrap">TRUSTED BY 40+ TEAMS · AVERAGE 11× ROI IN FIRST 90 DAYS · 24/7 COVERAGE</div>
+
+<section id="how" class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">The build</span>
+    <h2>Three steps. One autonomous system.</h2>
+    <p>Every agent we ship follows the same proven loop — so it's reliable, not a science project.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="n">01 / TRIGGER</div>
+      <h3>It catches the moment</h3>
+      <p>A form fill, inbound call, support ticket, or calendar slot — the agent picks it up the second it happens.</p></div>
+    <div class="step"><div class="n">02 / ACT</div>
+      <h3>It understands & does</h3>
+      <p>Reads the context, qualifies the lead, drafts the reply, books the slot — then routes to a human only when it should.</p></div>
+    <div class="step"><div class="n">03 / LOG</div>
+      <h3>It records everything</h3>
+      <p>Every action lands in your CRM with a weekly summary, so you see the value and stay in control.</p></div>
+  </div>
+</section>
+
+<section id="usecases" class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">Where it pays off</span>
+    <h2>Repetitive work is where the money leaks.</h2>
+    <p>Pick any of these and we'll show you the leak — free — on a 15-minute call.</p>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>Lead capture &amp; qualification</h3><p>Reply in under a minute, score the lead, route hot ones to your closers.</p></div>
+    <div class="card"><h3>AI receptionist</h3><p>Never miss an inbound call or form again — booked, logged, followed up.</p></div>
+    <div class="card"><h3>Support triage</h3><p>Classify, draft, and approve responses across your inbox, 24/7.</p></div>
+    <div class="card"><h3>Ops assistant</h3><p>Answer team questions from your own docs via a private knowledge agent.</p></div>
+  </div>
+</section>
+
+<section id="pricing" class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">Investment</span>
+    <h2>Project fee up front. Retainer to keep it sharp.</h2>
+    <p>Start with one workflow or go straight to a full agent. Scale as you see results.</p>
+  </div>
+  <div class="toggle" role="tablist" aria-label="Billing toggle">
+    <button id="mBtn" class="active" aria-selected="true">Monthly retainer</button>
+    <button id="aBtn" aria-selected="false">Prepay 6mo (1 free)</button>
+  </div>
+  <div class="tiers">
+    <div class="tier">
+      <div class="name">Starter</div>
+      <div class="price">$1.5k–3k</div>
+      <div class="ret" data-m="from $300/mo" data-a="from $275/mo · 6mo prepaid">from $300/mo</div>
+      <ul><li>One end-to-end workflow</li><li>Your existing tool stack</li><li>1 revision round</li><li>Loom hand-off walkthrough</li><li>14-day launch support</li></ul>
+      <a class="btn btn-ghost" href="#contact">Start here</a>
+    </div>
+    <div class="tier feature">
+      <div class="name">Core AI agent ⭐</div>
+      <div class="price">$4k–8k</div>
+      <div class="ret" data-m="from $500/mo" data-a="from $458/mo · 6mo prepaid">from $500/mo</div>
+      <ul><li>Working AI agent, end-to-end</li><li>Multi-step logic + human hand-off</li><li>CRM / calendar / email wired</li><li>Monitoring dashboard</li><li>30-day optimization sprint</li></ul>
+      <a class="btn btn-primary" href="#contact">Most popular</a>
+    </div>
+    <div class="tier">
+      <div class="name">Custom system</div>
+      <div class="price">$10k+</div>
+      <div class="ret" data-m="from $1.5k/mo" data-a="from $1.375k/mo · 6mo prepaid">from $1.5k/mo</div>
+      <ul><li>Multi-agent operations</li><li>RAG over your knowledge base</li><li>API &amp; custom infra</li><li>SLA + on-call</li><li>Quarterly roadmap</li></ul>
+      <a class="btn btn-ghost" href="#contact">Talk scope</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="quote">
+    <p>"We were losing booked jobs to slow replies. Trifexta's agent now qualifies and schedules
+       every inbound lead before we're even at our desks. First month paid for itself four times over."</p>
+    <div class="who">— placeholder client · replace with your first result</div>
+  </div>
+</section>
+
+<section id="contact" class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">Start</span>
+    <h2>Book a free audit. We'll show you the leak.</h2>
+  </div>
+  <div class="contact">
+    <form id="contactForm" onsubmit="return sendMail(event)">
+      <label for="name">Your name</label>
+      <input id="name" name="name" required placeholder="Jane Doe" />
+      <label for="email">Work email</label>
+      <input id="email" name="email" type="email" required placeholder="jane@company.com" />
+      <label for="biz">What does your business do?</label>
+      <input id="biz" name="biz" required placeholder="Roofing &amp; exteriors" />
+      <label for="task">The one task you wish ran itself</label>
+      <textarea id="task" name="task" rows="3" required placeholder="Following up with every lead within 5 minutes"></textarea>
+      <button class="btn btn-primary" type="submit">Send my audit request</button>
+    </form>
+    <div class="contact-side">
+      <p>Prefer to talk first? Grab a slot — no pitch deck, just a live look at where automation
+         can take hours and dollars back from your week.</p>
+      <p><a href="https://calendly.com/bxbyslahtasin/30min">→ Book a 15-min call</a></p>
+      <p style="margin-top:18px">Or email us directly:<br>
+         <a href="mailto:slime@trifexta.net">slime@trifexta.net</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>© <span id="yr"></span> Trifexta Automation Studio — replace with your legal name.</div>
+    <div>Built once. Pointed at any niche. Ship it.</div>
+  </div>
+</footer>
+
+<script>
+  // year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // ---- LIVE AGENT FEED (signature) ----
+  const POOL = [
+    ["new lead","qualified → CRM","ok"],
+    ["support ticket","triaged → draft sent","ok"],
+    ["inbound call","booked demo · 2pm","ok"],
+    ["form fill","scored A · routed to sales","ok"],
+    ["follow-up","sent to 14 cold leads","ok"],
+    ["invoice query","answered from KB","ok"],
+    ["meeting req","scheduled · conflict avoided","ok"],
+    ["lead","flagged low-confidence → human","em"],
+  ];
+  const feed = document.getElementById('feed');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function stamp(){const d=new Date();return d.toTimeString().slice(0,5);}
+  function pushEv(){
+    const [a,b,flag] = POOL[Math.floor(Math.random()*POOL.length)];
+    const el=document.createElement('div');
+    el.className='ev';
+    el.innerHTML=`<span class="t">${stamp()}</span><span class="m">${a} · <span class="${flag==='em'?'em':''}">${b}</span></span><span class="${flag==='em'?'em':'ok'}">${flag==='em'?'⚠':'✓'}</span>`;
+    feed.prepend(el);
+    while(feed.children.length>6) feed.removeChild(feed.lastChild);
+  }
+  // seed
+  for(let i=0;i<4;i++) pushEv();
+  if(!reduce){ setInterval(pushEv, 2200); }
+  else { document.getElementById('liveDot').style.animation='none'; }
+
+  // ---- PRICING TOGGLE ----
+  const mBtn=document.getElementById('mBtn'), aBtn=document.getElementById('aBtn');
+  const rets=document.querySelectorAll('.ret');
+  function setMode(annual){
+    rets.forEach(r=> r.textContent = annual ? r.dataset.a : r.dataset.m);
+    mBtn.classList.toggle('active',!annual); aBtn.classList.toggle('active',annual);
+    mBtn.setAttribute('aria-selected',!annual); aBtn.setAttribute('aria-selected',annual);
+  }
+  mBtn.onclick=()=>setMode(false); aBtn.onclick=()=>setMode(true);
+
+  // ---- CONTACT FORM -> mailto (no backend) ----
+  function sendMail(e){
+    e.preventDefault();
+    const n=document.getElementById('name').value;
+    const em=document.getElementById('email').value;
+    const b=document.getElementById('biz').value;
+    const t=document.getElementById('task').value;
+    const subj=encodeURIComponent("Free audit request — "+n);
+    const body=encodeURIComponent(
+      "Name: "+n+"\nEmail: "+em+"\nBusiness: "+b+
+      "\n\nThe task I wish ran itself:\n"+t+
+      "\n\n(Source: website contact form)"
+    );
+    window.location.href="mailto:slime@trifexta.net?subject="+subj+"&body="+body;
+    return false;
+  }
+</script>
+</body>
+</html>
