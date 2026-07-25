@@ -15,5 +15,5 @@ assets/fonts/JackboaDemo-wo2e2.otf
 # local config override — may contain a real (public) Snipcart key; keep it OUT of git
 assets/config.local.js
 
-# real audio (intentionally absent — drop your own mp3s locally, don't commit)
-assets/audio/*.mp3
+# real audio now lives in-repo so GitHub Pages serves it (beats purchasable + previewable)
+# assets/audio/*.mp3  ← committed on purpose

@@ -17,12 +17,12 @@ let DEMO = CONFIG.snipcartKey.includes("YOUR_");
 
 /* ======================= DATA ======================= */
 const BEATS = [
-  {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     price:29.99, cls:"c1", src:"assets/audio/midnight.mp3"},
-  {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   price:24.99, cls:"c2", src:"assets/audio/violet.mp3"},
-  {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   price:27.99, cls:"c3", src:"assets/audio/concrete.mp3"},
-  {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   price:31.99, cls:"c1", src:"assets/audio/neon.mp3"},
-  {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    price:22.99, cls:"c2", src:"assets/audio/lowtide.mp3"},
-  {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   price:26.99, cls:"c3", src:"assets/audio/afterglow.mp3"}
+  {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     price:29.99, cls:"c1", src:"assets/audio/midnight.mp3", fileGuid:""},
+  {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   price:24.99, cls:"c2", src:"assets/audio/violet.mp3", fileGuid:""},
+  {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   price:27.99, cls:"c3", src:"assets/audio/concrete.mp3", fileGuid:""},
+  {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   price:31.99, cls:"c1", src:"assets/audio/neon.mp3", fileGuid:""},
+  {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    price:22.99, cls:"c2", src:"assets/audio/lowtide.mp3", fileGuid:""},
+  {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   price:26.99, cls:"c3", src:"assets/audio/afterglow.mp3", fileGuid:""}
 ];
 const MERCH = [
   {id:"merch-hoodie", name:"Trifexta Logo Hoodie", meta:"heavyweight · black", price:55, cls:"c1", src:"assets/audio/static.mp3"},
@@ -54,9 +54,11 @@ function beatCard(b){
       ${DEMO
         ? `<button class="btn btn-primary btn-sm" data-buydemo>Add to cart</button>`
         : `<button class="btn btn-primary btn-sm snipcart-add-item"
-              data-item-id="${b.id}" data-item-name="${b.name}"
-              data-item-price="${b.price}" data-item-url="${CONFIG.storeUrl}"
-              data-item-description="${b.meta}">Add to cart</button>`}
+            data-item-id="${b.id}" data-item-name="${b.name}"
+            data-item-price="${b.price}" data-item-url="${CONFIG.storeUrl}"
+            data-item-description="${b.meta}"
+            data-item-image="${CONFIG.storeUrl}assets/img/album-cover.jpg"
+            data-item-file-guid="${b.fileGuid}">Add to cart</button>`}
     </div>`;
   return el;
 }
