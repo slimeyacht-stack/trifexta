@@ -1,14 +1,22 @@
 /* =========================================================================
    Trifexta.net — shared site logic (cart via Snipcart + audio preview dock)
    Loaded by every page. CONFIG holds the Snipcart key (demo until set).
+
+   SECURITY: the committed key is a PLACEHOLDER. Snipcart's key is PUBLIC by
+   design (it MUST live in the front-end; the secret lives in your Snipcart
+   dashboard, never in this repo). To use a REAL key WITHOUT committing it:
+     1. copy assets/config.local.js.example -> assets/config.local.js
+     2. paste your key there
+     3. config.local.js is gitignored, so it never reaches GitHub.
+   If config.local.js is absent, the placeholder stays and the cart runs in
+   DEMO MODE (no checkout). No live secret is ever pushed to the repo.
    ========================================================================= */
-const CONFIG = {
-  // Snipcart public API key — get one free at snipcart.com, then connect your Stripe
-  // account inside Snipcart's dashboard. Until this is your real key, the cart runs
-  // in DEMO MODE (add-to-cart just warns you, no checkout).
+const CONFIG = Object.assign({
+  // Snipcart PUBLIC key — get one free at snipcart.com, then connect Stripe
+  // in Snipcart's dashboard. Until this is your real key, the cart is DEMO.
   snipcartKey: "YOUR_SNIPCART_PUBLIC_API_KEY",
   storeUrl: "https://trifexta.net/"
-};
+}, (window.__TRIFEXTA_CONFIG__ || {}));
 const DEMO = CONFIG.snipcartKey.includes("YOUR_");
 
 /* ======================= DATA ======================= */

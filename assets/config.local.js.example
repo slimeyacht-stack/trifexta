@@ -1,0 +1,9 @@
+/* Trifexta.net — LOCAL config override (NEVER commit a real key here).
+   Copy this file to assets/config.local.js and paste your real Snipcart
+   PUBLIC key below. assets/config.local.js is gitignored, so it stays on
+   your machine only. The public key is safe to expose in the front-end;
+   the Snipcart SECRET lives in your Snipcart dashboard, not here. */
+window.__TRIFEXTA_CONFIG__ = {
+  snipcartKey: "REPLACE_WITH_YOUR_SNIPCART_PUBLIC_KEY",
+  storeUrl: "https://trifexta.net/"
+};
