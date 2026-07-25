@@ -44,6 +44,7 @@ function beatCard(b){
   el.className="card";
   el.innerHTML=`
     <div class="cover ${b.cls}" data-wave>
+      <span class="preview-tag">15s preview</span>
       <button class="mini-play" data-track="${b.id}" data-title="${b.name}" data-src="${b.src}" aria-label="Preview ${b.name}">▶</button>
       <div class="wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     </div>
@@ -82,6 +83,7 @@ function merchCard(m){
 }
 
 /* ======================= AUDIO ENGINE ======================= */
+const PREVIEW_SEC=15;   // buyers hear a 15s preview, not the full track
 const audio = new Audio();
 audio.preload="none";
 const dock=$("#dock"), dTitle=$("#dTitle"), dSub=$("#dSub"), dPlay=$("#dPlay"), dSeek=$("#dSeek");
@@ -99,7 +101,9 @@ function loadAndPlay(btn){
   audio.src=src;
   audio.play().then(()=>{
     dock.classList.add("show");
-    dTitle.textContent=title; dSub.textContent="now playing";
+    dTitle.textContent=title;
+    // label as preview (full track is longer than the cap)
+    dSub.textContent=(audio.duration&&audio.duration>PREVIEW_SEC)?"15s preview":"now playing";
     dPlay.textContent="⏸";
     btn.textContent="⏸";
     const wrap=btn.closest(".cover,.track");
@@ -111,9 +115,22 @@ function loadAndPlay(btn){
     toast("Audio file not found — drop your mp3 at "+src);
   });
   audio.onended=()=>{clearActive();dock.classList.remove("show");dPlay.textContent="▶";};
-  audio.ontimeupdate=()=>{if(audio.duration)dSeek.value=(audio.currentTime/audio.duration)*100;};
+  audio.ontimeupdate=()=>{
+    if(audio.duration&&audio.duration>PREVIEW_SEC&&audio.currentTime>=PREVIEW_SEC){
+      audio.pause();audio.currentTime=0;          // hard stop at 15s
+      clearActive();dock.classList.remove("show");dPlay.textContent="▶";
+      dSub.textContent="preview ended — buy to hear all";
+      return;
+    }
+    if(audio.duration)dSeek.value=(audio.currentTime/(audio.duration>PREVIEW_SEC?PREVIEW_SEC:audio.duration))*100;
+  };
 }
-dSeek.addEventListener("input",()=>{if(audio.duration)audio.currentTime=(dSeek.value/100)*audio.duration;});
+dSeek.addEventListener("input",()=>{
+  if(audio.duration){
+    const cap=audio.duration>PREVIEW_SEC?PREVIEW_SEC:audio.duration;
+    audio.currentTime=Math.min((dSeek.value/100)*audio.duration,cap);
+  }
+});
 dPlay.addEventListener("click",()=>{if(audio.paused)audio.play();else audio.pause();});
 dPlay.addEventListener("click",()=>{dPlay.textContent=audio.paused?"▶":"⏸";});
 $("#dClose").addEventListener("click",()=>{audio.pause();clearActive();dock.classList.remove("show");});

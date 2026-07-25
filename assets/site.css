@@ -98,6 +98,9 @@
   .card:hover{border-color:var(--violet)}
   .cover{aspect-ratio:1/1;border-radius:10px;position:relative;overflow:hidden;
          background:linear-gradient(135deg,#1d1d25,#26203a)}
+  .preview-tag{position:absolute;top:8px;left:8px;z-index:2;font:600 9px/1 var(--mono);
+    letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.18);padding:4px 7px;border-radius:999px;pointer-events:none}
   .cover.c1{background:linear-gradient(135deg,#2a1d3a,#3a1d2e)}
   .cover.c2{background:linear-gradient(135deg,#1d2e3a,#2e1d3a)}
   .cover.c3{background:linear-gradient(135deg,#3a2e1d,#2e1d3a)}
