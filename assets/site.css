@@ -6,9 +6,11 @@
     --body:'Space Grotesk',system-ui,sans-serif;
     --mono:'Space Mono',ui-monospace,monospace;
   }
-  /* NOTE: logo previously used the Jackboa demo font, which is NON-COMMERCIAL.
-     Removed for a commercial-safe storefront — logo now uses --display (Fraunces,
-     SIL Open Font License) so it's safe to sell merch. */
+  /* Logo font: "Lost Tumbler" by Khurasan — free for personal + commercial use
+     (see More Info.txt: "100% free for personal use & commercial use").
+     Safe for the merch store. Body/headlines stay on Fraunces (editorial). */
+  @font-face{font-family:'Lost Tumbler';src:url('fonts/LostTumbler.otf') format('opentype'),
+             url('fonts/LostTumbler.ttf') format('truetype');font-display:swap}
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{background:var(--ink);color:var(--text);font-family:var(--body);
@@ -34,7 +36,7 @@
   nav{position:sticky;top:0;z-index:60;background:rgba(10,10,12,.84);
       backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
-  .logo{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:.14em;display:flex;line-height:1}
+  .logo{font-family:'Lost Tumbler',var(--display);font-weight:800;font-size:26px;letter-spacing:.14em;display:flex;line-height:1}
   .logo .lg-tri{color:#fff}
   .logo .lg-fex{color:#c4b5fd}
   .logo .lg-ta{color:#8b5cf6}
