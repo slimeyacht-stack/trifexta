@@ -195,16 +195,21 @@ function boot(){
   // Hide DEMO badge when a real key is active
   const demoBadge=document.getElementById("demoBadge");
   if(demoBadge && !DEMO) demoBadge.style.display="none";
-  // Load Snipcart only when a real key is set
+  // Load Snipcart (v3) only when a real key is set.
+  // v3 reads the key from window.SnipcartSettings.publicApiKey (set BEFORE the
+  // script loads) — the old v2 data-api-key attribute is ignored and breaks init.
   if(!DEMO){
-    const s=document.createElement("script");
-    s.async=true;
-    s.src="https://cdn.jsdelivr.net/npm/snipcart@3/dist/snipcart.min.js";
-    s.dataset.apiKey=CONFIG.snipcartKey;
-    document.body.appendChild(s);
-    const d=document.createElement("div");
-    d.hidden=true; d.id="snipcart"; d.dataset.apiKey=CONFIG.snipcartKey;
-    document.body.appendChild(d);
+    window.SnipcartSettings = Object.assign(window.SnipcartSettings || {}, {
+      publicApiKey: CONFIG.snipcartKey,
+      loadStrategy: "on-user-interaction"
+    });
+    if(!document.getElementById("snipcart-js")){
+      const s=document.createElement("script");
+      s.id="snipcart-js";
+      s.async=true;
+      s.src="https://cdn.jsdelivr.net/npm/snipcart@3/dist/snipcart.min.js";
+      document.body.appendChild(s);
+    }
   }
   const yr=document.getElementById("yr");
   if(yr) yr.textContent=new Date().getFullYear();
