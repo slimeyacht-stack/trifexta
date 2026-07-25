@@ -1,0 +1,99 @@
+<!doctype html>
+<!-- TRIFEXTA.NET — Contact page -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact — Trifexta</title>
+<meta name="description" content="Bookings, collabs & drops with ZxmiiBlikk. Custom beats, features, merch wholesale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0c'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial' font-size='15' font-weight='800' fill='%23c4b5fd' text-anchor='middle' dominant-baseline='middle'%3ET%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/snipcart@3/dist/snipcart.min.css" />
+<link rel="stylesheet" href="assets/site.css?v=7" />
+</head>
+<body>
+
+<div class="cal-dot" aria-hidden="true"></div><nav>
+  <div class="wrap nav-in">
+    <a class="logo" href="index.html"><span class="lg-tri">Tri</span><span class="lg-fex">fex</span><span class="lg-ta">ta</span></a>
+    <div class="nav-links">
+      <a href="beats.html">Beats</a>
+      <a href="merch.html">Merch</a>
+      <a href="zxmiiblikk.html">ZxmiiBlikk</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <div class="nav-mobile-links">
+        <a href="beats.html">Beats</a>
+        <a href="merch.html">Merch</a>
+        <a href="zxmiiblikk.html">ZxmiiBlikk</a>
+      </div>
+      <span class="demo-badge" id="demoBadge">DEMO MODE</span>
+      <button class="btn btn-ghost btn-sm snipcart-checkout" type="button">Cart · <span class="snipcart-items-count">0</span></button>
+      <a class="btn btn-primary btn-sm" href="beats.html">Shop</a>
+    </div>
+  </div>
+</nav>
+
+<div class="marquee" aria-hidden="true"><span>NEW DROP<b>•</b>BEATS<b>•</b>MERCH<b>•</b>ZXMIIBLIKK<b>•</b>LISTEN FREE<b>•</b>COP WHAT HITS<b>•</b>NEW DROP<b>•</b>BEATS<b>•</b>MERCH<b>•</b>ZXMIIBLIKK<b>•</b>LISTEN FREE<b>•</b>COP WHAT HITS<b>•</b></span></div>
+
+<section class="wrap reveal">
+  <div class="sec-head">
+    <div><span class="eyebrow">Get at ZxmiiBlikk</span><h2>Bookings, collabs &amp; drops.</h2></div>
+    <p>Custom beats, features, merch wholesale, or just say what's good. I read everything.</p>
+  </div>
+  <div class="contact">
+    <div>
+      <div class="socials" style="margin-bottom:18px">
+        <a href="https://instagram.com/slimeyachtt" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://instagram.com/prod.slimeyacht" target="_blank" rel="noopener">prod.slimeyacht</a>
+        <a href="https://soundcloud.com/tenn-zxmbiis" target="_blank" rel="noopener">SoundCloud</a>
+        <a href="https://youtube.com/@slimeyacht" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://open.spotify.com/artist/4qIeoQYh5xWJyLjjbeFC8j" target="_blank" rel="noopener">Spotify</a>
+        <a href="https://calendly.com/bxbyslahtasin/30min" target="_blank" rel="noopener">Book a call</a>
+      </div>
+      <a class="btn btn-pink" style="font-size:18px;padding:16px 28px" href="mailto:slime@trifexta.net">slime@trifexta.net</a>
+      <p style="margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--muted)">response within 24h</p>
+    </div>
+    <form class="contact-form" id="contactForm" onsubmit="return handleContact(event)">
+      <input type="text" name="name" placeholder="Your name" required aria-label="Your name">
+      <input type="email" name="email" placeholder="Your email" required aria-label="Your email">
+      <select name="type" aria-label="Inquiry type">
+        <option>Custom beat</option>
+        <option>Feature / collab</option>
+        <option>Merch wholesale</option>
+        <option>General</option>
+      </select>
+      <textarea name="msg" rows="3" placeholder="What you need…" required aria-label="Message"></textarea>
+      <button class="btn btn-primary" type="submit">Send it</button>
+      <p class="form-note" id="formNote"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>© <span id="yr"></span> Trifexta. All rights reserved.</div>
+    <div>Beats · Merch · ZxmiiBlikk</div>
+  </div>
+</footer>
+
+<div class="dock" id="dock">
+  <div class="dart"></div>
+  <div class="dinfo"><b id="dTitle">—</b><small id="dSub">now playing</small></div>
+  <div class="dctrl">
+    <input class="dseek" id="dSeek" type="range" min="0" max="100" value="0" aria-label="Seek">
+    <button class="dplay" id="dPlay" aria-label="Play/pause">▶</button>
+    <button class="dclose" id="dClose" aria-label="Close player">✕</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/site.js"></script>
+<script>if(!DEMO) document.getElementById("demoBadge").style.display="none";
+document.getElementById("yr").textContent=new Date().getFullYear();</script>
+</body>
+</html>
