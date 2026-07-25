@@ -275,6 +275,9 @@
     .hero h1 .grad{animation:none;background-size:100% 100%}
     .dock.show .dart::before{animation:none}
     .reveal{opacity:1;transform:none}
+    .stagger > *{opacity:1;transform:none;transition:none}
+    .parallax{transform:none}
+    .scroll-cue .mouse::before{animation:none}
   }
 
   /* ======================= AETHER SIGNATURE ======================= */
@@ -305,3 +308,33 @@
   .member-bio{color:var(--muted);max-width:60ch;line-height:1.6}
   /* hairline rule helper */
   .hairline{border-color:var(--line)}
+
+  /* ======================= OMNIRA-INSPIRED MOTION (extended cool layer) ======================= */
+  /* Top scroll-progress bar — fills as you scroll the page */
+  .scroll-progress{position:fixed;top:0;left:0;height:3px;width:100%;
+    transform:scaleX(var(--p,0));transform-origin:0 50%;
+    background:linear-gradient(90deg,var(--violet),var(--pink));
+    box-shadow:0 0 14px rgba(124,92,255,.55);z-index:130;pointer-events:none}
+  /* Hero scroll cue (the "scroll to explore" indicator) */
+  .scroll-cue{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    color:var(--muted);font:600 10px/1 var(--mono);letter-spacing:.3em;
+    text-transform:uppercase;opacity:.85;pointer-events:none}
+  .scroll-cue .mouse{width:20px;height:32px;border:2px solid var(--muted);border-radius:12px;position:relative}
+  .scroll-cue .mouse::before{content:"";position:absolute;left:50%;top:6px;width:3px;height:6px;border-radius:2px;
+    background:var(--muted);transform:translateX(-50%);animation:wheel 1.6s ease-in-out infinite}
+  @keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,11px)}}
+  /* Staggered reveals — children cascade in when container enters view */
+  .stagger > *{opacity:0;transform:translateY(20px);
+    transition:opacity .5s ease,transform .5s ease}
+  .stagger.in > *{opacity:1;transform:none}
+  .stagger.in > *:nth-child(1){transition-delay:.04s}
+  .stagger.in > *:nth-child(2){transition-delay:.10s}
+  .stagger.in > *:nth-child(3){transition-delay:.16s}
+  .stagger.in > *:nth-child(4){transition-delay:.22s}
+  .stagger.in > *:nth-child(5){transition-delay:.28s}
+  .stagger.in > *:nth-child(6){transition-delay:.34s}
+  .stagger.in > *:nth-child(7){transition-delay:.40s}
+  .stagger.in > *:nth-child(8){transition-delay:.46s}
+  /* Scroll-linked parallax (JS sets --py; disabled under reduced motion) */
+  .parallax{transform:translateY(calc(var(--py,0)*1px));will-change:transform}

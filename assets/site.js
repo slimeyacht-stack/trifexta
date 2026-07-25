@@ -155,13 +155,44 @@ function handleContact(e){
     });
     addEventListener("mouseleave",()=>glow.style.opacity="0");
   }
-  // Scroll reveal
+  // Scroll reveal + staggered groups
   if(!reduce && "IntersectionObserver" in window){
     const io=new IntersectionObserver((es)=>{
-      es.forEach(en=>{if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target);}});
+      es.forEach(en=>{
+        if(en.isIntersecting){
+          if(en.target.classList.contains("stagger")){
+            [...en.target.children].forEach((k,i)=>setTimeout(()=>k.classList.add("in"),i*60));
+          } else {
+            en.target.classList.add("in");
+          }
+          io.unobserve(en.target);
+        }
+      });
     },{threshold:.12,rootMargin:"0px 0px -8% 0px"});
-    document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+    document.querySelectorAll(".reveal,.stagger").forEach(el=>io.observe(el));
+  } else {
+    // No IO / reduced motion: just show everything
+    document.querySelectorAll(".reveal,.stagger").forEach(el=>el.classList.add("in"));
   }
+  // Scroll progress bar + parallax (motion-aware, throttled with rAF)
+  (function(){
+    const bar=document.querySelector(".scroll-progress");
+    const pars=[...document.querySelectorAll(".parallax")];
+    let ticking=false;
+    function update(){
+      const de=document.documentElement;
+      const max=de.scrollHeight-de.clientHeight;
+      const p=max>0?Math.min(1,(window.scrollY||de.scrollTop||document.body.scrollTop)/max):0;
+      if(bar) bar.style.setProperty("--p",p.toFixed(4));
+      if(!reduce){
+        const y=window.scrollY||de.scrollTop;
+        pars.forEach(el=>{const sp=parseFloat(el.dataset.speed||"0.12");el.style.setProperty("--py",(y*sp).toFixed(1));});
+      }
+      ticking=false;
+    }
+    addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(update);}},{passive:true});
+    update();
+  })();
   // Card pointer-tracked glow
   document.querySelectorAll(".card").forEach(card=>{
     card.addEventListener("mousemove",e=>{
