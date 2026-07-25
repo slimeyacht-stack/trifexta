@@ -16,7 +16,7 @@ Classification key:
 | Asset | Used for | Status | Notes / action |
 |-------|----------|--------|----------------|
 | Album cover `assets/img/album-cover.jpg` | Hero art, ZxmiiBlikk section | AVAILABLE | Real artwork, loads fine. |
-| Logo font `assets/fonts/JackboaDemo-wo2e2.otf` | "TRIFEXTA" wordmark | REMOVED | Non-commercial (NTC_Graphic). **Resolved:** font deleted + gitignored; logo now uses Fraunces (SIL OFL, commercial-safe). No action needed. |
+| Logo font `assets/fonts/LostTumbler.otf/.ttf` | "TRIFEXTA" wordmark | OK | "Lost Tumbler" by Khurasan — free for personal + commercial use (More Info.txt: "100% free for personal use & commercial use"). Commercial-safe; committed to repo. |
 | Beat card covers (c1/c2/c3 gradients) | Beat grid | PLACEHOLDER | CSS gradients stand in for real cover art. GENERATABLE (album-art image gen) or OWNER REQUIRED (real artwork). Swap `div.cover` background for `<img>`. |
 | Merch card covers (c1/c2/c3 gradients) | Merch grid | PLACEHOLDER | Same as beats — needs real product/lifestyle photography (OWNER REQUIRED) or GENERATED mockups. |
 | Audio previews `assets/audio/*.mp3` | Beat/merch preview player | OWNER REQUIRED | Referenced (midnight/violet/concrete/neon/lowtide/afterglow + static.mp3) but files absent — only `assets/audio/README.txt` present. Player shows "Audio file not found" until you drop the mp3s. |
