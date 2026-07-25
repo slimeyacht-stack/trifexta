@@ -139,19 +139,6 @@ function handleContact(e){
   return false;
 }
 
-/* ======================= SNIPCART (cart) ======================= */
-(function(){
-  if(DEMO) return; // don't load Snipcart until a real key is set
-  const s=document.createElement("script");
-  s.async=true;
-  s.src="https://cdn.jsdelivr.net/npm/snipcart@3/dist/snipcart.min.js";
-  s.dataset.apiKey=CONFIG.snipcartKey;
-  document.body.appendChild(s);
-  const d=document.createElement("div");
-  d.hidden=true; d.id="snipcart"; d.dataset.apiKey=CONFIG.snipcartKey;
-  document.body.appendChild(d);
-})();
-
 /* ======================= COOL LAYER JS ======================= */
 (function(){
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
