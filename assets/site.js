@@ -10,7 +10,7 @@
    console error). No live secret is ever pushed to the repo.
    ========================================================================= */
 const CONFIG = {
-  snipcartKey: "YOUR_SNIPCART_PUBLIC_API_KEY",
+  snipcartKey: "ZGVmMGYxNzItZDAwNy00ZDgyLTkxMDctMzYzNzdhOWRkZmY4NjM5MjA1NDcyMDMzMzUxNDg2",
   storeUrl: "https://trifexta.net/"
 };
 let DEMO = CONFIG.snipcartKey.includes("YOUR_");
