@@ -297,5 +297,11 @@
     background:
       linear-gradient(to top,var(--pink) 0 30%,transparent 30% 35%,var(--violet) 35% 65%,transparent 65% 70%,var(--pink) 70% 100%);
   }
+  /* ======================= TEAM PAGE ======================= */
+  .team-member{padding-top:38px;margin-top:38px;border-top:1px solid var(--line)}
+  .team-member:first-of-type{border-top:none;margin-top:8px;padding-top:8px}
+  .team-member h3{font-family:var(--display);font-weight:800;font-size:30px;line-height:1.05;letter-spacing:-.02em;margin:6px 0 10px}
+  .team-member .album-year{display:block;margin-bottom:14px}
+  .member-bio{color:var(--muted);max-width:60ch;line-height:1.6}
   /* hairline rule helper */
   .hairline{border-color:var(--line)}
