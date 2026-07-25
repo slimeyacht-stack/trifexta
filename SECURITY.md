@@ -43,5 +43,5 @@ path. Options if you need it:
   or stored by this site.
 - No third-party trackers beyond Snipcart's required CDN (only loaded when a real
   key is set; DEMO MODE skips it).
-- Font `JackboaDemo` is **non-commercial** — swap before selling merch
-  (see ASSET-PLAN.md).
+- Font `JackboaDemo` was **non-commercial** and has been **removed**; the logo now
+  uses Fraunces (SIL Open Font License — commercial-safe). See ASSET-PLAN.md.

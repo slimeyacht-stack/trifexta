@@ -16,7 +16,7 @@ Classification key:
 | Asset | Used for | Status | Notes / action |
 |-------|----------|--------|----------------|
 | Album cover `assets/img/album-cover.jpg` | Hero art, ZxmiiBlikk section | AVAILABLE | Real artwork, loads fine. |
-| Logo font `assets/fonts/JackboaDemo-wo2e2.otf` | "TRIFEXTA" wordmark | LICENSE REQUIRED | Non-commercial license (NTC_Graphic). MUST be swapped for a licensed/commercial font before live sales. Currently used as demo only. |
+| Logo font `assets/fonts/JackboaDemo-wo2e2.otf` | "TRIFEXTA" wordmark | REMOVED | Non-commercial (NTC_Graphic). **Resolved:** font deleted + gitignored; logo now uses Fraunces (SIL OFL, commercial-safe). No action needed. |
 | Beat card covers (c1/c2/c3 gradients) | Beat grid | PLACEHOLDER | CSS gradients stand in for real cover art. GENERATABLE (album-art image gen) or OWNER REQUIRED (real artwork). Swap `div.cover` background for `<img>`. |
 | Merch card covers (c1/c2/c3 gradients) | Merch grid | PLACEHOLDER | Same as beats — needs real product/lifestyle photography (OWNER REQUIRED) or GENERATED mockups. |
 | Audio previews `assets/audio/*.mp3` | Beat/merch preview player | OWNER REQUIRED | Referenced (midnight/violet/concrete/neon/lowtide/afterglow + static.mp3) but files absent — only `assets/audio/README.txt` present. Player shows "Audio file not found" until you drop the mp3s. |
@@ -26,7 +26,7 @@ Classification key:
 | Snipcart key (`CONFIG.snipcartKey`) | Cart / checkout | OWNER REQUIRED | Demo until you paste your real public API key; then cart goes live. |
 
 ## What was fixed in this pass (code only, no asset fabrication)
-- Jackboa font path bug → 404 resolved (CSS-relative `fonts/...`).
+- Jackboa font removed (non-commercial) → logo uses Fraunces (OFL). See line 19.
 - Favicon 404 resolved (inline SVG).
 - 320px horizontal overflow resolved (`.wrap` padding + form `min-width:0`).
 - Mobile nav reachability: Beats/Merch/ZxmiiBlikk links now surface in the
@@ -34,7 +34,7 @@ Classification key:
 - Floating dock no longer permanently hides content (body padding 120px).
 
 ## Open items for the owner (not fabricated)
-1. Swap Jackboa for a commercial-license font before sales go live.
+1. ~~Swap Jackboa for a commercial-license font before sales go live.~~ DONE — removed, logo uses Fraunces.
 2. Drop real beat/merch mp3 previews into `assets/audio/`.
 3. Replace gradient placeholders with real cover art / product photography.
 4. Set the real Snipcart public API key in `assets/site.js`.

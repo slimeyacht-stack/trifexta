@@ -9,6 +9,9 @@ Thumbs.db
 # local preview server logs
 *.log
 
+# non-commercial demo font — removed; do NOT re-add to a commercial repo
+assets/fonts/JackboaDemo-wo2e2.otf
+
 # local config override — may contain a real (public) Snipcart key; keep it OUT of git
 assets/config.local.js
 
