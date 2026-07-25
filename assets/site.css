@@ -29,6 +29,8 @@
   .btn-pink:hover{transform:translateY(-2px);filter:brightness(1.08)}
   .btn-ghost{border-color:var(--line);color:var(--text)}
   .btn-ghost:hover{border-color:var(--violet);color:var(--violet)}
+  /* Cart button: cream pill needs black letters for contrast (was light-on-light) */
+  .snipcart-checkout{color:#000;font-weight:700}
   .btn-sm{padding:9px 14px;font-size:14px}
   :focus-visible{outline:2px solid var(--pink);outline-offset:3px;border-radius:6px}
 
