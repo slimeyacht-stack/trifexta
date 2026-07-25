@@ -160,11 +160,7 @@ function handleContact(e){
     const io=new IntersectionObserver((es)=>{
       es.forEach(en=>{
         if(en.isIntersecting){
-          if(en.target.classList.contains("stagger")){
-            [...en.target.children].forEach((k,i)=>setTimeout(()=>k.classList.add("in"),i*60));
-          } else {
-            en.target.classList.add("in");
-          }
+          en.target.classList.add("in");   // container .in cascades children via .stagger.in > *
           io.unobserve(en.target);
         }
       });
