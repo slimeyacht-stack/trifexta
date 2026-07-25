@@ -87,7 +87,7 @@ const PREVIEW_SEC=15;   // buyers hear a 15s preview, not the full track
 const audio = new Audio();
 audio.preload="none";
 const dock=$("#dock"), dTitle=$("#dTitle"), dSub=$("#dSub"), dPlay=$("#dPlay"), dSeek=$("#dSeek");
-let currentBtn=null, currentWave=null;
+let currentBtn=null, currentWave=null, previewStart=0;
 
 function clearActive(){
   if(currentBtn){currentBtn.textContent="▶";currentBtn.closest(".cover,.track")?.classList.remove("playing");}
@@ -99,10 +99,20 @@ function loadAndPlay(btn){
   if(currentBtn===btn && !audio.paused){audio.pause();return;}
   clearActive();
   audio.src=src;
+  // pick a random 15s window once we know the track length
+  const pickWindow=()=>{
+    if(audio.duration&&audio.duration>PREVIEW_SEC){
+      const max=audio.duration-PREVIEW_SEC;
+      previewStart=Math.random()*max;
+      audio.currentTime=previewStart;
+    } else {
+      previewStart=0;
+    }
+  };
   audio.play().then(()=>{
+    pickWindow();
     dock.classList.add("show");
     dTitle.textContent=title;
-    // label as preview (full track is longer than the cap)
     dSub.textContent=(audio.duration&&audio.duration>PREVIEW_SEC)?"15s preview":"now playing";
     dPlay.textContent="⏸";
     btn.textContent="⏸";
@@ -116,8 +126,9 @@ function loadAndPlay(btn){
   });
   audio.onended=()=>{clearActive();dock.classList.remove("show");dPlay.textContent="▶";};
   audio.ontimeupdate=()=>{
-    if(audio.duration&&audio.duration>PREVIEW_SEC&&audio.currentTime>=PREVIEW_SEC){
-      audio.pause();audio.currentTime=0;          // hard stop at 15s
+    const end=previewStart+PREVIEW_SEC;
+    if(audio.duration&&audio.currentTime>=end){
+      audio.pause();audio.currentTime=0;          // hard stop at end of the random window
       clearActive();dock.classList.remove("show");dPlay.textContent="▶";
       dSub.textContent="preview ended — buy to hear all";
       return;
@@ -128,7 +139,10 @@ function loadAndPlay(btn){
 dSeek.addEventListener("input",()=>{
   if(audio.duration){
     const cap=audio.duration>PREVIEW_SEC?PREVIEW_SEC:audio.duration;
-    audio.currentTime=Math.min((dSeek.value/100)*audio.duration,cap);
+    // keep the user inside the preview window [previewStart, previewStart+PREVIEW_SEC]
+    const lo=previewStart, hi=Math.min(previewStart+PREVIEW_SEC,audio.duration);
+    audio.currentTime=Math.min(Math.max((dSeek.value/100)*audio.duration,lo),hi);
+    if(audio.currentTime>=hi)audio.currentTime=lo; // wrap to window start if dragged past
   }
 });
 dPlay.addEventListener("click",()=>{if(audio.paused)audio.play();else audio.pause();});
