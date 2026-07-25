@@ -4,20 +4,16 @@
 
    SECURITY: the committed key is a PLACEHOLDER. Snipcart's key is PUBLIC by
    design (it MUST live in the front-end; the secret lives in your Snipcart
-   dashboard, never in this repo). To use a REAL key WITHOUT committing it:
-     1. copy assets/config.local.js.example -> assets/config.local.js
-     2. paste your key there
-     3. config.local.js is gitignored, so it never reaches GitHub.
-   If config.local.js is absent, the placeholder stays and the cart runs in
-   DEMO MODE (no checkout). No live secret is ever pushed to the repo.
+   dashboard, never in this repo). Optional local override file
+   `assets/config.local.js` (gitignored) may hold a REAL key — it is loaded
+   only if present, via a SILENT fetch HEAD probe (a 404 there does NOT log a
+   console error). No live secret is ever pushed to the repo.
    ========================================================================= */
-const CONFIG = Object.assign({
-  // Snipcart PUBLIC key — get one free at snipcart.com, then connect Stripe
-  // in Snipcart's dashboard. Until this is your real key, the cart is DEMO.
+const CONFIG = {
   snipcartKey: "YOUR_SNIPCART_PUBLIC_API_KEY",
   storeUrl: "https://trifexta.net/"
-}, (window.__TRIFEXTA_CONFIG__ || {}));
-const DEMO = CONFIG.snipcartKey.includes("YOUR_");
+};
+let DEMO = CONFIG.snipcartKey.includes("YOUR_");
 
 /* ======================= DATA ======================= */
 const BEATS = [
@@ -188,3 +184,35 @@ function handleContact(e){
     });
   });
 })();
+
+/* ======================= BOOT (render store + cart) ======================= */
+function boot(){
+  // Render product grids if present on this page
+  const beatGrid=document.getElementById("beatGrid");
+  if(beatGrid) BEATS.forEach(b=>beatGrid.appendChild(beatCard(b)));
+  const merchGrid=document.getElementById("merchGrid");
+  if(merchGrid) MERCH.forEach(m=>merchGrid.appendChild(merchCard(m)));
+  // Hide DEMO badge when a real key is active
+  const demoBadge=document.getElementById("demoBadge");
+  if(demoBadge && !DEMO) demoBadge.style.display="none";
+  // Load Snipcart only when a real key is set
+  if(!DEMO){
+    const s=document.createElement("script");
+    s.async=true;
+    s.src="https://cdn.jsdelivr.net/npm/snipcart@3/dist/snipcart.min.js";
+    s.dataset.apiKey=CONFIG.snipcartKey;
+    document.body.appendChild(s);
+    const d=document.createElement("div");
+    d.hidden=true; d.id="snipcart"; d.dataset.apiKey=CONFIG.snipcartKey;
+    document.body.appendChild(d);
+  }
+  const yr=document.getElementById("yr");
+  if(yr) yr.textContent=new Date().getFullYear();
+}
+
+/* Boot runs after the DOM is parsed (site.js is loaded at end of <body>).
+   CONFIG stays the committed placeholder unless you paste a real key into
+   CONFIG below or set it before this script runs. Optional gitignored
+   assets/config.local.js can be included manually if you want a local-only
+   key that never reaches git — see assets/config.local.js.example. */
+boot();
