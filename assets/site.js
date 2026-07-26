@@ -28,7 +28,7 @@ let DEMO = CONFIG.snipcartKey.includes("YOUR_");
 const BEATS = [
   {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     price:29.99, cls:"c1", src:"assets/audio/midnight.mp3", fileGuid:"2397dbc7-1e7b-4bce-8638-0b5be53e7d4d"},
   {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   price:24.99, cls:"c2", src:"assets/audio/violet.mp3", fileGuid:""},
-  {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   price:27.99, cls:"c3", src:"assets/audio/concrete.mp3", fileGuid:""},
+  {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   price:27.99, cls:"c3", src:"assets/audio/concrete.mp3", fileGuid:"10df4432-e7d0-4ad7-8770-886f63e150f8"},
   {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   price:31.99, cls:"c1", src:"assets/audio/neon.mp3", fileGuid:"e93dcab8-079f-490d-b9ed-df4b2702c154"},
   {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    price:22.99, cls:"c2", src:"assets/audio/lowtide.mp3", fileGuid:"7027d49c-5f20-48b8-a675-6297dfc1bb44"},
   {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   price:26.99, cls:"c3", src:"assets/audio/afterglow.mp3", fileGuid:""}
