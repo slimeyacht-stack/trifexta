@@ -26,7 +26,7 @@ let DEMO = CONFIG.snipcartKey.includes("YOUR_");
    beat-afterglow → Afterglow         ($26.99)
    Until a GUID is set, the beat is buyable but Snipcart won't auto-send the file. */
 const BEATS = [
-  {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     price:29.99, cls:"c1", src:"assets/audio/midnight.mp3", fileGuid:""},
+  {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     price:29.99, cls:"c1", src:"assets/audio/midnight.mp3", fileGuid:"2397dbc7-1e7b-4bce-8638-0b5be53e7d4d"},
   {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   price:24.99, cls:"c2", src:"assets/audio/violet.mp3", fileGuid:""},
   {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   price:27.99, cls:"c3", src:"assets/audio/concrete.mp3", fileGuid:""},
   {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   price:31.99, cls:"c1", src:"assets/audio/neon.mp3", fileGuid:""},
