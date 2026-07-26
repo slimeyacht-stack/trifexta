@@ -11,6 +11,7 @@
    ========================================================================= */
 const CONFIG = {
   snipcartKey: "ZGVmMGYxNzItZDAwNy00ZDgyLTkxMDctMzYzNzdhOWRkZmY4NjM5MjA1NDcyMDMzMzUxNDg2",
+  testKey: "ODU2NTE5NGMtZjM4MS00NzZjLWI2NGUtYjQ2YjU2YWZmNjQyNjM5MjA1NDcyMDMzMzUxNDg2",                 // admin: paste the Snipcart TEST key here, then visit ?mode=test to use it
   storeUrl: "https://trifexta.net/"
 };
 let DEMO = CONFIG.snipcartKey.includes("YOUR_");
@@ -255,8 +256,12 @@ function boot(){
   // Use Snipcart's EXACT documented bootstrap (their own cdn.snipcart.com, NOT
   // jsdelivr — that URL 404s). Interpolate the key from CONFIG.
   if(!DEMO){
+    // Admin test-mode swap: if a testKey is set AND ?mode=test (or ?test) is in the URL,
+    // load the Snipcart TEST key instead of live — no redeploy needed to flip modes.
+    const wantTest = /[?&](mode=test|test)(&|$)/.test(location.search);
+    const activeKey = (CONFIG.testKey && wantTest) ? CONFIG.testKey : CONFIG.snipcartKey;
     window.SnipcartSettings = {
-      publicApiKey: CONFIG.snipcartKey,
+      publicApiKey: activeKey,
       loadStrategy: "on-user-interaction",
       version: "3.7.1"
     };
