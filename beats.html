@@ -45,6 +45,18 @@
     <p>Tagged previews. Add to cart — secure checkout via Snipcart.</p>
   </div>
   <div class="grid beats stagger" id="beatGrid"></div>
+
+  <!-- Snipcart crawler block: static product definitions so Snipcart's FETCH + checkout
+       validation can read them (the visible cards above are JS-rendered and invisible to crawlers).
+       Hidden from users; Snipcart only needs the data-item-* attributes present in HTML. -->
+  <div id="snipcart-products" style="display:none" aria-hidden="true">
+    <div class="snipcart-add-item" data-item-id="beat-midnight"  data-item-name="Midnight Static" data-item-price="29.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="2397dbc7-1e7b-4bce-8638-0b5be53e7d4d"></div>
+    <div class="snipcart-add-item" data-item-id="beat-violet"    data-item-name="Violet Hour"    data-item-price="24.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="ab8db982-9069-489f-8133-80b2daed469b"></div>
+    <div class="snipcart-add-item" data-item-id="beat-concrete"  data-item-name="Concrete Rose"  data-item-price="27.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="10df4432-e7d0-4ad7-8770-886f63e150f8"></div>
+    <div class="snipcart-add-item" data-item-id="beat-neon"      data-item-name="Neon Noir"      data-item-price="31.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="e93dcab8-079f-490d-b9ed-df4b2702c154"></div>
+    <div class="snipcart-add-item" data-item-id="beat-lowtide"   data-item-name="Low Tide"       data-item-price="22.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="7027d49c-5f20-48b8-a675-6297dfc1bb44"></div>
+    <div class="snipcart-add-item" data-item-id="beat-afterglow" data-item-name="Afterglow"      data-item-price="26.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="3b444eb9-3823-4edb-808d-9c695abedb31"></div>
+  </div>
 </section>
 
 <footer>
