@@ -17,22 +17,83 @@ const CONFIG = {
 let DEMO = CONFIG.snipcartKey.includes("YOUR_");
 
 /* ======================= DATA ======================= */
-/* DIGITAL DELIVERY CHECKLIST — fill fileGuid with the Snipcart Digital Good FILE GUID
-   for each beat (dashboard → Digital Goods → upload mp3 → copy GUID → paste below):
-   beat-midnight  → Midnight Static   ($29.99)
-   beat-violet    → Violet Hour       ($24.99)
-   beat-concrete  → Concrete Rose     ($27.99)
-   beat-neon      → Neon Noir         ($31.99)
-   beat-lowtide   → Low Tide          ($22.99)
-   beat-afterglow → Afterglow         ($26.99)
-   Until a GUID is set, the beat is buyable but Snipcart won't auto-send the file. */
+/* ----------------------------------------------------------------------------
+   LICENSE SYSTEM — single source of truth.
+
+   Each beat carries a `licenses` map: price PER TIER for THAT beat.
+   Global tier display/rules live in LICENSE_TIERS below. To change a beat's
+   Exclusive price, edit that beat's licenses.exclusive. To disable a tier for
+   a beat, set enabled:false. To stop ALL new sales after an exclusive sale,
+   set exclusiveSold:true (UI then disables every tier + shows EXCLUSIVE SOLD).
+
+   Product ID convention (Snipcart): `${beat.id}-${tier}`  e.g. beat-midnight-mp3
+   ---------------------------------------------------------------------------- */
+const LICENSE_TIERS = {
+  mp3: {
+    key:"mp3", label:"MP3 Lease", defaultPrice:29.99,
+    files:["MP3"],
+    bullets:["MP3","50K streams","1 music video","Commercial use"],
+    agreement:"licenses/mp3-lease.html",
+    note:"Content ID restrictions apply."
+  },
+  wav: {
+    key:"wav", label:"WAV Lease", defaultPrice:49.99,
+    files:["MP3","WAV"],
+    bullets:["MP3 + WAV","250K streams","2 music videos","Commercial use"],
+    agreement:"licenses/wav-lease.html",
+    note:"Content ID restrictions apply."
+  },
+  unlimited: {
+    key:"unlimited", label:"Unlimited", defaultPrice:99.99,
+    files:["MP3","WAV"],
+    bullets:["MP3 + WAV","Unlimited streams","Unlimited videos","Commercial use"],
+    agreement:"licenses/unlimited.html",
+    note:"Content ID restrictions apply."
+  },
+  exclusive: {
+    key:"exclusive", label:"Exclusive", defaultPrice:499,
+    files:["MP3","WAV","Stems (when available)"],
+    bullets:["MP3 + WAV","Stems when available","Unlimited usage","No future licenses sold"],
+    agreement:"licenses/exclusive.html",
+    exclusive:true,
+    warning:"Previously issued licenses remain valid after an Exclusive License is sold. Exclusive prevents NEW licenses from being issued after the exclusive sale; it does not cancel previous customers' rights.",
+    note:"Content ID restrictions apply."
+  }
+};
+/* Delivery GUID per tier: which Snipcart Digital Good GUID to attach.
+   mp3 → mp3Guid. wav/unlimited/exclusive → wavGuid if present, else mp3Guid
+   (so they still deliver the MP3 until WAV/stems are uploaded + GUIDs set).
+   stemsGuid is used by the exclusive tier when present. */
+function deliveryGuid(b, tier){
+  if(tier==="mp3") return b.mp3Guid || "";
+  if(tier==="wav") return b.wavGuid || b.mp3Guid || "";
+  if(tier==="unlimited") return b.wavGuid || b.mp3Guid || "";
+  if(tier==="exclusive") return b.stemsGuid || b.wavGuid || b.mp3Guid || "";
+  return "";
+}
+/* Resolve a tier's price for a beat (per-beat override → global default). */
+function tierPrice(b, tier){ return (b.licenses[tier] && b.licenses[tier].price!=null) ? b.licenses[tier].price : LICENSE_TIERS[tier].defaultPrice; }
+function tierEnabled(b, tier){ return !(b.licenses[tier] && b.licenses[tier].enabled===false); }
+
 const BEATS = [
-  {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     price:29.99, cls:"c1", src:"assets/audio/midnight.mp3", fileGuid:"2397dbc7-1e7b-4bce-8638-0b5be53e7d4d"},
-  {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   price:24.99, cls:"c2", src:"assets/audio/violet.mp3", fileGuid:"ab8db982-9069-489f-8133-80b2daed469b"},
-  {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   price:27.99, cls:"c3", src:"assets/audio/concrete.mp3", fileGuid:"10df4432-e7d0-4ad7-8770-886f63e150f8"},
-  {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   price:31.99, cls:"c1", src:"assets/audio/neon.mp3", fileGuid:"e93dcab8-079f-490d-b9ed-df4b2702c154"},
-  {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    price:22.99, cls:"c2", src:"assets/audio/lowtide.mp3", fileGuid:"7027d49c-5f20-48b8-a675-6297dfc1bb44"},
-  {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   price:26.99, cls:"c3", src:"assets/audio/afterglow.mp3", fileGuid:"3b444eb9-3823-4edb-808d-9c695abedb31"}
+  {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     cls:"c1", src:"assets/audio/midnight.mp3",
+    mp3Guid:"2397dbc7-1e7b-4bce-8638-0b5be53e7d4d", wavGuid:"", stemsGuid:"", exclusiveSold:false,
+    licenses:{ mp3:{price:29.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
+  {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   cls:"c2", src:"assets/audio/violet.mp3",
+    mp3Guid:"ab8db982-9069-489f-8133-80b2daed469b", wavGuid:"", stemsGuid:"", exclusiveSold:false,
+    licenses:{ mp3:{price:24.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
+  {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   cls:"c3", src:"assets/audio/concrete.mp3",
+    mp3Guid:"10df4432-e7d0-4ad7-8770-886f63e150f8", wavGuid:"", stemsGuid:"", exclusiveSold:false,
+    licenses:{ mp3:{price:27.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
+  {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   cls:"c1", src:"assets/audio/neon.mp3",
+    mp3Guid:"e93dcab8-079f-490d-b9ed-df4b2702c154", wavGuid:"", stemsGuid:"", exclusiveSold:false,
+    licenses:{ mp3:{price:31.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
+  {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    cls:"c2", src:"assets/audio/lowtide.mp3",
+    mp3Guid:"7027d49c-5f20-48b8-a675-6297dfc1bb44", wavGuid:"", stemsGuid:"", exclusiveSold:false,
+    licenses:{ mp3:{price:22.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
+  {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   cls:"c3", src:"assets/audio/afterglow.mp3",
+    mp3Guid:"3b444eb9-3823-4edb-808d-9c695abedb31", wavGuid:"", stemsGuid:"", exclusiveSold:false,
+    licenses:{ mp3:{price:26.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }}
 ];
 const MERCH = [
   {id:"merch-hoodie", name:"Trifexta Logo Hoodie", meta:"heavyweight · black", price:55, cls:"c1", src:"assets/audio/static.mp3"},
@@ -52,24 +113,21 @@ function money(n){return "$"+n.toFixed(2);}
 function beatCard(b){
   const el=document.createElement("div");
   el.className="card";
+  const sold = b.exclusiveSold;
   el.innerHTML=`
     <div class="cover ${b.cls}" data-wave>
       <span class="preview-tag">15s preview</span>
       <button class="mini-play" data-track="${b.id}" data-title="${b.name}" data-src="${b.src}" aria-label="Preview ${b.name}">▶</button>
       <div class="wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      ${sold?`<span class="sold-badge">EXCLUSIVE SOLD</span>`:``}
     </div>
     <h3>${b.name}</h3>
     <div class="meta">${b.meta}</div>
-    <div class="price">${money(b.price)}</div>
+    <div class="price">${money(tierPrice(b,"mp3"))} <small>MP3 lease</small></div>
     <div class="buy-row">
       ${DEMO
         ? `<button class="btn btn-primary btn-sm" data-buydemo>Add to cart</button>`
-        : `<button class="btn btn-primary btn-sm snipcart-add-item"
-            data-item-id="${b.id}" data-item-name="${b.name}"
-            data-item-price="${b.price}" data-item-url="${CONFIG.storeUrl}beats.html"
-            data-item-description="${b.meta}"
-            data-item-image="${CONFIG.storeUrl}assets/img/album-cover.jpg"
-            data-item-file-guid="${b.fileGuid}">Add to cart</button>`}
+        : `<button class="btn btn-primary btn-sm" data-license-trigger data-beat="${b.id}" ${sold?"disabled":""}>${sold?"Unavailable":"Choose license"}</button>`}
     </div>`;
   return el;
 }
@@ -163,6 +221,8 @@ $("#dClose").addEventListener("click",()=>{audio.pause();clearActive();dock.clas
 document.addEventListener("click",e=>{
   const play=e.target.closest("[data-track]");
   if(play){loadAndPlay(play);return;}
+  const trigger=e.target.closest("[data-license-trigger]");
+  if(trigger){openLicenseModal(trigger.dataset.beat);return;}
   const demoBuy=e.target.closest("[data-buydemo]");
   if(demoBuy){toast("Demo mode — add your Snipcart public API key in site CONFIG to enable the cart");return;}
 });
@@ -241,6 +301,183 @@ function handleContact(e){
     });
   });
 })();
+
+/* ======================= LICENSE MODAL ======================= */
+/* Opens when a beat's "Choose license" button is clicked. Lets the buyer pick a
+   tier (MP3/WAV/Unlimited/Exclusive), accept the applicable agreement (not pre-checked),
+   then adds THAT beat+license as a unique Snipcart product (beat-<id>-<tier>). */
+let licenseModal, licenseLastFocus, licenseBeat, licenseTier=null;
+
+function buildLicenseModal(){
+  if(licenseModal) return;
+  licenseModal=document.createElement("div");
+  licenseModal.className="license-modal";
+  licenseModal.setAttribute("role","dialog");
+  licenseModal.setAttribute("aria-modal","true");
+  licenseModal.setAttribute("aria-labelledby","lmTitle");
+  licenseModal.innerHTML=`
+    <div class="lm-backdrop" data-lm-close></div>
+    <div class="lm-panel" role="document">
+      <button class="lm-close" data-lm-close aria-label="Close license picker">✕</button>
+      <div class="lm-head">
+        <span class="eyebrow">Choose your license</span>
+        <h3 id="lmTitle">—</h3>
+      </div>
+      <div class="lm-tiers" id="lmTiers"></div>
+      <button class="lm-compare" type="button" id="lmCompare">Compare all licenses ↓</button>
+      <div class="lm-compare-table" id="lmCompareTable" hidden></div>
+      <div class="lm-foot">
+        <label class="lm-agree">
+          <input type="checkbox" id="lmAgree">
+          <span>I have read and agree to the <a id="lmAgreeLink" href="#" target="_blank" rel="noopener">license agreement</a>.</span>
+        </label>
+        <button class="btn btn-primary lm-add" id="lmAdd" disabled>Add to cart</button>
+      </div>
+      <p class="lm-footnote">Content ID restrictions apply. Non-exclusive licenses may not be registered with automated fingerprinting systems in a way that claims against TR!FEXTA or other licensees without written authorization.</p>
+    </div>`;
+  document.body.appendChild(licenseModal);
+
+  licenseModal.querySelectorAll("[data-lm-close]").forEach(el=>el.addEventListener("click",closeLicenseModal));
+  licenseModal.querySelector("#lmCompare").addEventListener("click",toggleCompare);
+  licenseModal.querySelector("#lmAdd").addEventListener("click",addSelectedLicense);
+  licenseModal.querySelector("#lmAgree").addEventListener("change",updateAddState);
+  // focus trap
+  licenseModal.addEventListener("keydown",e=>{
+    if(e.key==="Escape"){closeLicenseModal();return;}
+    if(e.key==="Tab"){trapFocus(e);}
+  });
+}
+
+function trapFocus(e){
+  const f=licenseModal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+  if(!f.length) return;
+  const first=f[0], last=f[f.length-1];
+  if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus();}
+}
+
+function openLicenseModal(beatId){
+  buildLicenseModal();
+  const b=BEATS.find(x=>x.id===beatId); if(!b) return;
+  licenseBeat=b; licenseTier=null;
+  licenseLastFocus=document.activeElement;
+  licenseModal.querySelector("#lmTitle").textContent=b.name;
+  licenseModal.querySelector("#lmCompareTable").hidden=true;
+  licenseModal.querySelector("#lmCompare").textContent="Compare all licenses ↓";
+
+  const tiers=licenseModal.querySelector("#lmTiers");
+  tiers.innerHTML="";
+  ["mp3","wav","unlimited","exclusive"].forEach(tier=>{
+    const t=LICENSE_TIERS[tier];
+    const enabled=tierEnabled(b,tier) && !b.exclusiveSold;
+    const card=document.createElement("div");
+    card.className="lm-tier"+(t.exclusive?" exclusive":"")+(enabled?"":" disabled");
+    card.setAttribute("role","radio");
+    card.setAttribute("aria-checked","false");
+    card.setAttribute("tabindex",enabled?"0":"-1");
+    card.dataset.tier=tier;
+    card.innerHTML=`
+      <div class="lm-tier-top">
+        <div>
+          <div class="lm-tier-name">${t.label}</div>
+          <div class="lm-tier-price">${money(tierPrice(b,tier))}${tier==="exclusive"?"+":""}</div>
+        </div>
+        <div class="lm-tier-files">${t.files.join(" · ")}</div>
+      </div>
+      <ul class="lm-bullets">${t.bullets.map(x=>`<li>${x}</li>`).join("")}</ul>
+      ${t.exclusive?`<p class="lm-warn">${t.warning}</p>`:``}
+      <button type="button" class="lm-select btn btn-sm ${enabled?"btn-primary":"btn-ghost"}" ${enabled?"":"disabled"}>${enabled?"Select":"Unavailable"}</button>`;
+    if(enabled){
+      card.addEventListener("click",()=>selectTier(tier));
+      card.querySelector(".lm-select").addEventListener("click",ev=>{ev.stopPropagation();selectTier(tier);});
+      card.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();selectTier(tier);}});
+    }
+    tiers.appendChild(card);
+  });
+
+  // reset agreement + add button
+  const agree=licenseModal.querySelector("#lmAgree");
+  agree.checked=false;
+  licenseModal.querySelector("#lmAdd").disabled=true;
+  licenseModal.querySelector("#lmAdd").textContent="Add to cart";
+
+  licenseModal.classList.add("open");
+  document.body.style.overflow="hidden";
+  // focus first enabled tier
+  const firstTier=tiers.querySelector('.lm-tier:not(.disabled)');
+  if(firstTier) firstTier.focus();
+}
+
+function selectTier(tier){
+  licenseTier=tier;
+  const t=LICENSE_TIERS[tier];
+  licenseModal.querySelectorAll(".lm-tier").forEach(c=>{
+    const on=c.dataset.tier===tier;
+    c.classList.toggle("sel",on);
+    c.setAttribute("aria-checked",on?"true":"false");
+  });
+  // agreement link points to this tier's agreement
+  const link=licenseModal.querySelector("#lmAgreeLink");
+  link.href=t.agreement;
+  link.textContent=t.label+" License Agreement";
+  updateAddState();
+}
+
+function updateAddState(){
+  const agree=licenseModal.querySelector("#lmAgree").checked;
+  const btn=licenseModal.querySelector("#lmAdd");
+  btn.disabled=!(licenseTier && agree);
+}
+
+function closeLicenseModal(){
+  if(!licenseModal) return;
+  licenseModal.classList.remove("open");
+  document.body.style.overflow="";
+  if(licenseLastFocus && licenseLastFocus.focus) licenseLastFocus.focus();
+}
+
+function toggleCompare(){
+  const tbl=licenseModal.querySelector("#lmCompareTable");
+  const btn=licenseModal.querySelector("#lmCompare");
+  if(tbl.hidden){
+    tbl.hidden=false; btn.textContent="Hide comparison ↑";
+    const tiers=["mp3","wav","unlimited","exclusive"];
+    const rows=tiers.map(t=>{
+      const T=LICENSE_TIERS[t];
+      return `<tr><th>${T.label}${T.exclusive?"+":""}</th><td>${money(tierPrice(licenseBeat,t))}</td><td>${T.files.join(", ")}</td><td>${T.bullets.join("; ")}</td></tr>`;
+    }).join("");
+    tbl.innerHTML=`<table class="lm-table"><thead><tr><th>License</th><th>Price</th><th>Files</th><th>Rights</th></tr></thead><tbody>${rows}</tbody></table>`;
+  } else { tbl.hidden=true; btn.textContent="Compare all licenses ↓"; }
+}
+
+function addSelectedLicense(){
+  if(!licenseTier || !licenseBeat) return;
+  const b=licenseBeat, tier=licenseTier, T=LICENSE_TIERS[tier];
+  if(!tierEnabled(b,tier) || b.exclusiveSold) return;
+  if(!licenseModal.querySelector("#lmAgree").checked){ toast("Please accept the license agreement."); return; }
+  const guid=deliveryGuid(b,tier);
+  if(!guid){ toast("This file isn't ready yet — contact TR!FEXTA."); return; }
+  // Build a native Snipcart add button and click it (same path as the working test checkout).
+  const btn=document.createElement("button");
+  btn.className="snipcart-add-item";
+  btn.style.display="none";
+  btn.setAttribute("data-item-id", `${b.id}-${tier}`);
+  btn.setAttribute("data-item-name", `${b.name} — ${T.label}`);
+  btn.setAttribute("data-item-price", tierPrice(b,tier));
+  btn.setAttribute("data-item-description", `${T.label} for ${b.name}. ${T.bullets.join(". ")}. ${T.note}`);
+  btn.setAttribute("data-item-url", CONFIG.storeUrl+"beats.html");
+  btn.setAttribute("data-item-image", CONFIG.storeUrl+"assets/img/album-cover.jpg");
+  btn.setAttribute("data-item-file-guid", guid);
+  btn.setAttribute("data-item-max-quantity","1");
+  btn.setAttribute("data-item-tangible","false");
+  btn.setAttribute("data-item-shippable","false");
+  btn.setAttribute("data-item-custom1-name","License");
+  btn.setAttribute("data-item-custom1-value", T.label);
+  document.body.appendChild(btn);
+  btn.click();
+  btn.remove();
+  closeLicenseModal();
+}
 
 /* ======================= BOOT (render store + cart) ======================= */
 function boot(){

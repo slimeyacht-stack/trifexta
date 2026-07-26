@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0c'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial' font-size='15' font-weight='800' fill='%23c4b5fd' text-anchor='middle' dominant-baseline='middle'%3ET%3C/text%3E%3C/svg%3E" />
-<link rel="stylesheet" href="assets/site.css?v=18" />
+<link rel="stylesheet" href="assets/site.css?v=19" />
 </head>
 <body>
 <div class="scroll-progress"></div>
@@ -48,14 +48,37 @@
 
   <!-- Snipcart crawler block: static product definitions so Snipcart's FETCH + checkout
        validation can read them (the visible cards above are JS-rendered and invisible to crawlers).
-       Hidden from users; Snipcart only needs the data-item-* attributes present in HTML. -->
+       One entry per beat × license tier (product id = beat-<id>-<tier>). Hidden from users. -->
   <div id="snipcart-products" style="display:none" aria-hidden="true">
-    <div class="snipcart-add-item" data-item-id="beat-midnight"  data-item-name="Midnight Static" data-item-price="29.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="2397dbc7-1e7b-4bce-8638-0b5be53e7d4d"></div>
-    <div class="snipcart-add-item" data-item-id="beat-violet"    data-item-name="Violet Hour"    data-item-price="24.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="ab8db982-9069-489f-8133-80b2daed469b"></div>
-    <div class="snipcart-add-item" data-item-id="beat-concrete"  data-item-name="Concrete Rose"  data-item-price="27.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="10df4432-e7d0-4ad7-8770-886f63e150f8"></div>
-    <div class="snipcart-add-item" data-item-id="beat-neon"      data-item-name="Neon Noir"      data-item-price="31.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="e93dcab8-079f-490d-b9ed-df4b2702c154"></div>
-    <div class="snipcart-add-item" data-item-id="beat-lowtide"   data-item-name="Low Tide"       data-item-price="22.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="7027d49c-5f20-48b8-a675-6297dfc1bb44"></div>
-    <div class="snipcart-add-item" data-item-id="beat-afterglow" data-item-name="Afterglow"      data-item-price="26.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="3b444eb9-3823-4edb-808d-9c695abedb31"></div>
+    <div class="snipcart-add-item" data-item-id="beat-midnight-mp3"      data-item-name="Midnight Static — MP3 Lease"      data-item-price="29.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="2397dbc7-1e7b-4bce-8638-0b5be53e7d4d" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-midnight-wav"      data-item-name="Midnight Static — WAV Lease"      data-item-price="49.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="2397dbc7-1e7b-4bce-8638-0b5be53e7d4d" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-midnight-unlimited" data-item-name="Midnight Static — Unlimited"       data-item-price="99.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="2397dbc7-1e7b-4bce-8638-0b5be53e7d4d" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-midnight-exclusive" data-item-name="Midnight Static — Exclusive"       data-item-price="499"   data-item-url="https://trifexta.net/beats.html" data-item-file-guid="2397dbc7-1e7b-4bce-8638-0b5be53e7d4d" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+
+    <div class="snipcart-add-item" data-item-id="beat-violet-mp3"      data-item-name="Violet Hour — MP3 Lease"      data-item-price="24.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="ab8db982-9069-489f-8133-80b2daed469b" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-violet-wav"      data-item-name="Violet Hour — WAV Lease"      data-item-price="49.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="ab8db982-9069-489f-8133-80b2daed469b" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-violet-unlimited" data-item-name="Violet Hour — Unlimited"       data-item-price="99.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="ab8db982-9069-489f-8133-80b2daed469b" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-violet-exclusive" data-item-name="Violet Hour — Exclusive"       data-item-price="499"   data-item-url="https://trifexta.net/beats.html" data-item-file-guid="ab8db982-9069-489f-8133-80b2daed469b" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+
+    <div class="snipcart-add-item" data-item-id="beat-concrete-mp3"      data-item-name="Concrete Rose — MP3 Lease"      data-item-price="27.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="10df4432-e7d0-4ad7-8770-886f63e150f8" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-concrete-wav"      data-item-name="Concrete Rose — WAV Lease"      data-item-price="49.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="10df4432-e7d0-4ad7-8770-886f63e150f8" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-concrete-unlimited" data-item-name="Concrete Rose — Unlimited"       data-item-price="99.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="10df4432-e7d0-4ad7-8770-886f63e150f8" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-concrete-exclusive" data-item-name="Concrete Rose — Exclusive"       data-item-price="499"   data-item-url="https://trifexta.net/beats.html" data-item-file-guid="10df4432-e7d0-4ad7-8770-886f63e150f8" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+
+    <div class="snipcart-add-item" data-item-id="beat-neon-mp3"      data-item-name="Neon Noir — MP3 Lease"      data-item-price="31.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="e93dcab8-079f-490d-b9ed-df4b2702c154" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-neon-wav"      data-item-name="Neon Noir — WAV Lease"      data-item-price="49.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="e93dcab8-079f-490d-b9ed-df4b2702c154" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-neon-unlimited" data-item-name="Neon Noir — Unlimited"       data-item-price="99.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="e93dcab8-079f-490d-b9ed-df4b2702c154" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-neon-exclusive" data-item-name="Neon Noir — Exclusive"       data-item-price="499"   data-item-url="https://trifexta.net/beats.html" data-item-file-guid="e93dcab8-079f-490d-b9ed-df4b2702c154" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+
+    <div class="snipcart-add-item" data-item-id="beat-lowtide-mp3"      data-item-name="Low Tide — MP3 Lease"      data-item-price="22.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="7027d49c-5f20-48b8-a675-6297dfc1bb44" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-lowtide-wav"      data-item-name="Low Tide — WAV Lease"      data-item-price="49.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="7027d49c-5f20-48b8-a675-6297dfc1bb44" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-lowtide-unlimited" data-item-name="Low Tide — Unlimited"       data-item-price="99.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="7027d49c-5f20-48b8-a675-6297dfc1bb44" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-lowtide-exclusive" data-item-name="Low Tide — Exclusive"       data-item-price="499"   data-item-url="https://trifexta.net/beats.html" data-item-file-guid="7027d49c-5f20-48b8-a675-6297dfc1bb44" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+
+    <div class="snipcart-add-item" data-item-id="beat-afterglow-mp3"      data-item-name="Afterglow — MP3 Lease"      data-item-price="26.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="3b444eb9-3823-4edb-808d-9c695abedb31" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-afterglow-wav"      data-item-name="Afterglow — WAV Lease"      data-item-price="49.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="3b444eb9-3823-4edb-808d-9c695abedb31" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-afterglow-unlimited" data-item-name="Afterglow — Unlimited"       data-item-price="99.99" data-item-url="https://trifexta.net/beats.html" data-item-file-guid="3b444eb9-3823-4edb-808d-9c695abedb31" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
+    <div class="snipcart-add-item" data-item-id="beat-afterglow-exclusive" data-item-name="Afterglow — Exclusive"       data-item-price="499"   data-item-url="https://trifexta.net/beats.html" data-item-file-guid="3b444eb9-3823-4edb-808d-9c695abedb31" data-item-max-quantity="1" data-item-tangible="false" data-item-shippable="false"></div>
   </div>
 </section>
 
@@ -78,7 +101,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="assets/site.js?v=27"></script>
+<script src="assets/site.js?v=28"></script>
 <script>document.getElementById("yr")&&(document.getElementById("yr").textContent=new Date().getFullYear());</script>
 </body>
 </html>
