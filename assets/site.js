@@ -66,7 +66,7 @@ function beatCard(b){
         ? `<button class="btn btn-primary btn-sm" data-buydemo>Add to cart</button>`
         : `<button class="btn btn-primary btn-sm snipcart-add-item"
             data-item-id="${b.id}" data-item-name="${b.name}"
-            data-item-price="${b.price}" data-item-url="${CONFIG.storeUrl}"
+            data-item-price="${b.price}" data-item-url="${CONFIG.storeUrl}beats.html"
             data-item-description="${b.meta}"
             data-item-image="${CONFIG.storeUrl}assets/img/album-cover.jpg"
             data-item-file-guid="${b.fileGuid}">Add to cart</button>`}
@@ -85,9 +85,9 @@ function merchCard(m){
       ${DEMO
         ? `<button class="btn btn-pink btn-sm" data-buydemo>Add to cart</button>`
         : `<button class="btn btn-pink btn-sm snipcart-add-item"
-              data-item-id="${m.id}" data-item-name="${m.name}"
-              data-item-price="${m.price}" data-item-url="${CONFIG.storeUrl}"
-              data-item-description="${m.meta}">Add to cart</button>`}
+            data-item-id="${m.id}" data-item-name="${m.name}"
+            data-item-price="${m.price}" data-item-url="${CONFIG.storeUrl}merch.html"
+            data-item-description="${m.meta}">Add to cart</button>`}
     </div>`;
   return el;
 }
