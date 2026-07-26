@@ -31,7 +31,7 @@ const BEATS = [
   {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   price:27.99, cls:"c3", src:"assets/audio/concrete.mp3", fileGuid:"10df4432-e7d0-4ad7-8770-886f63e150f8"},
   {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   price:31.99, cls:"c1", src:"assets/audio/neon.mp3", fileGuid:"e93dcab8-079f-490d-b9ed-df4b2702c154"},
   {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    price:22.99, cls:"c2", src:"assets/audio/lowtide.mp3", fileGuid:"7027d49c-5f20-48b8-a675-6297dfc1bb44"},
-  {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   price:26.99, cls:"c3", src:"assets/audio/afterglow.mp3", fileGuid:""}
+  {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   price:26.99, cls:"c3", src:"assets/audio/afterglow.mp3", fileGuid:"3b444eb9-3823-4edb-808d-9c695abedb31"}
 ];
 const MERCH = [
   {id:"merch-hoodie", name:"Trifexta Logo Hoodie", meta:"heavyweight · black", price:55, cls:"c1", src:"assets/audio/static.mp3"},
