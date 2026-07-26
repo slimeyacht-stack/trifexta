@@ -75,6 +75,44 @@ function deliveryGuid(b, tier){
 function tierPrice(b, tier){ return (b.licenses[tier] && b.licenses[tier].price!=null) ? b.licenses[tier].price : LICENSE_TIERS[tier].defaultPrice; }
 function tierEnabled(b, tier){ return !(b.licenses[tier] && b.licenses[tier].enabled===false); }
 
+/* ======================= AUTHORITATIVE EXCLUSIVE STATE ======================= */
+/* The static `exclusiveSold` flag in BEATS is a fallback only. The authoritative source
+   is the Cloudflare Worker + KV service (see EXCLUSIVE-SYSTEM.md). We fetch it on boot.
+   FAIL-CLOSED: if the service is unreachable/errors, we treat EVERY beat as
+   exclusively sold *for the Exclusive tier only* (safe default — blocks new exclusive
+   sales during an outage; ordinary MP3/WAV/Unlimited licenses stay available, because
+   previous/ordinary licenses must never be blocked by an infrastructure hiccup). */
+const AVAIL_ENDPOINT = "/api/beats/availability";
+let AVAIL = null;            // { beatId: {exclusiveSold, exclusiveStatus, ...} } once loaded
+let AVAIL_FAILED = false;    // true => service unreachable => fail-closed for exclusive
+
+async function fetchAvailability(){
+  try{
+    const r = await fetch(AVAIL_ENDPOINT, { cache:"no-store" });
+    if(!r.ok) throw new Error("status "+r.status);
+    AVAIL = await r.json();
+    AVAIL_FAILED = false;
+  }catch(e){
+    AVAIL = null;
+    AVAIL_FAILED = true;   // fail closed
+    console.warn("[availability] service unreachable — failing closed (exclusive disabled):", e.message);
+  }
+}
+/* Authoritative "is this beat's exclusive sold?" — server OR static OR fail-closed. */
+function exclusiveSold(b){
+  if(b.exclusiveSold) return true;                 // static fallback (e.g. pre-deploy)
+  if(AVAIL_FAILED) return true;                  // fail closed
+  if(AVAIL && AVAIL[b.id]) return !!AVAIL[b.id].exclusiveSold;
+  return false;
+}
+/* A beat is offline (no new sales at all) only if the SERVER says REVIEW_REQUIRED
+   or SOLD *and* there is no static override. We keep ordinary tiers available unless
+   the server explicitly flips exclusiveStatus to REVIEW_REQUIRED (manual lock). */
+function beatOffline(b){
+  if(AVAIL && AVAIL[b.id] && AVAIL[b.id].exclusiveStatus==="REVIEW_REQUIRED") return true;
+  return false;
+}
+
 const BEATS = [
   {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     cls:"c1", src:"assets/audio/midnight.mp3",
     mp3Guid:"2397dbc7-1e7b-4bce-8638-0b5be53e7d4d", wavGuid:"", stemsGuid:"", exclusiveSold:false,
@@ -113,7 +151,7 @@ function money(n){return "$"+n.toFixed(2);}
 function beatCard(b){
   const el=document.createElement("div");
   el.className="card";
-  const sold = b.exclusiveSold;
+  const sold = exclusiveSold(b);
   el.innerHTML=`
     <div class="cover ${b.cls}" data-wave>
       <span class="preview-tag">15s preview</span>
@@ -369,7 +407,7 @@ function openLicenseModal(beatId){
   tiers.innerHTML="";
   ["mp3","wav","unlimited","exclusive"].forEach(tier=>{
     const t=LICENSE_TIERS[tier];
-    const enabled=tierEnabled(b,tier) && !b.exclusiveSold;
+    const enabled=tierEnabled(b,tier) && !exclusiveSold(b) && !beatOffline(b);
     const card=document.createElement("div");
     card.className="lm-tier"+(t.exclusive?" exclusive":"")+(enabled?"":" disabled");
     card.setAttribute("role","radio");
@@ -453,7 +491,7 @@ function toggleCompare(){
 function addSelectedLicense(){
   if(!licenseTier || !licenseBeat) return;
   const b=licenseBeat, tier=licenseTier, T=LICENSE_TIERS[tier];
-  if(!tierEnabled(b,tier) || b.exclusiveSold) return;
+  if(!tierEnabled(b,tier) || exclusiveSold(b) || beatOffline(b)) return;
   if(!licenseModal.querySelector("#lmAgree").checked){ toast("Please accept the license agreement."); return; }
   const guid=deliveryGuid(b,tier);
   if(!guid){ toast("This file isn't ready yet — contact TR!FEXTA."); return; }
@@ -486,6 +524,18 @@ function boot(){
   if(beatGrid) BEATS.forEach(b=>beatGrid.appendChild(beatCard(b)));
   const merchGrid=document.getElementById("merchGrid");
   if(merchGrid) MERCH.forEach(m=>merchGrid.appendChild(merchCard(m)));
+  // Authoritative exclusive state — fetch server truth, then re-render beats so the
+  // EXCLUSIVE SOLD badge / disabled tiers reflect it without a manual refresh.
+  if(beatGrid){
+    fetchAvailability().then(()=>{
+      if(beatGrid && beatGrid.children.length===BEATS.length){
+        BEATS.forEach((b,i)=>{
+          const fresh=beatCard(b);
+          beatGrid.replaceChild(fresh, beatGrid.children[i]);
+        });
+      }
+    });
+  }
   // Hide DEMO badge when a real key is active
   const demoBadge=document.getElementById("demoBadge");
   if(demoBadge && !DEMO) demoBadge.style.display="none";

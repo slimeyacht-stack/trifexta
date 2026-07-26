@@ -1,0 +1,14 @@
+{
+  "name": "trifexta-exclusive",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TR!FEXTA authoritative Exclusive-Sold service (Cloudflare Worker + KV)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

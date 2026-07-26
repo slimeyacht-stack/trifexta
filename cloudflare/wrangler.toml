@@ -1,0 +1,21 @@
+name = "trifexta-exclusive"
+main = "cloudflare/worker.js"
+compatibility_date = "2026-07-26"
+
+# ---- KV namespace for exclusive-sold state ----
+# 1. Create it once:   npx wrangler kv namespace create EXCLUSIVE_KV
+# 2. Paste the printed id= value into the line below.
+# 3. Every Worker instance reads/writes it via env.EXCLUSIVE_KV.
+[[kv_namespaces]]
+binding = "EXCLUSIVE_KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# ---- SECRETS: do NOT put values in this file ----
+# ADMIN_TOKEN (guards /api/admin/exclusive) is a SECRET binding.
+#   Set it with:   npx wrangler secret put ADMIN_TOKEN
+#   The Worker reads it as env.ADMIN_TOKEN at runtime.
+#   Never commit it to this repo, HTML, or site.js.
+#
+# The Snipcart webhook needs NO secret to VERIFY — it uses the official
+# X-Snipcart-RequestToken header (validated by GET /api/requestvalidation/{token}).
+# No Stripe/Snipcart secret keys live in this Worker.
