@@ -30,7 +30,7 @@ const BEATS = [
   {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   price:24.99, cls:"c2", src:"assets/audio/violet.mp3", fileGuid:""},
   {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   price:27.99, cls:"c3", src:"assets/audio/concrete.mp3", fileGuid:""},
   {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   price:31.99, cls:"c1", src:"assets/audio/neon.mp3", fileGuid:"e93dcab8-079f-490d-b9ed-df4b2702c154"},
-  {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    price:22.99, cls:"c2", src:"assets/audio/lowtide.mp3", fileGuid:""},
+  {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    price:22.99, cls:"c2", src:"assets/audio/lowtide.mp3", fileGuid:"7027d49c-5f20-48b8-a675-6297dfc1bb44"},
   {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   price:26.99, cls:"c3", src:"assets/audio/afterglow.mp3", fileGuid:""}
 ];
 const MERCH = [
