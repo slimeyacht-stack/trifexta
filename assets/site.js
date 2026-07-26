@@ -16,6 +16,15 @@ const CONFIG = {
 let DEMO = CONFIG.snipcartKey.includes("YOUR_");
 
 /* ======================= DATA ======================= */
+/* DIGITAL DELIVERY CHECKLIST — fill fileGuid with the Snipcart Digital Good FILE GUID
+   for each beat (dashboard → Digital Goods → upload mp3 → copy GUID → paste below):
+   beat-midnight  → Midnight Static   ($29.99)
+   beat-violet    → Violet Hour       ($24.99)
+   beat-concrete  → Concrete Rose     ($27.99)
+   beat-neon      → Neon Noir         ($31.99)
+   beat-lowtide   → Low Tide          ($22.99)
+   beat-afterglow → Afterglow         ($26.99)
+   Until a GUID is set, the beat is buyable but Snipcart won't auto-send the file. */
 const BEATS = [
   {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     price:29.99, cls:"c1", src:"assets/audio/midnight.mp3", fileGuid:""},
   {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   price:24.99, cls:"c2", src:"assets/audio/violet.mp3", fileGuid:""},
