@@ -106,21 +106,23 @@ Same as WAV, but paste the stems bundle GUID into `stemsGuid:"..."`. The Exclusi
 
 ## How agreement files/links are managed
 
-The modal links to `licenses/<tier>.html` (paths defined in `LICENSE_TIERS[...].agreement`):
-- `licenses/mp3-lease.html`
-- `licenses/wav-lease.html`
-- `licenses/unlimited.html`
-- `licenses/exclusive.html`
+The modal links each tier's "I agree to the license agreement" checkbox to a **finalized PDF
+contract** stored at `legal/licenses/` (paths defined in `LICENSE_TIERS[...].agreement`):
 
-**These are currently PLACEHOLDERS** (clearly marked "not legal advice"). The real TR!FEXTA legal
-terms must be pasted into each file by TR!FEXTA. The acceptance checkbox is intentionally
-**not pre-checked** and the link opens in a new tab before purchase. No AI-generated legal text
-was written.
+- `legal/licenses/trifexta-mp3-license.pdf`
+- `legal/licenses/trifexta-wav-license.pdf`
+- `legal/licenses/trifexta-unlimited-license.pdf`
+- `legal/licenses/trifexta-exclusive-license.pdf`
+
+The four real contracts are owned by TR!FEXTA and live as PDFs in `legal/licenses/`
+(see `legal/licenses/README.md` for the exact filenames + drop instructions). The acceptance
+checkbox is intentionally **not pre-checked** and the link opens the PDF in a new tab before
+purchase. No AI-generated legal text is in the repo — the binding terms are the PDFs.
 
 ## What remains manual (dashboard)
 
 - Uploading WAV/stem digital goods and pasting their GUIDs (code is ready; files aren't).
-- Pasting the real license-agreement text into `licenses/*.html`.
+- Dropping the four finalized PDF contracts into `legal/licenses/` (code already links there).
 - Marking `exclusiveSold:true` when an exclusive sale closes (code-ready; you flip the flag).
 - Re-running Snipcart FETCH (`Products → FETCH` → `https://trifexta.net/beats.html`) so the 24 new
   beat-tier products are imported (old single `BEAT-MIDNIGHT` style products are now outdated).
@@ -155,7 +157,8 @@ was written.
 ## How to move from TEST to LIVE (without exposing secrets)
 
 1. Upload WAV/stems + paste GUIDs (if not already).
-2. Paste the real license text into `licenses/*.html`.
+2. Drop the four finalized PDF contracts into `legal/licenses/` (filenames per
+   `legal/licenses/README.md`).
 3. Re-FETCH products in the **LIVE** Snipcart environment.
 4. In `assets/site.js`, the LIVE key is already in `CONFIG.snipcartKey`. To go live, simply stop
    using `?mode=test` (which loads `CONFIG.testKey`). Optionally clear `CONFIG.testKey` — but

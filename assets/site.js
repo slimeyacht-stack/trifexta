@@ -33,28 +33,28 @@ const LICENSE_TIERS = {
     key:"mp3", label:"MP3 Lease", defaultPrice:29.99,
     files:["MP3"],
     bullets:["MP3","50K streams","1 music video","Commercial use"],
-    agreement:"licenses/mp3-lease.html",
+    agreement:"legal/licenses/trifexta-mp3-license.pdf",
     note:"Content ID restrictions apply."
   },
   wav: {
     key:"wav", label:"WAV Lease", defaultPrice:49.99,
     files:["MP3","WAV"],
     bullets:["MP3 + WAV","250K streams","2 music videos","Commercial use"],
-    agreement:"licenses/wav-lease.html",
+    agreement:"legal/licenses/trifexta-wav-license.pdf",
     note:"Content ID restrictions apply."
   },
   unlimited: {
     key:"unlimited", label:"Unlimited", defaultPrice:99.99,
     files:["MP3","WAV"],
     bullets:["MP3 + WAV","Unlimited streams","Unlimited videos","Commercial use"],
-    agreement:"licenses/unlimited.html",
+    agreement:"legal/licenses/trifexta-unlimited-license.pdf",
     note:"Content ID restrictions apply."
   },
   exclusive: {
     key:"exclusive", label:"Exclusive", defaultPrice:499,
     files:["MP3","WAV","Stems (when available)"],
     bullets:["MP3 + WAV","Stems when available","Unlimited usage","No future licenses sold"],
-    agreement:"licenses/exclusive.html",
+    agreement:"legal/licenses/trifexta-exclusive-license.pdf",
     exclusive:true,
     warning:"Previously issued licenses remain valid after an Exclusive License is sold. Exclusive prevents NEW licenses from being issued after the exclusive sale; it does not cancel previous customers' rights.",
     note:"Content ID restrictions apply."
