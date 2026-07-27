@@ -10,6 +10,9 @@
      Falls back to Fraunces if Society fails to load. */
   @font-face{font-family:'Society';src:url('fonts/Society-Regular.otf') format('opentype'),
              url('fonts/Society-Regular.ttf') format('truetype');font-display:swap}
+  /* Price font: "Bumpy Bold" (distressed display). Free from 1001fonts.
+     Used for beat/merch price fields. Falls back to Society. */
+  @font-face{font-family:'Bumpy';src:url('fonts/BumpyBold.otf') format('opentype');font-display:swap}
   /* Logo font: "Lost Tumbler" by Khurasan — free for personal + commercial use
      (see More Info.txt: "100% free for personal use & commercial use").
      Safe for the merch store. */
@@ -121,7 +124,7 @@
   @keyframes bars{from{height:18%}to{height:90%}}
   .card h3{font-size:18px}
   .meta{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em}
-  .price{font-family:var(--display);font-weight:800;font-size:20px}
+  .price{font-family:'Bumpy',var(--display);font-weight:800;font-size:20px}
   .buy-row{display:flex;gap:8px}
   .buy-row .btn{flex:1}
 
