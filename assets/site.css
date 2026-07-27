@@ -2,13 +2,17 @@
     --ink:#0e1012; --surface:#15181b; --surface-2:#1c2024; --line:#3a3d40;
     --text:#ece6da; --muted:#9a948a; --violet:#7c5cff; --pink:#ff5c8a;
     --cyan:#38bdf8; --violet-dim:#5a3fd6; --radius:14px;
-    --display:'Fraunces',Georgia,serif;
+    --display:'Society','Fraunces',Georgia,serif;
     --body:'Space Grotesk',system-ui,sans-serif;
     --mono:'Space Mono',ui-monospace,monospace;
   }
+  /* Display/headings font: "Society" (block sans display). Free from 1001fonts.
+     Falls back to Fraunces if Society fails to load. */
+  @font-face{font-family:'Society';src:url('fonts/Society-Regular.otf') format('opentype'),
+             url('fonts/Society-Regular.ttf') format('truetype');font-display:swap}
   /* Logo font: "Lost Tumbler" by Khurasan — free for personal + commercial use
      (see More Info.txt: "100% free for personal use & commercial use").
-     Safe for the merch store. Body/headlines stay on Fraunces (editorial). */
+     Safe for the merch store. */
   @font-face{font-family:'Lost Tumbler';src:url('fonts/LostTumbler.otf') format('opentype'),
              url('fonts/LostTumbler.ttf') format('truetype');font-display:swap}
   *{box-sizing:border-box;margin:0;padding:0}
