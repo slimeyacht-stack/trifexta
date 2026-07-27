@@ -122,7 +122,7 @@
   .wave span{flex:1;background:var(--violet);opacity:.35;border-radius:2px;height:20%}
   .wave.on span{opacity:.9;animation:bars .9s ease-in-out infinite alternate}
   @keyframes bars{from{height:18%}to{height:90%}}
-  .card h3{font-size:18px}
+  .card h3{font-family:'Bumpy',var(--display);font-size:18px}
   .meta{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em}
   .price{font-family:'Bumpy',var(--display);font-weight:800;font-size:20px}
   .buy-row{display:flex;gap:8px}
