@@ -114,22 +114,22 @@ function beatOffline(b){
 }
 
 const BEATS = [
-  {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     cls:"c1", src:"assets/audio/midnight.mp3",
+  {id:"beat-midnight", name:"Midnight Static", meta:"140 BPM · Fm",     cls:"c1", src:"assets/audio/midnight.mp3", cover:"assets/beats/beat-01.png",
     mp3Guid:"2397dbc7-1e7b-4bce-8638-0b5be53e7d4d", wavGuid:"", stemsGuid:"", exclusiveSold:false,
     licenses:{ mp3:{price:29.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
-  {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   cls:"c2", src:"assets/audio/violet.mp3",
+  {id:"beat-violet",   name:"Violet Hour",     meta:"92 BPM · C#min",   cls:"c2", src:"assets/audio/violet.mp3", cover:"assets/beats/beat-02.png",
     mp3Guid:"ab8db982-9069-489f-8133-80b2daed469b", wavGuid:"", stemsGuid:"", exclusiveSold:false,
     licenses:{ mp3:{price:24.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
-  {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   cls:"c3", src:"assets/audio/concrete.mp3",
+  {id:"beat-concrete", name:"Concrete Rose",   meta:"120 BPM · Amin",   cls:"c3", src:"assets/audio/concrete.mp3", cover:"assets/beats/beat-03.png",
     mp3Guid:"10df4432-e7d0-4ad7-8770-886f63e150f8", wavGuid:"", stemsGuid:"", exclusiveSold:false,
     licenses:{ mp3:{price:27.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
-  {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   cls:"c1", src:"assets/audio/neon.mp3",
+  {id:"beat-neon",     name:"Neon Noir",       meta:"150 BPM · Emin",   cls:"c1", src:"assets/audio/neon.mp3", cover:"assets/beats/beat-04.png",
     mp3Guid:"e93dcab8-079f-490d-b9ed-df4b2702c154", wavGuid:"", stemsGuid:"", exclusiveSold:false,
     licenses:{ mp3:{price:31.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
-  {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    cls:"c2", src:"assets/audio/lowtide.mp3",
+  {id:"beat-lowtide",  name:"Low Tide",        meta:"85 BPM · Gmaj",    cls:"c2", src:"assets/audio/lowtide.mp3", cover:"assets/beats/beat-05.png",
     mp3Guid:"7027d49c-5f20-48b8-a675-6297dfc1bb44", wavGuid:"", stemsGuid:"", exclusiveSold:false,
     licenses:{ mp3:{price:22.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }},
-  {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   cls:"c3", src:"assets/audio/afterglow.mp3",
+  {id:"beat-afterglow",name:"Afterglow",       meta:"128 BPM · Dmin",   cls:"c3", src:"assets/audio/afterglow.mp3", cover:"assets/beats/beat-06.png",
     mp3Guid:"3b444eb9-3823-4edb-808d-9c695abedb31", wavGuid:"", stemsGuid:"", exclusiveSold:false,
     licenses:{ mp3:{price:26.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }}
 ];
@@ -154,6 +154,7 @@ function beatCard(b){
   const sold = exclusiveSold(b);
   el.innerHTML=`
     <div class="cover ${b.cls}" data-wave>
+      ${b.cover?`<img class="cover-img" src="${b.cover}" alt="${b.name} cover" loading="lazy">`:``}
       <span class="preview-tag">15s preview</span>
       <button class="mini-play" data-track="${b.id}" data-title="${b.name}" data-src="${b.src}" aria-label="Preview ${b.name}">▶</button>
       <div class="wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
