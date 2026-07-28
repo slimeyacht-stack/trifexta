@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRAISESQUID · The Deep End</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --abyss:#050B10;
+  --deep:#081722;
+  --panel:#0C1F2B;
+  --cyan:#2CFFDD;
+  --violet:#8C6BFF;
+  --coral:#FF3E6C;
+  --paper:#E7F4F3;
+  --dim:#587381;
+  --line: rgba(231,244,243,0.09);
+}
+
+*{margin:0; padding:0; box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--abyss);
+  color:var(--paper);
+  font-family:'Space Grotesk', sans-serif;
+  overflow-x:hidden;
+  cursor:default;
+}
+::selection{background:var(--coral); color:var(--abyss);}
+a{color:inherit;}
+img,svg{display:block;}
+
+/* ================= AMBIENT LAYERS ================= */
+#bubbles{
+  position:fixed; inset:0; width:100%; height:100%;
+  z-index:0; pointer-events:none;
+}
+.grain{
+  position:fixed; inset:0; z-index:200; pointer-events:none; opacity:0.04;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.vignette{
+  position:fixed; inset:0; z-index:1; pointer-events:none;
+  background:radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(2,6,10,0.65) 100%);
+}
+/* Depth veil — water darkens as you descend */
+.depth-veil{
+  position:fixed; inset:0; z-index:1; pointer-events:none;
+  background:#02060a; opacity:0; transition:opacity 0.25s linear;
+}
+/* God rays — swaying shafts of light from the surface */
+.godrays{
+  position:fixed; inset:-25% -25% auto -25%; height:130%; z-index:0; pointer-events:none;
+  background:repeating-linear-gradient(102deg,
+    rgba(44,255,221,0) 0px,
+    rgba(44,255,221,0.07) 38px,
+    rgba(140,107,255,0.05) 70px,
+    rgba(44,255,221,0) 120px);
+  mix-blend-mode:screen; opacity:0.55; filter:blur(3px);
+  transform-origin:50% 0%;
+  animation:raySway 15s ease-in-out infinite alternate;
+}
+@keyframes raySway{
+  from{ transform:translateX(-5%) skewX(-5deg) rotate(-1deg); }
+  to{ transform:translateX(5%) skewX(5deg) rotate(1deg); }
+}
+.ink-cursor{
+  position:fixed; top:0; left:0; width:220px; height:220px;
+  border-radius:50%; pointer-events:none; z-index:2;
+  background:radial-gradient(circle, rgba(140,107,255,0.20) 0%, rgba(44,255,221,0.08) 45%, rgba(0,0,0,0) 72%);
+  transform:translate(-50%,-50%);
+  filter:blur(6px);
+  transition:opacity 0.3s;
+  will-change:transform;
+}
+@media (pointer:coarse){ .ink-cursor{display:none;} }
+
+/* ================= NAV ================= */
+nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 5vw;
+  background:linear-gradient(to bottom, rgba(5,11,16,0.92), transparent);
+}
+.brand{display:flex; align-items:center; gap:10px;}
+.brand svg{width:30px; height:30px;}
+.brand span{
+  font-family:'Unbounded', sans-serif; font-weight:800; font-size:0.95rem; letter-spacing:0.5px;
+}
+.brand em{font-style:normal; color:var(--cyan);}
+nav ul{display:flex; gap:30px; list-style:none;}
+nav ul a{
+  font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:0.5px;
+  text-decoration:none; opacity:0.7; transition:opacity 0.2s, color 0.2s;
+}
+nav ul a:hover{opacity:1; color:var(--cyan);}
+.readout{
+  font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--dim);
+  display:flex; gap:14px; letter-spacing:0.5px;
+}
+.readout b{color:var(--cyan); font-weight:500;}
+@media (max-width:900px){ nav ul, .readout{display:none;} }
+
+/* ================= HERO ================= */
+.hero{
+  position:relative; z-index:3;
+  min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:0 6vw;
+}
+.hero-eyebrow{
+  font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:3px;
+  color:var(--cyan); margin-bottom:24px; opacity:0.9;
+}
+h1.hero-title{
+  font-family:'Unbounded', sans-serif; font-weight:900;
+  font-size:clamp(3rem, 11vw, 8.5rem);
+  line-height:0.92; letter-spacing:-2px; text-transform:uppercase;
+}
+h1.hero-title em{
+  font-style:normal;
+  background:linear-gradient(100deg, var(--violet), var(--cyan) 55%, var(--coral));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero-sub{
+  margin-top:26px; max-width:560px; font-size:1.08rem; line-height:1.7; color:#B7C9CE;
+}
+.hero-sub b{color:var(--paper);}
+.hero-cta{margin-top:38px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center;}
+.btn{
+  font-family:'JetBrains Mono', monospace; font-size:0.82rem; letter-spacing:0.4px;
+  padding:15px 30px; border-radius:2px; text-decoration:none; display:inline-block;
+  transition:transform 0.25s, box-shadow 0.25s, background 0.25s, color 0.25s;
+}
+.btn-fill{background:var(--cyan); color:var(--abyss); font-weight:600;}
+.btn-fill:hover{transform:translateY(-3px); box-shadow:0 10px 30px rgba(44,255,221,0.3);}
+.btn-line{border:1px solid rgba(231,244,243,0.25);}
+.btn-line:hover{border-color:var(--coral); color:var(--coral); transform:translateY(-3px);}
+
+/* Ticker */
+.ticker-wrap{
+  position:absolute; bottom:0; left:0; right:0; z-index:3;
+  border-top:1px solid var(--line); overflow:hidden;
+  padding:16px 0; background:rgba(5,11,16,0.55);
+}
+.ticker{
+  display:flex; white-space:nowrap; width:max-content;
+  animation:scroll-left 32s linear infinite;
+  font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:1px; color:var(--dim);
+}
+.ticker span{padding:0 22px; display:flex; align-items:center; gap:22px;}
+.ticker span::after{content:"◆"; color:var(--violet); font-size:0.6rem;}
+@keyframes scroll-left{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+/* ================= SECTIONS ================= */
+section{position:relative; z-index:3; padding:130px 6vw; max-width:1180px; margin:0 auto;}
+.tag-eyebrow{
+  font-family:'JetBrains Mono', monospace; font-size:0.76rem; letter-spacing:2.5px;
+  color:var(--violet); margin-bottom:16px; display:flex; align-items:center; gap:10px;
+}
+.tag-eyebrow::before{content:""; width:26px; height:1px; background:var(--violet);}
+h2.h2{
+  font-family:'Unbounded', sans-serif; font-weight:800;
+  font-size:clamp(2rem, 4.6vw, 3.2rem); text-transform:uppercase; letter-spacing:-1px;
+  margin-bottom:18px;
+}
+.section-intro{max-width:600px; color:var(--dim); font-size:1.02rem; line-height:1.7; margin-bottom:56px;}
+
+.reveal{opacity:0; transform:translateY(28px); transition:opacity 0.9s ease, transform 0.9s ease;}
+.reveal.visible{opacity:1; transform:translateY(0);}
+
+/* ---- Tracklist ---- */
+.tracklist{list-style:none;}
+.track{
+  display:grid; grid-template-columns:50px 1fr auto auto; align-items:center; gap:24px;
+  padding:22px 16px; border-bottom:1px solid var(--line);
+  transition:background 0.25s, padding-left 0.25s;
+}
+.track:hover{background:rgba(140,107,255,0.05); padding-left:24px;}
+.track .idx{font-family:'JetBrains Mono', monospace; color:var(--dim); font-size:0.9rem;}
+.track .name{font-weight:700; font-size:1.08rem; font-family:'Unbounded', sans-serif; font-weight:600;}
+.track .sub{font-family:'JetBrains Mono', monospace; font-size:0.74rem; color:var(--dim); margin-top:6px; letter-spacing:0.3px;}
+.track .tag{
+  font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--coral);
+  border:1px solid rgba(255,62,108,0.4); padding:5px 12px; border-radius:20px; white-space:nowrap;
+}
+.track .len{font-family:'JetBrains Mono', monospace; color:var(--dim); font-size:0.85rem;}
+
+/* ---- The Drop moment ---- */
+.drop-section{
+  position:relative; z-index:3; padding:0; margin:60px 0;
+  min-height:78vh; display:flex; align-items:center; justify-content:center;
+  text-align:center; overflow:hidden;
+  background:radial-gradient(ellipse at 50% 60%, rgba(140,107,255,0.10), transparent 60%), var(--deep);
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+}
+.ink-bloom{
+  position:absolute; width:60vmin; height:60vmin; border-radius:50%;
+  background:radial-gradient(circle, var(--violet) 0%, var(--cyan) 40%, transparent 72%);
+  filter:blur(50px); opacity:0.18;
+  transform:scale(0.3); transition:transform 1.6s cubic-bezier(.2,.7,.2,1), opacity 1.6s ease;
+}
+.drop-section.visible .ink-bloom{transform:scale(1); opacity:0.35;}
+.drop-content{position:relative; z-index:2; padding:0 6vw; max-width:760px;}
+.drop-eyebrow{
+  font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:var(--cyan); letter-spacing:3px; margin-bottom:26px;
+}
+.drop-text{
+  font-family:'Unbounded', sans-serif; font-weight:800;
+  font-size:clamp(1.6rem, 4.4vw, 2.9rem); line-height:1.28; text-transform:uppercase;
+}
+.drop-text b{
+  background:linear-gradient(100deg, var(--cyan), var(--violet));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.drop-foot{margin-top:30px; font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:var(--dim); letter-spacing:1.5px;}
+
+/* ---- Tour ---- */
+.tour-row{
+  display:grid; grid-template-columns:76px 1fr auto; gap:24px; align-items:center;
+  padding:26px 4px; border-bottom:1px solid var(--line);
+}
+.tour-row .date-block{
+  font-family:'Unbounded', sans-serif; font-weight:700; line-height:1;
+}
+.tour-row .date-block .day{font-size:1.7rem; color:var(--paper);}
+.tour-row .date-block .mo{font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:var(--dim); letter-spacing:1px; margin-top:4px;}
+.tour-row .venue{font-family:'Unbounded', sans-serif; font-weight:600; font-size:1.05rem;}
+.tour-row .city{color:var(--dim); font-size:0.9rem; margin-top:5px;}
+.tour-status{display:flex; align-items:center; gap:16px;}
+.pill{
+  font-family:'JetBrains Mono', monospace; font-size:0.7rem; padding:8px 16px; border-radius:20px; white-space:nowrap;
+}
+.pill.open{background:rgba(44,255,221,0.1); color:var(--cyan); border:1px solid rgba(44,255,221,0.4);}
+.pill.low{background:rgba(255,62,108,0.1); color:var(--coral); border:1px solid rgba(255,62,108,0.4);}
+.pill.wait{background:rgba(140,107,255,0.1); color:var(--violet); border:1px solid rgba(140,107,255,0.4);}
+.tour-status a{
+  font-family:'JetBrains Mono', monospace; font-size:0.78rem; text-decoration:none;
+  color:var(--paper); border-bottom:1px solid var(--dim);
+}
+.tour-status a:hover{color:var(--cyan); border-color:var(--cyan);}
+@media (max-width:640px){
+  .tour-row{grid-template-columns:56px 1fr; row-gap:14px;}
+  .tour-status{grid-column:1/-1; justify-content:space-between;}
+}
+
+/* ---- Bio / stats ---- */
+.bio-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:70px; align-items:start;}
+@media (max-width:860px){ .bio-grid{grid-template-columns:1fr;} }
+.bio-grid p{font-size:1.06rem; line-height:1.85; color:#C3D3D6; margin-bottom:20px;}
+.bio-grid p b{color:var(--paper);}
+.stat-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+.stat-card{
+  background:var(--panel); border:1px solid rgba(140,107,255,0.2); border-radius:4px; padding:26px;
+}
+.stat-card .num{font-family:'Unbounded', sans-serif; font-weight:800; font-size:2rem; color:var(--cyan);}
+.stat-card .lbl{font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--dim); letter-spacing:0.5px; margin-top:8px; line-height:1.4;}
+
+/* ---- Listen everywhere ---- */
+.listen-row{display:flex; flex-wrap:wrap; gap:16px; margin-top:10px;}
+.listen-row a{
+  font-family:'JetBrains Mono', monospace; font-size:0.85rem; text-decoration:none;
+  border:1px solid rgba(231,244,243,0.2); padding:14px 26px; border-radius:30px;
+  transition:all 0.25s; display:flex; align-items:center; gap:10px;
+}
+.listen-row a:hover{border-color:var(--cyan); color:var(--cyan); transform:translateY(-3px); background:rgba(44,255,221,0.05);}
+
+/* ---- Footer ---- */
+footer{
+  position:relative; z-index:3; text-align:center;
+  padding:80px 6vw 46px; border-top:1px solid var(--line);
+}
+footer .brand{justify-content:center; margin-bottom:22px;}
+footer p{color:var(--dim); font-size:0.92rem; max-width:440px; margin:0 auto 26px;}
+footer .fine{font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:#3E525C;}
+
+@media (prefers-reduced-motion: reduce){
+  .ticker{animation:none;}
+  .reveal{transition:none; opacity:1; transform:none;}
+  .ink-bloom{transition:none;}
+  .godrays{animation:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="godrays"></div>
+<div class="grain"></div>
+<div class="vignette"></div>
+<div class="depth-veil" id="depthVeil"></div>
+<canvas id="bubbles"></canvas>
+<div class="ink-cursor" id="inkCursor"></div>
+
+<nav>
+  <div class="brand">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="20" cy="15" rx="10" ry="12" fill="url(#navg)"/>
+      <path d="M10 22 C10 30, 6 30, 6 36 M14 24 C14 32, 11 32, 11 37 M20 25 C20 33, 20 33, 20 38 M26 24 C26 32, 29 32, 29 37 M30 22 C30 30, 34 30, 34 36" stroke="url(#navg)" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <circle cx="16" cy="14" r="1.6" fill="#050B10"/>
+      <circle cx="24" cy="14" r="1.6" fill="#050B10"/>
+      <defs><linearGradient id="navg" x1="0" y1="0" x2="40" y2="40">
+        <stop offset="0%" stop-color="#8C6BFF"/><stop offset="100%" stop-color="#2CFFDD"/>
+      </linearGradient></defs>
+    </svg>
+    <span>PRAISE<em>SQUID</em></span>
+  </div>
+  <ul>
+    <li><a href="#tracks">Discography</a></li>
+    <li><a href="#tour">Tour</a></li>
+    <li><a href="#bio">About</a></li>
+    <li><a href="#listen">Listen</a></li>
+  </ul>
+  <div class="readout">
+    <span>DEPTH <b id="depthReadout">-0004m</b></span>
+    <span>FLOW <b>96 BPM</b></span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">◢◢ INDEPENDENT ARTIST · MIAMI</div>
+  <h1 class="hero-title">PRAISE<br><em>SQUID</em></h1>
+  <p class="hero-sub">Eight arms, one flow. Every bar surfaces from pressure — <b>scroll down, the deeper you go, the darker the water.</b></p>
+  <div class="hero-cta">
+    <a class="btn btn-fill" href="#tracks">Press Play</a>
+    <a class="btn btn-line" href="#listen">Listen Now</a>
+  </div>
+  <div class="ticker-wrap">
+    <div class="ticker" id="ticker"></div>
+  </div>
+</section>
+
+<section id="tracks">
+  <div class="tag-eyebrow reveal">01 · DISCOGRAPHY</div>
+  <h2 class="h2 reveal">The Reef Tape</h2>
+  <p class="section-intro reveal">Straight off Spotify, in order. Real releases, real dates.</p>
+  <ul class="tracklist">
+    <li class="track reveal">
+      <span class="idx">01</span>
+      <div><div class="name"><a href="https://open.spotify.com/album/2JhaQuKaFvQsvRQcVbVASI" style="color:inherit; text-decoration:none;" target="_blank" rel="noopener">Double back</a></div><div class="sub">Album · Latest Release · 2026</div></div>
+      <span class="tag">NEW</span>
+      <span class="len">↗ Play</span>
+    </li>
+    <li class="track reveal">
+      <span class="idx">02</span>
+      <div><div class="name"><a href="https://open.spotify.com/album/1LYUpRikplV8kqPnYO8Z86" style="color:inherit; text-decoration:none;" target="_blank" rel="noopener">WY@</a></div><div class="sub">Album · 2026</div></div>
+      <span class="tag">2026</span>
+      <span class="len">↗ Play</span>
+    </li>
+    <li class="track reveal">
+      <span class="idx">03</span>
+      <div><div class="name"><a href="https://open.spotify.com/album/4fH3RNNkrwlmUKjbuQfjYG" style="color:inherit; text-decoration:none;" target="_blank" rel="noopener">LUST</a></div><div class="sub">Album · 2026</div></div>
+      <span class="tag">2026</span>
+      <span class="len">↗ Play</span>
+    </li>
+    <li class="track reveal">
+      <span class="idx">04</span>
+      <div><div class="name"><a href="https://open.spotify.com/album/4VTotYgBCIROD7WhVxYy0w" style="color:inherit; text-decoration:none;" target="_blank" rel="noopener">s3x tapes</a></div><div class="sub">Album · 2025</div></div>
+      <span class="tag">2025</span>
+      <span class="len">↗ Play</span>
+    </li>
+    <li class="track reveal">
+      <span class="idx">05</span>
+      <div><div class="name"><a href="https://open.spotify.com/album/1thrfT3f9pRo370i9RINil" style="color:inherit; text-decoration:none;" target="_blank" rel="noopener">flair</a></div><div class="sub">Album · 2025</div></div>
+      <span class="tag">2025</span>
+      <span class="len">↗ Play</span>
+    </li>
+    <li class="track reveal">
+      <span class="idx">06</span>
+      <div><div class="name"><a href="https://open.spotify.com/album/4cC3DWbR5hlaHXvTryvYzE" style="color:inherit; text-decoration:none;" target="_blank" rel="noopener">Texas Pete Rhythm</a></div><div class="sub">Album · 2025</div></div>
+      <span class="tag">2025</span>
+      <span class="len">↗ Play</span>
+    </li>
+    <li class="track reveal">
+      <span class="idx">07</span>
+      <div><div class="name"><a href="https://open.spotify.com/album/7xAUDRZUIZNUvFYp50SQdF" style="color:inherit; text-decoration:none;" target="_blank" rel="noopener">Digital Dash</a></div><div class="sub">feat. grey · Single · 2025</div></div>
+      <span class="tag">2025</span>
+      <span class="len">↗ Play</span>
+    </li>
+    <li class="track reveal">
+      <span class="idx">08</span>
+      <div><div class="name"><a href="https://open.spotify.com/album/5FwefslnqlGnymnUEnKAZY" style="color:inherit; text-decoration:none;" target="_blank" rel="noopener">Meant to be</a></div><div class="sub">Single · 2025</div></div>
+      <span class="tag">2025</span>
+      <span class="len">↗ Play</span>
+    </li>
+  </ul>
+  <p style="margin-top:36px; display:flex; gap:28px; flex-wrap:wrap;">
+    <a href="https://open.spotify.com/artist/6RlFF8qdUIhFLKvlnWEjA5" style="font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--cyan); text-decoration:underline;" target="_blank" rel="noopener">Full discography on Spotify →</a>
+    <a href="https://soundcloud.com/praisesquid/tracks" style="font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--violet); text-decoration:underline;" target="_blank" rel="noopener">All 67 tracks on SoundCloud →</a>
+  </p>
+</section>
+
+<div class="drop-section" id="dropSection">
+  <div class="ink-bloom"></div>
+  <div class="drop-content">
+    <div class="drop-eyebrow">THE INK DROP</div>
+    <div class="drop-text">The bass pulls back. One breath of silence. Then the <b>ink spreads</b> — and the whole room goes dark water.</div>
+    <div class="drop-foot">◢ 96 BPM · MAXIMUM PRESSURE ◣</div>
+  </div>
+</div>
+
+<section id="tour">
+  <div class="tag-eyebrow reveal">02 · LIVE DATES</div>
+  <h2 class="h2 reveal">Surface Tour</h2>
+  <p class="section-intro reveal">No shows on the books yet. First dates get announced here — check back soon.</p>
+  <div class="reveal" style="border:1px dashed var(--line); border-radius:6px; padding:48px 24px; text-align:center; color:var(--dim); font-family:'JetBrains Mono', monospace; font-size:0.85rem;">
+    ◈ NOTHING BOOKED YET ◈<br><span style="font-size:0.75rem;">Follow on SoundCloud or Instagram to catch the announcement first.</span>
+  </div>
+</section>
+
+<section id="bio">
+  <div class="tag-eyebrow reveal">03 · ABOUT</div>
+  <h2 class="h2 reveal">Who Is PraiseSquid?</h2>
+  <div class="bio-grid">
+    <div class="reveal">
+      <p>Born in the pressure of the deep trench, <b>PraiseSquid</b> spent years camouflaged in the underground before surfacing with a flow slick enough to make the whole tank ripple.</p>
+      <p>The name isn't a gimmick, it's a philosophy: <b>praise</b> for the come-up and the ones still grinding in the dark water, <b>squid</b> because the flow moves in eight directions at once and you'll never see the punchline coming until it's already landed.</p>
+    </div>
+    <div class="stat-row reveal">
+      <div class="stat-card" style="grid-column:1/-1; text-align:center; border-color:rgba(44,255,221,0.35);"><div class="num" style="font-size:2.8rem;">321,425</div><div class="lbl">TOTAL PLAYS ACROSS PLATFORMS</div></div>
+      <div class="stat-card"><div class="num">310,837</div><div class="lbl">SOUNDCLOUD PLAYS</div></div>
+      <div class="stat-card"><div class="num">7,650</div><div class="lbl">SPOTIFY STREAMS · LAST 365 DAYS</div></div>
+      <div class="stat-card"><div class="num">2,938</div><div class="lbl">APPLE MUSIC STREAMS · LAST 365 DAYS</div></div>
+      <div class="stat-card"><div class="num">234</div><div class="lbl">FOLLOWERS · SOUNDCLOUD</div></div>
+    </div>
+    <p style="grid-column:1/-1; font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:var(--dim); margin-top:14px;">Real numbers, straight off the dashboards.</p>
+  </div>
+</section>
+
+<section id="listen">
+  <div class="tag-eyebrow reveal">04 · LISTEN EVERYWHERE</div>
+  <h2 class="h2 reveal">Turn It Up.</h2>
+  <p class="section-intro reveal">Streaming, downloads, whatever gets the ink moving. Follow PraiseSquid wherever you listen, and catch every tour date first.</p>
+  <div class="listen-row reveal">
+    <a href="https://open.spotify.com/artist/6RlFF8qdUIhFLKvlnWEjA5" target="_blank" rel="noopener">Spotify</a>
+    <a href="https://soundcloud.com/praisesquid" target="_blank" rel="noopener">SoundCloud</a>
+    <a href="https://instagram.com/praisesquid" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+      <ellipse cx="20" cy="15" rx="10" ry="12" fill="url(#footg)"/>
+      <path d="M10 22 C10 30, 6 30, 6 36 M14 24 C14 32, 11 32, 11 37 M20 25 C20 33, 20 33, 20 38 M26 24 C26 32, 29 32, 29 37 M30 22 C30 30, 34 30, 34 36" stroke="url(#footg)" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <defs><linearGradient id="footg" x1="0" y1="0" x2="40" y2="40">
+        <stop offset="0%" stop-color="#8C6BFF"/><stop offset="100%" stop-color="#2CFFDD"/>
+      </linearGradient></defs>
+    </svg>
+    <span>PRAISE<em>SQUID</em></span>
+  </div>
+  <p>Deep-water bars. Booking &amp; press: <a href="mailto:booking@praisesquid.com" style="text-decoration:underline;">booking@praisesquid.com</a></p>
+  <div class="fine">© 2026 PraiseSquid. All ink reserved.</div>
+</footer>
+
+<script>
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---------- Depth readout state (declared early; used by the bubble loop) ----------
+const depthEl = document.getElementById('depthReadout');
+const veil = document.getElementById('depthVeil');
+const SURFACE_DEPTH = 4;     // m at the very top
+const MAX_DEPTH = 10994;     // m at the very bottom (Challenger Deep)
+let targetDepth = SURFACE_DEPTH, curDepth = SURFACE_DEPTH;
+
+// ---------- Bubble field + mouse-driven current ----------
+const canvas = document.getElementById('bubbles');
+const ctx = canvas.getContext('2d');
+let W, H, bubbles = [];
+
+// Pointer (drives the "current" that pushes bubbles)
+let pmx = -9999, pmy = -9999, pmActive = false;
+window.addEventListener('mousemove', e=>{ pmx = e.clientX; pmy = e.clientY; pmActive = true; });
+window.addEventListener('mouseleave', ()=>{ pmActive = false; });
+
+function resize(){
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+function makeBubble(){
+  return {
+    x: Math.random()*W,
+    y: H + Math.random()*100,
+    r: 1 + Math.random()*3.2,
+    speed: 0.25 + Math.random()*0.7,
+    drift: Math.random()*1.4 - 0.7,
+    vx: 0, vy: 0,
+    hue: Math.random() > 0.5 ? '44,255,221' : '140,107,255',
+    alpha: 0.08 + Math.random()*0.22,
+    wobble: Math.random()*Math.PI*2
+  };
+}
+const COUNT = window.innerWidth < 700 ? 34 : 60;
+for(let i=0;i<COUNT;i++){ bubbles.push(makeBubble()); bubbles[i].y = Math.random()*H; }
+
+const CURSOR_R = 150, CURSOR_F = 0.9;
+
+// ---------- Deep-sea creatures (squid guaranteed) ----------
+const creatures = [];
+function makeCreature(forceType){
+  const types = ['squid','jellyfish','angler'];
+  const type = forceType || types[Math.floor(Math.random()*types.length)];
+  const size = type==='squid' ? 30+Math.random()*26
+             : type==='jellyfish' ? 20+Math.random()*24
+             : 26+Math.random()*20;
+  const dir = Math.random() > 0.5 ? 1 : -1;
+  const glowRGB = type==='squid' ? '140,107,255'
+                : type==='jellyfish' ? '44,255,221'
+                : '255,62,108';
+  return {
+    type, dir, size,
+    x: dir>0 ? -90 - Math.random()*W*0.4 : W + 90 + Math.random()*W*0.4,
+    y: Math.random()*H,
+    speed: (type==='jellyfish'?0.18:type==='squid'?0.55:0.4) * (0.7+Math.random()*0.6),
+    bob: 0.4 + Math.random()*0.8,
+    wobble: Math.random()*Math.PI*2,
+    wobbleSpeed: 0.01 + Math.random()*0.02,
+    tentaclePhase: Math.random()*Math.PI*2,
+    finPhase: Math.random()*Math.PI*2,
+    baseAlpha: 0.55 + Math.random()*0.3,
+    glowRGB
+  };
+}
+const CREATURE_COUNT = window.innerWidth < 700 ? 2 : 4;
+creatures.push(makeCreature('squid'));            // guarantee at least one squid
+for(let i=1;i<CREATURE_COUNT;i++) creatures.push(makeCreature());
+
+function updateAndDrawCreatures(){
+  const depthFrac = (curDepth - SURFACE_DEPTH) / (MAX_DEPTH - SURFACE_DEPTH);
+  creatures.forEach(c=>{
+    c.wobble += c.wobbleSpeed;
+    c.x += c.dir * c.speed;
+    c.y += Math.sin(c.wobble + c.finPhase) * c.bob;
+    c.tentaclePhase += 0.05;
+
+    // the mouse current nudges creatures too
+    if(pmActive){
+      const dx = c.x - pmx, dy = c.y - pmy, d2 = dx*dx+dy*dy, R=220;
+      if(d2 < R*R){ const d=Math.sqrt(d2)||1, f=(1-d/R)*1.4; c.x += (dx/d)*f; c.y += (dy/d)*f; }
+    }
+
+    if(c.y < -60) c.y = -60;
+    if(c.y > H+60) c.y = H+60;
+    if(c.dir>0 && c.x > W+90){ Object.assign(c, makeCreature(c===creatures[0]?'squid':undefined)); c.dir=1; c.x=-90; }
+    if(c.dir<0 && c.x < -90){ Object.assign(c, makeCreature(c===creatures[0]?'squid':undefined)); c.dir=-1; c.x=W+90; }
+
+    let a = c.baseAlpha * (1 - depthFrac*0.65);
+    if(c.type==='angler'){
+      const vis = Math.max(0, (depthFrac-0.4)/0.3);   // only surfaces in the deep
+      a *= Math.min(1, vis);
+    }
+    if(a <= 0.01) return;
+    drawCreature(c, a);
+  });
+}
+
+function drawCreature(c, a){
+  const glow = `rgba(${c.glowRGB},`;
+  const g = ctx.createRadialGradient(c.x,c.y,0,c.x,c.y,c.size*2.0);
+  g.addColorStop(0, glow + (a*0.45) + ')');
+  g.addColorStop(1, glow + '0)');
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(c.x,c.y,c.size*2.0,0,Math.PI*2); ctx.fill();
+
+  ctx.save();
+  ctx.translate(c.x,c.y);
+  if(c.dir<0) ctx.scale(-1,1);
+  ctx.globalAlpha = a;
+  if(c.type==='squid') drawSquid(c);
+  else if(c.type==='jellyfish') drawJelly(c);
+  else drawAngler(c);
+  ctx.restore();
+  ctx.globalAlpha = 1;
+}
+
+function drawSquid(c){
+  const s=c.size;
+  ctx.strokeStyle = `rgba(${c.glowRGB},0.7)`;
+  ctx.lineWidth = 1.4;
+  for(let i=0;i<8;i++){
+    const tx = -s*0.2 + (i-3.5)*s*0.08;
+    ctx.beginPath(); ctx.moveTo(tx, s*0.25);
+    for(let k=1;k<=5;k++){
+      const t = k/5;
+      const yy = s*0.25 + t*s*1.5;
+      const xx = tx + Math.sin(c.tentaclePhase + i*0.5 + t*3)*s*0.18*t;
+      ctx.lineTo(xx, yy);
+    }
+    ctx.stroke();
+  }
+  const mg = ctx.createLinearGradient(-s*0.4,0,s*0.7,0);
+  mg.addColorStop(0, `rgba(${c.glowRGB},0.25)`);
+  mg.addColorStop(1, `rgba(${c.glowRGB},0.95)`);
+  ctx.fillStyle = mg;
+  ctx.beginPath(); ctx.ellipse(s*0.15,0, s*0.45, s*0.32, 0, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = `rgba(${c.glowRGB},0.5)`;
+  ctx.beginPath(); ctx.moveTo(-s*0.25,0);
+  ctx.lineTo(-s*0.55, -s*0.28 - Math.sin(c.finPhase)*s*0.08);
+  ctx.lineTo(-s*0.2, -s*0.1); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(-s*0.25,0);
+  ctx.lineTo(-s*0.55, s*0.28 + Math.sin(c.finPhase)*s*0.08);
+  ctx.lineTo(-s*0.2, s*0.1); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#E7F4F3';
+  ctx.beginPath(); ctx.arc(s*0.45,-s*0.12,s*0.07,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(s*0.45, s*0.12,s*0.07,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#050B10';
+  ctx.beginPath(); ctx.arc(s*0.47,-s*0.12,s*0.03,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(s*0.47, s*0.12,s*0.03,0,Math.PI*2); ctx.fill();
+}
+
+function drawJelly(c){
+  const s=c.size;
+  const bg = ctx.createLinearGradient(0,-s*0.5,0,s*0.2);
+  bg.addColorStop(0, `rgba(${c.glowRGB},0.95)`);
+  bg.addColorStop(1, `rgba(${c.glowRGB},0.3)`);
+  ctx.fillStyle = bg;
+  ctx.beginPath();
+  ctx.ellipse(0,0, s*0.6, s*0.45, 0, Math.PI, 0);
+  ctx.quadraticCurveTo(s*0.6, s*0.12, 0, s*0.12);
+  ctx.quadraticCurveTo(-s*0.6, s*0.12, -s*0.6, 0);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = `rgba(231,244,243,0.5)`;
+  ctx.beginPath(); ctx.arc(0,-s*0.05,s*0.18,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle = `rgba(${c.glowRGB},0.7)`;
+  ctx.lineWidth = 1.2;
+  for(let i=0;i<7;i++){
+    const tx = (i-3)*s*0.14;
+    ctx.beginPath(); ctx.moveTo(tx, s*0.1);
+    for(let k=1;k<=6;k++){
+      const t=k/6;
+      const yy = s*0.1 + t*s*1.7;
+      const xx = tx + Math.sin(c.tentaclePhase + i*0.6 + t*3)*s*0.12*t;
+      ctx.lineTo(xx,yy);
+    }
+    ctx.stroke();
+  }
+}
+
+function drawAngler(c){
+  const s=c.size;
+  ctx.fillStyle = `rgba(${c.glowRGB},0.7)`;
+  ctx.beginPath();
+  ctx.moveTo(-s*0.5,0); ctx.lineTo(-s*0.85,-s*0.3); ctx.lineTo(-s*0.85,s*0.3); ctx.closePath(); ctx.fill();
+  const bg = ctx.createLinearGradient(-s*0.5,0,s*0.5,0);
+  bg.addColorStop(0, `rgba(${c.glowRGB},0.4)`);
+  bg.addColorStop(1, `rgba(${c.glowRGB},0.9)`);
+  ctx.fillStyle = bg;
+  ctx.beginPath(); ctx.ellipse(0,0, s*0.55, s*0.38, 0, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#050B10';
+  ctx.beginPath(); ctx.moveTo(s*0.4,-s*0.02);
+  ctx.lineTo(s*0.75, s*0.1); ctx.lineTo(s*0.35, s*0.18); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#E7F4F3'; ctx.lineWidth=1;
+  for(let i=0;i<4;i++){ const ty=s*0.04+i*s*0.04; ctx.beginPath(); ctx.moveTo(s*0.42,ty); ctx.lineTo(s*0.6,ty+s*0.03); ctx.lineTo(s*0.55,ty+s*0.07); ctx.closePath(); ctx.stroke(); }
+  ctx.fillStyle = '#E7F4F3'; ctx.beginPath(); ctx.arc(s*0.2,-s*0.1,s*0.09,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#050B10'; ctx.beginPath(); ctx.arc(s*0.22,-s*0.1,s*0.04,0,Math.PI*2); ctx.fill();
+  const lx = s*0.55, ly = -s*0.5;
+  ctx.strokeStyle = `rgba(${c.glowRGB},0.8)`; ctx.lineWidth=1.4;
+  ctx.beginPath(); ctx.moveTo(s*0.3,-s*0.3); ctx.quadraticCurveTo(s*0.4,-s*0.6, lx, ly); ctx.stroke();
+  const pulse = 0.6 + 0.4*Math.sin(c.tentaclePhase*1.5);
+  const lg = ctx.createRadialGradient(lx,ly,0,lx,ly,s*0.5);
+  lg.addColorStop(0, `rgba(255,236,150,${0.95*pulse})`);
+  lg.addColorStop(1, `rgba(255,236,150,0)`);
+  ctx.fillStyle = lg; ctx.beginPath(); ctx.arc(lx,ly,s*0.5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = `rgba(255,245,200,${pulse})`; ctx.beginPath(); ctx.arc(lx,ly,s*0.1,0,Math.PI*2); ctx.fill();
+}
+
+function tick(){
+  ctx.clearRect(0,0,W,H);
+  bubbles.forEach(b=>{
+    b.wobble += 0.02;
+    b.y -= b.speed;
+    b.x += Math.sin(b.wobble)*b.drift*0.3 + b.vx;
+    b.y += b.vy;
+
+    // Mouse current: push nearby bubbles away from the cursor
+    if(pmActive){
+      const dx = b.x - pmx, dy = b.y - pmy;
+      const d2 = dx*dx + dy*dy;
+      if(d2 < CURSOR_R*CURSOR_R){
+        const d = Math.sqrt(d2) || 1;
+        const force = (1 - d/CURSOR_R) * CURSOR_F;
+        b.vx += (dx/d) * force;
+        b.vy += (dy/d) * force;
+      }
+    }
+    b.vx *= 0.92; b.vy *= 0.92;
+
+    if(b.y < -20){ Object.assign(b, makeBubble()); b.y = H+20; b.vx = 0; b.vy = 0; }
+    if(b.x < -20) b.x = W+20;
+    if(b.x > W+20) b.x = -20;
+
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(${b.hue},${b.alpha})`;
+    ctx.fill();
+  });
+  updateAndDrawCreatures();
+  updateDepthReadout();
+  if(!reduceMotion) requestAnimationFrame(tick);
+}
+tick();
+if(reduceMotion){
+  ctx.clearRect(0,0,W,H);
+  bubbles.forEach(b=>{
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(${b.hue},${b.alpha})`;
+    ctx.fill();
+  });
+  updateAndDrawCreatures();
+}
+
+// ---------- Depth readout tied to scroll ----------
+function updateDepthTarget(){
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+  targetDepth = SURFACE_DEPTH + p * (MAX_DEPTH - SURFACE_DEPTH);
+  if(veil) veil.style.opacity = (p * 0.78).toFixed(3);
+}
+window.addEventListener('scroll', updateDepthTarget, { passive:true });
+window.addEventListener('resize', updateDepthTarget);
+updateDepthTarget();
+
+function updateDepthReadout(){
+  // ease toward the scroll target so the number glides as you descend
+  curDepth += (targetDepth - curDepth) * 0.08;
+  if(depthEl){
+    const d = Math.round(curDepth);
+    depthEl.textContent = '-' + String(d).padStart(4,'0') + 'm';
+  }
+}
+
+// ---------- Ink cursor follow ----------
+const inkCursor = document.getElementById('inkCursor');
+let mx=window.innerWidth/2, my=window.innerHeight/2, cx=mx, cy=my;
+window.addEventListener('mousemove', e=>{ mx = e.clientX; my = e.clientY; });
+function followCursor(){
+  cx += (mx-cx)*0.08;
+  cy += (my-cy)*0.08;
+  inkCursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%,-50%)`;
+  requestAnimationFrame(followCursor);
+}
+if(!reduceMotion) followCursor();
+
+// ---------- Ticker content ----------
+const tickerWords = ['DEEP FLOW','INK BARS','EIGHT ARMS','REEF CERTIFIED','PRESSURE TESTED','SURFACE TENSION','DARK WATER'];
+const tickerEl = document.getElementById('ticker');
+let tickerHTML = '';
+for(let i=0;i<2;i++){
+  tickerWords.forEach(w=> tickerHTML += `<span>${w}</span>`);
+}
+tickerEl.innerHTML = tickerHTML;
+
+// ---------- Scroll reveal ----------
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold:0.15 });
+revealEls.forEach(el=> io.observe(el));
+
+const dropSection = document.getElementById('dropSection');
+const dio = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) dropSection.classList.add('visible');
+  });
+}, { threshold:0.4 });
+dio.observe(dropSection);
+</script>
+
+</body>
+</html>
