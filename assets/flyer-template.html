@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trifexta — Flyere Template</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Space Grotesk', sans-serif; background: #0e1012; color: #ece6da; }
+  .flyer { width: 1080px; min-height: 720px; margin: 40px auto; background: linear-gradient(135deg, #0e1012 0%, #1a1020 50%, #0e1012 100%); border: 1px solid #3a3d40; border-radius: 16px; padding: 60px; position: relative; overflow: hidden; }
+  .flyer::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,92,138,0.15) 0%, transparent 70%); border-radius: 50%; }
+  .flyer::after { content: ''; position: absolute; bottom: -80px; left: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(124,92,255,0.12) 0%, transparent 70%); border-radius: 50%; }
+  .brand { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; position: relative; z-index: 1; }
+  .logo-mark { width: 60px; height: 60px; }
+  .brand-name { font-family: 'Space Mono', monospace; font-size: 32px; font-weight: 700; letter-spacing: 4px; background: linear-gradient(90deg, #7c5cff, #ff5c8a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .flyer h1 { font-size: 52px; font-weight: 800; line-height: 1.1; margin-bottom: 16px; position: relative; z-index: 1; }
+  .flyer h1 .grad { background: linear-gradient(100deg, #7c5cff, #ff5c8a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .flyer .tagline { font-size: 18px; color: #9a948a; margin-bottom: 36px; max-width: 600px; position: relative; z-index: 1; line-height: 1.6; }
+  .flyer .details { display: flex; gap: 40px; margin-bottom: 36px; position: relative; z-index: 1; flex-wrap: wrap; }
+  .flyer .detail-block { background: rgba(28,32,36,0.8); border: 1px solid #3a3d40; border-radius: 12px; padding: 20px 28px; min-width: 200px; }
+  .flyer .detail-block h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #7c5cff; margin-bottom: 8px; font-family: 'Space Mono', monospace; }
+  .flyer .detail-block p { font-size: 16px; color: #ece6da; }
+  .flyer .cta { position: relative; z-index: 1; }
+  .flyer .cta a { display: inline-block; background: #ff5c8a; color: #1a0a10; font-weight: 700; padding: 14px 36px; border-radius: 999px; text-decoration: none; font-size: 16px; letter-spacing: 1px; transition: transform 0.15s ease; }
+  .flyer .cta a:hover { transform: translateY(-2px); }
+  .flyer .social-row { margin-top: 30px; display: flex; gap: 20px; position: relative; z-index: 1; flex-wrap: wrap; }
+  .flyer .social-row a { color: #9a948a; font-size: 13px; font-family: 'Space Mono', monospace; text-decoration: none; }
+  .flyer .social-row a:hover { color: #ece6da; }
+  .flyer .bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #7c5cff, #ff5c8a); border-radius: 0 0 16px 16px; }
+</style>
+</head>
+<body>
+<div class="flyer">
+  <div class="bottom-bar"></div>
+  <div class="brand">
+    <svg class="logo-mark" viewBox="0 0 60 60">
+      <polygon points="30,0 50,22 10,22" fill="url(#g)"/>
+      <polygon points="30,20 47,40 13,40" fill="#ff5c8a"/>
+      <polygon points="30,37 44,52 16,52" fill="#5a3fd6"/>
+      <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#7c5cff"/><stop offset="100%" style="stop-color:#ff5c8a"/></linearGradient></defs>
+    </svg>
+    <span class="brand-name">TRIFEXTA</span>
+  </div>
+
+  <h1>NEW DROP<br><span class="grad">BEATS · MERCH · MUSIC</span></h1>
+  <p class="tagline">Custom beats. Limited merch. Collabs and features. ZxmiiBlikk's official storefront — listen free, cop what hits.</p>
+
+  <div class="details">
+    <div class="detail-block">
+      <h3>Beat Store</h3>
+      <p>Tagged previews. Secure checkout.</p>
+    </div>
+    <div class="detail-block">
+      <h3>Merch</h3>
+      <p>Limited runs. When it's gone, it's gone.</p>
+    </div>
+    <div class="detail-block">
+      <h3>Bookings</h3>
+      <p>Custom beats &amp; features.</p>
+    </div>
+  </div>
+
+  <div class="cta">
+    <a href="https://trifexta.net">Shop at trifexta.net</a>
+  </div>
+
+  <div class="social-row">
+    <a href="https://instagram.com/slimeyachtt">@slimeyachtt</a>
+    <a href="https://soundcloud.com/tenn-zxmbiis">SoundCloud</a>
+    <a href="https://youtube.com/@slimeyacht">YouTube</a>
+    <a href="https://open.spotify.com/artist/4qIeoQYh5xWJyLjjbeFC8j">Spotify</a>
+  </div>
+</div>
+</body>
+</html>

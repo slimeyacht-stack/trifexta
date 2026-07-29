@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7c5cff"/>
+      <stop offset="100%" style="stop-color:#ff5c8a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="200" fill="#0e1012" rx="16"/>
+  <g transform="translate(60, 100)">
+    <polygon points="0,-40 35,15 -35,15" fill="url(#grad)"/>
+    <polygon points="0,0 30,30 -30,30" fill="#ff5c8a"/>
+    <polygon points="0,15 25,45 -25,45" fill="#5a3fd6"/>
+  </g>
+  <text x="200" y="90" font-family="Society, Fraunces, Georgia, serif" font-size="80" font-weight="800" fill="#ece6da" letter-spacing="6">Tr!Fexta</text>
+  <text x="200" y="125" font-family="Space Mono, monospace" font-size="16" fill="#9a948a" letter-spacing="4">BEATS · MERCH · MUSIC</text>
+  <rect x="200" y="140" width="200" height="3" fill="url(#grad)" rx="2"/>
+</svg>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trifexta — Banner Template</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .banner { width: 1080px; height: 400px; margin: 40px auto; background: linear-gradient(135deg, #0e1012 0%, #1a1020 40%, #0e1012 100%); border: 1px solid #3a3d40; border-radius: 16px; padding: 50px 60px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; }
+  .banner .glow-1 { position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,92,138,0.2) 0%, transparent 70%); border-radius: 50%; }
+  .banner .glow-2 { position: absolute; bottom: -60px; left: -60px; width: 250px; height: 250px; background: radial-gradient(circle, rgba(124,92,255,0.15) 0%, transparent 70%); border-radius: 50%; }
+  .banner .content { position: relative; z-index: 1; }
+  .banner h1 { font-family: 'Space Mono', monospace; font-size: 48px; font-weight: 700; letter-spacing: 3px; color: #ece6da; margin-bottom: 12px; }
+  .banner h1 span { background: linear-gradient(90deg, #7c5cff, #ff5c8a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .banner p { font-size: 16px; color: #9a948a; max-width: 400px; line-height: 1.6; }
+  .banner .cta-btn { position: relative; z-index: 1; display: inline-block; background: #ff5c8a; color: #1a0a10; font-weight: 700; padding: 12px 32px; border-radius: 999px; text-decoration: none; font-size: 14px; letter-spacing: 1px; font-family: 'Space Mono', monospace; }
+  .banner .cta-btn:hover { background: #ff7aa0; }
+  .banner .logo-small { position: absolute; top: 30px; right: 40px; z-index: 1; }
+  .banner .bottom-strip { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #7c5cff, #ff5c8a, #5a3fd6); border-radius: 0 0 16px 16px; }
+  .banner .beat-previews { position: relative; z-index: 1; display: flex; gap: 12px; margin-top: 20px; }
+  .banner .beat-chip { background: rgba(28,32,36,0.8); border: 1px solid #3a3d40; border-radius: 8px; padding: 8px 14px; font-family: 'Space Mono', monospace; font-size: 11px; color: #ece6da; }
+</style>
+</head>
+<body>
+<div class="banner">
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="bottom-strip"></div>
+
+  <div class="logo-small">
+    <svg width="50" height="50" viewBox="0 0 60 60">
+      <polygon points="30,0 50,22 10,22" fill="url(#g)"/>
+      <polygon points="30,20 47,40 13,40" fill="#ff5c8a"/>
+      <polygon points="30,37 44,52 16,52" fill="#5a3fd6"/>
+      <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#7c5cff"/><stop offset="100%" style="stop-color:#ff5c8a"/></linearGradient></defs>
+    </svg>
+  </div>
+
+  <div class="content">
+    <h1>NEW DROP<span>BEATS</span></h1>
+    <p>Limited beats, limited merch. Custom collabs, features, and wholesale — all through trifexta.net.</p>
+    <div class="beat-previews">
+      <div class="beat-chip">Midnight Static · 140 BPM</div>
+      <div class="beat-chip">Violet Hour · 92 BPM</div>
+      <div class="beat-chip">Concrete Rose · 120 BPM</div>
+      <div class="beat-chip">Neon Noir · 150 BPM</div>
+    </div>
+  </div>
+
+  <a href="https://trifexta.net" class="cta-btn">SHOP NOW</a>
+</div>
+</body>
+</html>
