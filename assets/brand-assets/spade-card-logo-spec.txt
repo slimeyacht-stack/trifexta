@@ -1,0 +1,52 @@
+; TR!FEXTA Logo - Playing Card Variant (Spade)
+; A dark card with a spade symbol, violet-to-pink gradient accent, and the brand name
+
+[card-spec]
+shape: rounded rectangle (card face)
+background: #0a0a0c (near-black)
+border: 2px solid #3a3d40, with violet (#7c5cff) outer glow
+corner radius: 12px
+
+[spade-icon]
+position: center of card
+shape: traditional spade (heart inverted + stem + two leaves)
+primary color: #7c5cff (violet, gradient)
+secondary accent: #ff5c8a (pink, for leaf tips)
+stem: #38bdf8 (cyan)
+size: 40% of card height
+opacity: 0.9
+
+[brand-text]
+position: below spade symbol
+text: "TR!FEXTA"
+font: Space Mono, monospace
+weight: 700 (bold)
+size: 18px (at 300x420 card scale)
+color: #ece6da (warm white)
+letter-spacing: +0.1em
+alignment: centered
+
+[sub-text]
+position: below brand name, above bottom edge
+text: "· AI ·"
+font: Space Mono, monospace
+weight: 400 (regular)
+size: 10px
+color: #9a948a (muted)
+letter-spacing: +0.15em
+alignment: centered
+
+[variations]
+horizontal: spade on left, "TR!FEXTA" text on right, "· AI ·" below text
+stacked: spade on top, "TR!FEXTA" below, "· AI ·" at bottom
+icon-only: spade symbol only, no text (for favicon/pfp use)
+dark-bg: card on #0a0a0c background (primary)
+light-bg: card on #ffffff background with inverted colors (spade = #7c5cff, text = #0e1012)
+monochrome: all elements in #ffffff on #0e1012, or #0e1012 on #ffffff (no gradients)
+favicon: spade icon only, 32x32 and 16x16
+
+[usage-notes]
+- The card shape works as a profile picture at 400x400 and 800x800
+- Spade symbol is recognizable at 16x16 (favicon) size
+- Gradient stays subtle on dark backgrounds; on light backgrounds, use solid violet (#7c5cff)
+- The card border adds definition on any background color
