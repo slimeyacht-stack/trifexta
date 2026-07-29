@@ -1,0 +1,25 @@
+; PRISM — logo mark for TR!FEXTA
+; Three overlapping triangles forming a prism shape
+; Colors: violet (#7c5cff), pink (#ff5c8a), deep violet (#5a3fd6)
+
+[prism]
+top: triangle pointing up, violet fill
+middle: bar, pink fill
+bottom: triangle pointing down, deep violet fill
+
+[palette]
+bg: #0a0a0c
+text: #ece6da
+muted: #9a948a
+violet: #7c5cff
+pink: #ff5c8a
+cyan: #38bdf8
+deep_violet: #5a3fd6
+ink: #0e1012
+
+[typography]
+primary: monospace / Space Mono
+weight: 700 (bold)
+tracking: +0.08em (wide)
+case: all caps
+fallback: system monospace

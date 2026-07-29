@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+  <rect width="800" height="300" fill="#0a0a0c"/>
+  <!-- Circuit traces horizontal top -->
+  <g stroke="#7c5cff" stroke-width="1.5" fill="none" opacity="0.5">
+    <polyline points="40,50 140,50 140,100 220,100 220,50 300,50"/>
+    <polyline points="500,50 600,50 600,100 680,100 680,50 760,50"/>
+    <!-- Circuit traces horizontal bottom -->
+    <polyline points="40,250 140,250 140,200 220,200 220,250 300,250"/>
+    <polyline points="500,250 600,250 600,200 680,200 680,250 760,250"/>
+    <!-- Vertical connectors -->
+    <line x1="140" y1="50" x2="140" y2="250"/>
+    <line x1="220" y1="100" x2="220" y2="200"/>
+    <line x1="600" y1="50" x2="600" y2="250"/>
+    <line x1="680" y1="100" x2="680" y2="200"/>
+    <!-- Horizontal bridges -->
+    <line x1="300" y1="50" x2="500" y2="50"/>
+    <line x1="300" y1="250" x2="500" y2="250"/>
+    <!-- Nodes - top -->
+    <circle cx="40" cy="50" r="4" fill="#7c5cff"/>
+    <circle cx="300" cy="50" r="4" fill="#7c5cff"/>
+    <circle cx="500" cy="50" r="4" fill="#7c5cff"/>
+    <circle cx="760" cy="50" r="4" fill="#7c5cff"/>
+    <circle cx="140" cy="50" r="3" fill="#38bdf8"/>
+    <circle cx="220" cy="100" r="3" fill="#38bdf8"/>
+    <circle cx="600" cy="50" r="3" fill="#38bdf8"/>
+    <circle cx="680" cy="100" r="3" fill="#38bdf8"/>
+    <!-- Nodes - bottom -->
+    <circle cx="40" cy="250" r="4" fill="#7c5cff"/>
+    <circle cx="300" cy="250" r="4" fill="#7c5cff"/>
+    <circle cx="500" cy="250" r="4" fill="#7c5cff"/>
+    <circle cx="760" cy="250" r="4" fill="#7c5cff"/>
+    <circle cx="140" cy="250" r="3" fill="#38bdf8"/>
+    <circle cx="220" cy="200" r="3" fill="#38bdf8"/>
+    <circle cx="600" cy="250" r="3" fill="#38bdf8"/>
+    <circle cx="680" cy="200" r="3" fill="#38bdf8"/>
+  </g>
+  <!-- Center brand mark -->
+  <text x="400" y="160" font-family="monospace" font-size="44" font-weight="bold" fill="#ece6da" letter-spacing="4" text-anchor="middle">TR!FEXTA</text>
+  <rect x="240" y="170" width="320" height="1" fill="#7c5cff" rx="0.5"/>
+  <text x="400" y="192" font-family="monospace" font-size="10" fill="#6a645a" letter-spacing="3" text-anchor="middle">AI · PRODUCTS · INFRASTRUCTURE</text>
+  <!-- Small icon mark (top-right) -->
+  <rect x="670" y="30" width="30" height="30" fill="none" stroke="#7c5cff" stroke-width="1.5" rx="2"/>
+  <circle cx="685" cy="45" r="3" fill="#38bdf8"/>
+  <line x1="670" y1="45" x2="680" y2="45" stroke="#7c5cff" stroke-width="1"/>
+  <line x1="690" y1="45" x2="700" y2="45" stroke="#7c5cff" stroke-width="1"/>
+</svg>

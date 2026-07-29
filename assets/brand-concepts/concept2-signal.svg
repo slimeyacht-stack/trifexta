@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+  <defs>
+    <linearGradient id="s1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0e1012"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="s2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e8e4dc"/>
+      <stop offset="100%" style="stop-color:#7c5cff"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="300" fill="#0a0a0c"/>
+  <!-- Signal bars -->
+  <rect x="80" y="100" width="8" height="100" rx="2" fill="#7c5cff" opacity="0.4"/>
+  <rect x="100" y="80" width="8" height="140" rx="2" fill="#7c5cff" opacity="0.6"/>
+  <rect x="120" y="50" width="8" height="200" rx="2" fill="#7c5cff" opacity="0.8"/>
+  <rect x="140" y="60" width="8" height="180" rx="2" fill="#7c5cff"/>
+  <rect x="160" y="40" width="8" height="220" rx="2" fill="#38bdf8"/>
+  <rect x="180" y="70" width="8" height="160" rx="2" fill="#7c5cff" opacity="0.8"/>
+  <rect x="200" y="90" width="8" height="120" rx="2" fill="#7c5cff" opacity="0.6"/>
+  <rect x="220" y="110" width="8" height="80" rx="2" fill="#7c5cff" opacity="0.4"/>
+  <!-- Vertical structure lines -->
+  <line x1="260" y1="0" x2="260" y2="300" stroke="#3a3d40" stroke-width="0.5"/>
+  <line x1="540" y1="0" x2="540" y2="300" stroke="#3a3d40" stroke-width="0.5"/>
+  <!-- Brand text -->
+  <text x="400" y="158" font-family="monospace" font-size="52" font-weight="bold" fill="#ece6da" letter-spacing="6" text-anchor="middle">TR!FEXTA</text>
+  <rect x="250" y="172" width="300" height="2" fill="url(#s2)" rx="1"/>
+  <text x="400" y="205" font-family="monospace" font-size="11" fill="#9a948a" letter-spacing="5" text-anchor="middle">PRECISION · SCALE · TRUST</text>
+  <!-- Cube icon (top-right) -->
+  <rect x="660" y="95" width="50" height="50" fill="none" stroke="#7c5cff" stroke-width="2" rx="3"/>
+  <line x1="660" y1="95" x2="685" y2="70" stroke="#7c5cff" stroke-width="1.5"/>
+  <line x1="710" y1="95" x2="735" y2="70" stroke="#7c5cff" stroke-width="1.5"/>
+  <line x1="685" y1="70" x2="735" y2="70" stroke="#7c5cff" stroke-width="1.5"/>
+</svg>
