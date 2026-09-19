@@ -150,7 +150,7 @@ const MERCH = [
   {id:"merch-tee",    name:"Trifexta Crest Heavy Tee", meta:"boxy fit · black", price:30, cls:"c2", src:"assets/audio/static.mp3",
     img:"assets/merch/tee-photo.webp", img2:"assets/merch/tee-angle.webp"},
   {id:"merch-cap",    name:"Bunny Ear Beanie",     meta:"rib knit · black",   price:25, cls:"c3", src:"assets/audio/static.mp3",
-    img:"assets/merch/beanie-front.webp"}
+    img:"assets/merch/beanie-front.webp", video:"assets/merch/beanie-spin.mp4"}
 ];
 
 /* ======================= HELPERS ======================= */
@@ -191,6 +191,7 @@ function merchCard(m){
     <div class="cover ${m.cls}${m.img?" merch-photo":""}">
       ${m.img?`<img class="cover-img" src="${m.img}" alt="${m.name}" loading="lazy">`:``}
       ${m.img2?`<img class="cover-img cover-alt" src="${m.img2}" alt="" aria-hidden="true" loading="lazy">`:``}
+      ${m.video?`<video class="cover-img cover-alt" src="${m.video}" muted loop playsinline preload="none" aria-hidden="true"></video>`:``}
     </div>
     <h3>${m.name}</h3>
     <div class="meta">${m.meta}</div>
@@ -349,6 +350,17 @@ function handleContact(e){
     addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(update);}},{passive:true});
     update();
   })();
+  // Merch hover video (e.g. beanie spin): play while the card is hovered, rewind on leave
+  document.addEventListener("mouseover",e=>{
+    const v=e.target.closest&&e.target.closest(".card")?.querySelector("video.cover-alt");
+    if(v&&v.paused&&!reduce){v.play().catch(()=>{});}
+  });
+  document.addEventListener("mouseout",e=>{
+    const card=e.target.closest&&e.target.closest(".card");
+    if(!card||card.contains(e.relatedTarget)) return;
+    const v=card.querySelector("video.cover-alt");
+    if(v){v.pause();v.currentTime=0;}
+  });
   // Card pointer-tracked glow (delegated — product cards are rendered later by boot())
   document.addEventListener("mousemove",e=>{
     const card=e.target.closest&&e.target.closest(".card");
