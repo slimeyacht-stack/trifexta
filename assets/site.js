@@ -149,7 +149,8 @@ const MERCH = [
     img:"assets/merch/hoodie-front.webp", img2:"assets/merch/hoodie-angle.webp"},
   {id:"merch-tee",    name:"Trifexta Crest Heavy Tee", meta:"boxy fit · black", price:30, cls:"c2", src:"assets/audio/static.mp3",
     img:"assets/merch/tee-front.webp", img2:"assets/merch/tee-angle.webp"},
-  {id:"merch-cap",    name:"Tour Cap",             meta:"embroidered",        price:25, cls:"c3", src:"assets/audio/static.mp3"}
+  {id:"merch-cap",    name:"Bunny Ear Beanie",     meta:"rib knit · black",   price:25, cls:"c3", src:"assets/audio/static.mp3",
+    img:"assets/merch/beanie-front.webp"}
 ];
 
 /* ======================= HELPERS ======================= */
