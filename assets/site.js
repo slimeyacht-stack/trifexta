@@ -146,7 +146,7 @@ const BEATS = [
 ];
 const MERCH = [
   {id:"merch-hoodie", name:"Trifexta Logo Hoodie", meta:"heavyweight · black", price:55, cls:"c1", src:"assets/audio/static.mp3",
-    img:"assets/merch/hoodie-photo.webp", img2:"assets/merch/hoodie-angle.webp"},
+    img:"assets/merch/hoodie-photo.webp", video:"assets/merch/hoodie-cinematic.mp4"},
   {id:"merch-tee",    name:"Trifexta Crest Heavy Tee", meta:"boxy fit · black", price:30, cls:"c2", src:"assets/audio/static.mp3",
     img:"assets/merch/tee-photo.webp", video:"assets/merch/tee-cinematic.mp4"},
   {id:"merch-cap",    name:"Bunny Ear Beanie",     meta:"rib knit · black",   price:25, cls:"c3", src:"assets/audio/static.mp3",
