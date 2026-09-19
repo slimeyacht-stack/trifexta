@@ -145,8 +145,10 @@ const BEATS = [
     licenses:{ mp3:{price:26.99}, wav:{price:49.99}, unlimited:{price:99.99}, exclusive:{price:499} }}
 ];
 const MERCH = [
-  {id:"merch-hoodie", name:"Trifexta Logo Hoodie", meta:"heavyweight · black", price:55, cls:"c1", src:"assets/audio/static.mp3"},
-  {id:"merch-tee",    name:"“SOUND” Heavy Tee",    meta:"boxy fit · white",   price:30, cls:"c2", src:"assets/audio/static.mp3"},
+  {id:"merch-hoodie", name:"Trifexta Logo Hoodie", meta:"heavyweight · black", price:55, cls:"c1", src:"assets/audio/static.mp3",
+    img:"assets/merch/hoodie-front.webp", img2:"assets/merch/hoodie-angle.webp"},
+  {id:"merch-tee",    name:"Trifexta Crest Heavy Tee", meta:"boxy fit · black", price:30, cls:"c2", src:"assets/audio/static.mp3",
+    img:"assets/merch/tee-front.webp", img2:"assets/merch/tee-angle.webp"},
   {id:"merch-cap",    name:"Tour Cap",             meta:"embroidered",        price:25, cls:"c3", src:"assets/audio/static.mp3"}
 ];
 
@@ -185,7 +187,10 @@ function merchCard(m){
   const el=document.createElement("div");
   el.className="card";
   el.innerHTML=`
-    <div class="cover ${m.cls}"></div>
+    <div class="cover ${m.cls}${m.img?" merch-photo":""}">
+      ${m.img?`<img class="cover-img" src="${m.img}" alt="${m.name}" loading="lazy">`:``}
+      ${m.img2?`<img class="cover-img cover-alt" src="${m.img2}" alt="" aria-hidden="true" loading="lazy">`:``}
+    </div>
     <h3>${m.name}</h3>
     <div class="meta">${m.meta}</div>
     <div class="price">${money(m.price)}</div>
@@ -195,7 +200,8 @@ function merchCard(m){
         : `<button class="btn btn-pink btn-sm snipcart-add-item"
             data-item-id="${m.id}" data-item-name="${m.name}"
             data-item-price="${m.price}" data-item-url="${CONFIG.storeUrl}merch.html"
-            data-item-description="${m.meta}">Add to cart</button>`}
+            data-item-description="${m.meta}"
+            ${m.img?`data-item-image="${CONFIG.storeUrl}${m.img}"`:``}>Add to cart</button>`}
     </div>`;
   return el;
 }
