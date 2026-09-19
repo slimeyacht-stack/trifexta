@@ -25,18 +25,13 @@
     --green:#3dff86;
     --purple:#b06bff;
     --display:'Bebas Neue',Impact,'Arial Narrow',sans-serif;
-    --splat:'Tumult',var(--display);   /* splatter display face — logo + big headlines only */
-    --swirl:'Spinstee',var(--display); /* drippy psychedelic face — section titles */
+    --swirl:'Spinstee',var(--display); /* drippy psychedelic face — logo + headlines */
     --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
     --mono:'Space Mono',ui-monospace,Menlo,monospace;
     --maxw:1280px;
     --pad:clamp(20px,5vw,72px);
   }
-  /* Tumult by Sharvanna Kenny — SIL Open Font License (fontspace.com/tumult-font-f28089).
-     Display use only: it is unreadable at small sizes. */
-  @font-face{font-family:'Tumult';src:url('assets/fonts/Tumult-Regular.woff2') format('woff2');
-             font-weight:400;font-style:normal;font-display:swap}
-  /* Spinstee by John Ramstine (2001) — freeware. Section titles. */
+  /* Spinstee by John Ramstine (2001) — freeware. Logo + display headlines. */
   @font-face{font-family:'Spinstee';src:url('assets/fonts/Spinstee.woff2') format('woff2');
              font-weight:400;font-style:normal;font-display:swap}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -74,7 +69,7 @@
     backdrop-filter:blur(14px);
     transition:background .3s;
   }
-  .logo{font-family:var(--splat);font-size:34px;letter-spacing:7px;line-height:1;transition:filter .3s,text-shadow .3s}
+  .logo{font-family:var(--swirl);font-size:30px;letter-spacing:3px;line-height:1;transition:filter .3s,text-shadow .3s}
   .logo:hover{text-shadow:0 0 18px rgba(61,255,134,.55)}
   .logo b{color:var(--accent)}
   .nav-links{display:flex;gap:34px;align-items:center}
@@ -118,7 +113,7 @@
   }
   .hero-inner{position:relative;z-index:2;display:block;max-width:920px;width:100%}
   .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;color:var(--accent);margin-bottom:22px;display:inline-block;border:1px solid var(--line);padding:7px 14px;border-radius:2px}
-  .hero h1{font-family:var(--splat);font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:1px;font-size:clamp(54px,9vw,124px)}
+  .hero h1{font-family:var(--swirl);font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:1px;font-size:clamp(54px,9vw,124px)}
   .hero h1 .grn{color:var(--accent)}
   .hero p.lead{margin-top:26px;max-width:520px}
   .hero-cta{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap}
@@ -258,7 +253,7 @@
   /* ---------- FOOTER ---------- */
   footer{border-top:1px solid var(--line);padding:54px var(--pad) 40px;background:var(--bg)}
   .foot-inner{max-width:var(--maxw);margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:30px}
-  .foot-logo{font-family:var(--splat);font-size:clamp(40px,9vw,120px);letter-spacing:2px;line-height:.85}
+  .foot-logo{font-family:var(--swirl);font-size:clamp(40px,9vw,120px);letter-spacing:2px;line-height:.85}
   .foot-logo b{color:var(--accent)}
   .foot-meta{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--muted-2);text-align:right;line-height:2}
   .foot-meta a:hover{color:var(--accent)}
@@ -283,8 +278,6 @@
     .nav-links{display:none}
     .nav-links.open{display:flex;position:absolute;top:72px;left:var(--pad);right:var(--pad);flex-direction:column;background:var(--bg-2);border:1px solid var(--line);padding:18px;border-radius:3px;gap:18px}
     .nav-toggle{display:block}
-    /* splatter logo needs room to breathe, but not the whole phone width */
-    .logo{font-size:26px;letter-spacing:4px}
     .work-grid,.price-grid,.tst-grid,.proc-grid,.princ{grid-template-columns:1fr}
     .about-stats{grid-template-columns:1fr}
     .btn-talk .txt{display:none}
