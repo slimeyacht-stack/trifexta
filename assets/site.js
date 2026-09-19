@@ -98,12 +98,23 @@ async function fetchAvailability(){
     console.warn("[availability] service unreachable — failing closed (exclusive disabled):", e.message);
   }
 }
-/* Authoritative "is this beat's exclusive sold?" — server OR static OR fail-closed. */
+/* Authoritative "is this beat's exclusive sold?" — server OR static. A confirmed sale
+   takes the whole beat off-sale (EXCLUSIVE SOLD badge, every tier disabled). */
 function exclusiveSold(b){
   if(b.exclusiveSold) return true;                 // static fallback (e.g. pre-deploy)
-  if(AVAIL_FAILED) return true;                  // fail closed
   if(AVAIL && AVAIL[b.id]) return !!AVAIL[b.id].exclusiveSold;
   return false;
+}
+/* Can the Exclusive tier be bought right now? Sold OR service unreachable (fail closed).
+   An outage only locks the Exclusive tier — ordinary licenses stay on sale. */
+function exclusiveLocked(b){
+  return exclusiveSold(b) || AVAIL_FAILED;
+}
+/* Is this specific tier purchasable for this beat? */
+function tierAvailable(b, tier){
+  if(!tierEnabled(b,tier) || exclusiveSold(b) || beatOffline(b)) return false;
+  if(tier==="exclusive" && exclusiveLocked(b)) return false;
+  return true;
 }
 /* A beat is offline (no new sales at all) only if the SERVER says REVIEW_REQUIRED
    or SOLD *and* there is no static override. We keep ordinary tiers available unless
@@ -331,13 +342,13 @@ function handleContact(e){
     addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(update);}},{passive:true});
     update();
   })();
-  // Card pointer-tracked glow
-  document.querySelectorAll(".card").forEach(card=>{
-    card.addEventListener("mousemove",e=>{
-      const r=card.getBoundingClientRect();
-      card.style.setProperty("--mx",(e.clientX-r.left)+"px");
-      card.style.setProperty("--my",(e.clientY-r.top)+"px");
-    });
+  // Card pointer-tracked glow (delegated — product cards are rendered later by boot())
+  document.addEventListener("mousemove",e=>{
+    const card=e.target.closest&&e.target.closest(".card");
+    if(!card) return;
+    const r=card.getBoundingClientRect();
+    card.style.setProperty("--mx",(e.clientX-r.left)+"px");
+    card.style.setProperty("--my",(e.clientY-r.top)+"px");
   });
 })();
 
@@ -408,7 +419,7 @@ function openLicenseModal(beatId){
   tiers.innerHTML="";
   ["mp3","wav","unlimited","exclusive"].forEach(tier=>{
     const t=LICENSE_TIERS[tier];
-    const enabled=tierEnabled(b,tier) && !exclusiveSold(b) && !beatOffline(b);
+    const enabled=tierAvailable(b,tier);
     const card=document.createElement("div");
     card.className="lm-tier"+(t.exclusive?" exclusive":"")+(enabled?"":" disabled");
     card.setAttribute("role","radio");
@@ -492,7 +503,7 @@ function toggleCompare(){
 function addSelectedLicense(){
   if(!licenseTier || !licenseBeat) return;
   const b=licenseBeat, tier=licenseTier, T=LICENSE_TIERS[tier];
-  if(!tierEnabled(b,tier) || exclusiveSold(b) || beatOffline(b)) return;
+  if(!tierAvailable(b,tier)) return;
   if(!licenseModal.querySelector("#lmAgree").checked){ toast("Please accept the license agreement."); return; }
   const guid=deliveryGuid(b,tier);
   if(!guid){ toast("This file isn't ready yet — contact TR!FEXTA."); return; }
