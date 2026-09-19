@@ -316,7 +316,7 @@
       <p class="lead">SLIMEYACHT makes low-end-heavy, late-night electronic music — foggy bass, shattered drums, and melodies that glow in the dark. Producing, performing, and engineering out of the underground.</p>
       <div class="hero-cta">
         <a href="#work" class="btn">LISTEN →</a>
-        <a href="#method" class="btn">THE METHOD →</a>
+        <a href="#services" class="btn">THE METHOD →</a>
       </div>
     </div>
   </div>
@@ -360,7 +360,7 @@
         </video>
       </div>
     </div>
-    <div class="svc-grid">
+    <div class="svc-grid" id="services">
       <div class="svc reveal"><div class="sn">01 — CRAFT</div><h4>PRODUCTION</h4><p>Full tracks built from scratch or topline — beatmaking to final mix.</p><ul><li>BEATS</li><li>ARRANGEMENT</li><li>TOPLINES</li></ul></div>
       <div class="svc reveal d1"><div class="sn">02 — CRAFT</div><h4>MIXING</h4><p>Low-end clarity and space so it hits on club and phone alike.</p><ul><li>LOW END</li><li>WIDTH</li><li>GLUE</li></ul></div>
       <div class="svc reveal d2"><div class="sn">03 — CRAFT</div><h4>SOUND DESIGN</h4><p>Custom patches and textures for film, games, and brands.</p><ul><li>PATCHES</li><li>FILM</li><li>BRANDS</li></ul></div>
@@ -379,13 +379,13 @@
     </div>
     <form class="reveal d1" id="cform" onsubmit="return sendForm(event)">
       <label>NAME</label>
-      <input type="text" required placeholder="Your name" />
+      <input type="text" name="name" required placeholder="Your name" />
       <label>EMAIL</label>
-      <input type="email" required placeholder="you@label.com" />
+      <input type="email" name="email" required placeholder="you@label.com" />
       <label>PROJECT</label>
-      <textarea required placeholder="Track, collab, or show details…"></textarea>
+      <textarea name="msg" required placeholder="Track, collab, or show details…"></textarea>
       <button class="btn solid" type="submit">SEND INQUIRY →</button>
-      <div class="form-ok" id="fok">✓ SENT — SLIMEYACHT WILL REPLY SOON</div>
+      <div class="form-ok" id="fok">OPENING YOUR EMAIL APP…</div>
     </form>
   </div>
 </section>
@@ -395,7 +395,7 @@
   <div class="foot-inner">
     <div class="foot-logo">SLIME<b>Y</b>ACHT</div>
     <div class="foot-meta">
-      <a href="#hero">HOME</a> · <a href="#work">RELEASES</a> · <a href="#contact">CONTACT</a><br>
+      <a href="#hero">HOME</a> · <a href="#work">RELEASES</a> · <a href="#contact">CONTACT</a> · <a href="team.html">← TRIFEXTA</a><br>
       STUDIO — WORLDWIDE<br>
       © 2026 SLIMEYACHT. SOUND FROM THE DEEP END.
     </div>
@@ -426,7 +426,18 @@
 
   document.querySelectorAll('.faq-q').forEach(q=>{q.onclick=()=>{q.parentElement.classList.toggle('open');};});
 
-  function sendForm(e){e.preventDefault();document.getElementById('fok').style.display='block';e.target.reset();return false;}
+  // Opens the visitor's mail app with the inquiry filled in (static site — no backend).
+  function sendForm(e){
+    e.preventDefault();
+    const f=e.target, ok=document.getElementById('fok');
+    const name=f.name.value.trim(), email=f.email.value.trim(), msg=f.msg.value.trim();
+    const subject='SLIMEYACHT inquiry — '+name;
+    const body=name+' ('+email+')\n\n'+msg;
+    ok.textContent='OPENING YOUR EMAIL APP…';ok.style.display='block';
+    location.href='mailto:slime@trifexta.net?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    setTimeout(()=>{ok.textContent="IF NOTHING OPENED, EMAIL SLIME@TRIFEXTA.NET DIRECTLY";},1200);
+    return false;
+  }
 
   // slime blobs (gooey, drifting, pulsing) behind the dot field
   const sc=document.getElementById('bgSlime'),sx=sc.getContext('2d');
