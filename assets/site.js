@@ -75,53 +75,13 @@ function deliveryGuid(b, tier){
 function tierPrice(b, tier){ return (b.licenses[tier] && b.licenses[tier].price!=null) ? b.licenses[tier].price : LICENSE_TIERS[tier].defaultPrice; }
 function tierEnabled(b, tier){ return !(b.licenses[tier] && b.licenses[tier].enabled===false); }
 
-/* ======================= AUTHORITATIVE EXCLUSIVE STATE ======================= */
-/* The static `exclusiveSold` flag in BEATS is a fallback only. The authoritative source
-   is the Cloudflare Worker + KV service (see EXCLUSIVE-SYSTEM.md). We fetch it on boot.
-   FAIL-CLOSED: if the service is unreachable/errors, we treat EVERY beat as
-   exclusively sold *for the Exclusive tier only* (safe default — blocks new exclusive
-   sales during an outage; ordinary MP3/WAV/Unlimited licenses stay available, because
-   previous/ordinary licenses must never be blocked by an infrastructure hiccup). */
-const AVAIL_ENDPOINT = "/api/beats/availability";
-let AVAIL = null;            // { beatId: {exclusiveSold, exclusiveStatus, ...} } once loaded
-let AVAIL_FAILED = false;    // true => service unreachable => fail-closed for exclusive
-
-async function fetchAvailability(){
-  try{
-    const r = await fetch(AVAIL_ENDPOINT, { cache:"no-store" });
-    if(!r.ok) throw new Error("status "+r.status);
-    AVAIL = await r.json();
-    AVAIL_FAILED = false;
-  }catch(e){
-    AVAIL = null;
-    AVAIL_FAILED = true;   // fail closed
-    console.warn("[availability] service unreachable — failing closed (exclusive disabled):", e.message);
-  }
-}
-/* Authoritative "is this beat's exclusive sold?" — server OR static. A confirmed sale
-   takes the whole beat off-sale (EXCLUSIVE SOLD badge, every tier disabled). */
-function exclusiveSold(b){
-  if(b.exclusiveSold) return true;                 // static fallback (e.g. pre-deploy)
-  if(AVAIL && AVAIL[b.id]) return !!AVAIL[b.id].exclusiveSold;
-  return false;
-}
-/* Can the Exclusive tier be bought right now? Sold OR service unreachable (fail closed).
-   An outage only locks the Exclusive tier — ordinary licenses stay on sale. */
-function exclusiveLocked(b){
-  return exclusiveSold(b) || AVAIL_FAILED;
-}
+/* ======================= EXCLUSIVE STATE ======================= */
+/* Static only (GitHub Pages has no backend). Set exclusiveSold:true on a beat in
+   BEATS below when an exclusive sale closes — that takes the whole beat off-sale. */
+function exclusiveSold(b){ return !!b.exclusiveSold; }
 /* Is this specific tier purchasable for this beat? */
 function tierAvailable(b, tier){
-  if(!tierEnabled(b,tier) || exclusiveSold(b) || beatOffline(b)) return false;
-  if(tier==="exclusive" && exclusiveLocked(b)) return false;
-  return true;
-}
-/* A beat is offline (no new sales at all) only if the SERVER says REVIEW_REQUIRED
-   or SOLD *and* there is no static override. We keep ordinary tiers available unless
-   the server explicitly flips exclusiveStatus to REVIEW_REQUIRED (manual lock). */
-function beatOffline(b){
-  if(AVAIL && AVAIL[b.id] && AVAIL[b.id].exclusiveStatus==="REVIEW_REQUIRED") return true;
-  return false;
+  return tierEnabled(b,tier) && !exclusiveSold(b);
 }
 
 const BEATS = [
@@ -555,18 +515,6 @@ function boot(){
   if(beatGrid) BEATS.forEach(b=>beatGrid.appendChild(beatCard(b)));
   const merchGrid=document.getElementById("merchGrid");
   if(merchGrid) MERCH.forEach(m=>merchGrid.appendChild(merchCard(m)));
-  // Authoritative exclusive state — fetch server truth, then re-render beats so the
-  // EXCLUSIVE SOLD badge / disabled tiers reflect it without a manual refresh.
-  if(beatGrid){
-    fetchAvailability().then(()=>{
-      if(beatGrid && beatGrid.children.length===BEATS.length){
-        BEATS.forEach((b,i)=>{
-          const fresh=beatCard(b);
-          beatGrid.replaceChild(fresh, beatGrid.children[i]);
-        });
-      }
-    });
-  }
   // Hide DEMO badge when a real key is active
   const demoBadge=document.getElementById("demoBadge");
   if(demoBadge && !DEMO) demoBadge.style.display="none";
